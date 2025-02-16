@@ -20,7 +20,7 @@ const services = [
   {
     title: "Garage Systems",
     description: "Transform your garage into an organized space",
-    image: "https://images.unsplash.com/photo-1562849047-e25d2d9dd8b4?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?q=80&w=800&auto=format&fit=crop"
   }
 ];
 

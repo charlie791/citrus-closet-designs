@@ -1,23 +1,17 @@
-
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
 
 const Hero = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Video Background */}
+      {/* Video/Image Background */}
       <div className="absolute inset-0 w-full h-full">
         <div className="absolute inset-0 bg-gradient-to-r from-white/90 to-white/50 z-10" />
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
+        <img
+          src="https://images.unsplash.com/photo-1610099610040-ab19d3561fe6?q=80&w=2000&auto=format&fit=crop"
+          alt="Luxury Walk-in Closet"
           className="w-full h-full object-cover"
-          poster="/placeholder.svg"
-        >
-          <source src="/placeholder.svg" type="video/mp4" />
-        </video>
+        />
       </div>
 
       {/* Content */}

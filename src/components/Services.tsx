@@ -5,22 +5,22 @@ const services = [
   {
     title: "Custom Closets",
     description: "Tailored storage solutions that maximize space and style",
-    image: "/placeholder.svg"
+    image: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=800&auto=format&fit=crop"
   },
   {
     title: "Walk-in Closets",
     description: "Luxury walk-in closets designed for your lifestyle",
-    image: "/placeholder.svg"
+    image: "https://images.unsplash.com/photo-1558997519-83ea9252edf8?q=80&w=800&auto=format&fit=crop"
   },
   {
     title: "Pantry Storage",
     description: "Organized kitchen storage that makes life easier",
-    image: "/placeholder.svg"
+    image: "https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=800&auto=format&fit=crop"
   },
   {
     title: "Garage Systems",
     description: "Transform your garage into an organized space",
-    image: "/placeholder.svg"
+    image: "https://images.unsplash.com/photo-1562849047-e25d2d9dd8b4?q=80&w=800&auto=format&fit=crop"
   }
 ];
 

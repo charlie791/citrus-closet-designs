@@ -13,7 +13,7 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <main>
       <Navigation />
       <Hero />
       <Services />
@@ -25,7 +25,7 @@ const Index = () => {
       <BlogTeaser />
       <FinalCTA />
       <Footer />
-    </div>
+    </main>
   );
 };
 

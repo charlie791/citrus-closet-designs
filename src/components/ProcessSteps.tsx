@@ -1,5 +1,5 @@
 
-import { ClipboardCheck, Palette, Ruler, Tools } from "lucide-react";
+import { ClipboardCheck, Palette, Ruler, Wrench } from "lucide-react";
 
 const steps = [
   {
@@ -13,7 +13,7 @@ const steps = [
     description: "Experience your space in 3D before we build"
   },
   {
-    icon: Tools,
+    icon: Wrench,
     title: "Crafting",
     description: "Expert fabrication of your custom storage solutions"
   },

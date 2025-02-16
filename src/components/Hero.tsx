@@ -9,7 +9,7 @@ const Hero = () => {
       <div className="absolute inset-0 w-full h-full">
         <div className="absolute inset-0 bg-gradient-to-r from-white/90 to-white/50 z-10" />
         <img
-          src="https://images.unsplash.com/photo-1597858520171-563a8e8b9925?q=80&w=2000&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=2000&auto=format&fit=crop"
           alt="Luxury Walk-in Closet"
           className="w-full h-full object-cover"
         />

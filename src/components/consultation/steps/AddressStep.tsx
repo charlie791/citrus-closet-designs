@@ -20,15 +20,16 @@ interface AddressStepProps {
 
 const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepProps) => {
   const [address, setAddress] = useState<AddressData>(initialAddress);
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState<boolean>(false);
 
   useEffect(() => {
     // Validate address whenever it changes
-    const hasRequiredFields = 
+    const hasRequiredFields = Boolean(
       address.street && 
       address.city && 
       address.state && 
-      address.zipCode;
+      address.zipCode
+    );
     
     setIsValid(hasRequiredFields);
   }, [address]);

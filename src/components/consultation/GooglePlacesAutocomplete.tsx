@@ -20,11 +20,6 @@ interface GooglePlacesAutocompleteProps {
   className?: string;
 }
 
-interface SecretData {
-  id: string;
-  google_maps_api_key: string;
-}
-
 const GooglePlacesAutocomplete = ({
   onPlaceSelected,
   defaultValue = "",
@@ -38,8 +33,8 @@ const GooglePlacesAutocomplete = ({
       try {
         const { data, error } = await supabase
           .from('_secret')
-          .select('id, google_maps_api_key')
-          .single();
+          .select('google_maps_api_key')
+          .maybeSingle();
           
         if (error) {
           console.error('Error fetching API key:', error);
@@ -47,7 +42,10 @@ const GooglePlacesAutocomplete = ({
         }
         
         if (data?.google_maps_api_key) {
+          console.log('API key fetched successfully');
           setApiKey(data.google_maps_api_key);
+        } else {
+          console.error('No API key found in database');
         }
       } catch (error) {
         console.error('Error fetching API key:', error);
@@ -60,10 +58,14 @@ const GooglePlacesAutocomplete = ({
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: apiKey,
     libraries: libraries as any,
+    version: "weekly"
   });
 
   const handlePlaceSelect = useCallback((place: google.maps.places.PlaceResult) => {
-    if (!place.address_components) return;
+    if (!place.address_components) {
+      console.error('No address components found in place result');
+      return;
+    }
 
     let streetNumber = "";
     let streetName = "";
@@ -103,15 +105,20 @@ const GooglePlacesAutocomplete = ({
       zipCode,
     };
 
+    console.log('Selected place:', formattedPlace);
     onPlaceSelected(formattedPlace);
   }, [onPlaceSelected]);
 
   const initAutocomplete = useCallback((input: HTMLInputElement | null) => {
-    if (!input || !window.google) return;
+    if (!input || !window.google) {
+      console.log('Input element or Google API not available');
+      return;
+    }
 
     const autocomplete = new window.google.maps.places.Autocomplete(input, {
       componentRestrictions: { country: "us" },
       fields: ["address_components", "formatted_address"],
+      types: ["address"]
     });
 
     autocomplete.addListener("place_changed", () => {
@@ -125,17 +132,18 @@ const GooglePlacesAutocomplete = ({
     return (
       <Input
         type="text"
-        placeholder="Enter your address"
+        placeholder="Error loading address lookup"
         className={className}
+        disabled
       />
     );
   }
 
-  if (!isLoaded) {
+  if (!isLoaded || !apiKey) {
     return (
       <Input
         type="text"
-        placeholder="Loading..."
+        placeholder="Loading address lookup..."
         className={className}
         disabled
       />

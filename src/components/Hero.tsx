@@ -1,12 +1,14 @@
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
+
 interface HeroProps {
   onScheduleConsultation: () => void;
 }
-const Hero = ({
-  onScheduleConsultation
-}: HeroProps) => {
-  return <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+
+const Hero = ({ onScheduleConsultation }: HeroProps) => {
+  return (
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Video Background with Overlay */}
       <div className="absolute inset-0 w-full h-full">
         <div className="absolute inset-0 bg-white/80 z-10" />
@@ -23,15 +25,20 @@ const Hero = ({
         </div>
 
         {/* Main Heading */}
-        <h1 className="animate-fade-in opacity-0 [animation-delay:0.5s] text-4xl md:text-6xl font-bold text-citrus-charcoal mb-6 max-w-5xl mx-auto">
-          Custom Closets & Storage Solutions{" "}
-          <span className="text-citrus-orange">
-            for Every Room
-          </span>
-        </h1>
+        <div className="max-w-3xl mx-auto">
+          <h1 className="animate-fade-in opacity-0 [animation-delay:0.5s] text-4xl md:text-6xl font-bold text-citrus-charcoal mb-6">
+            Custom Closets & Storage Solutions
+            <br />
+            <span className="text-citrus-orange">
+              for Every Room
+            </span>
+          </h1>
+        </div>
 
         {/* Subheading */}
-        <p className="animate-fade-in opacity-0 [animation-delay:0.7s] text-xl md:text-2xl text-citrus-charcoal/80 mb-12 max-w-4xl mx-auto leading-relaxed">Transform clutter into calm with expertly designed storage for your closets, pantry, laundry, garage, and more. Smart, stylish, and built around your lifestyle.</p>
+        <p className="animate-fade-in opacity-0 [animation-delay:0.7s] text-xl md:text-2xl text-citrus-charcoal/80 mb-12 max-w-3xl mx-auto leading-relaxed">
+          Transform clutter into calm with expertly designed storage for your closets, pantry, laundry, garage, and more. Smart, stylish, and built around your lifestyle.
+        </p>
 
         {/* CTA Button - Now Centered */}
         <div className="animate-fade-in opacity-0 [animation-delay:0.9s] flex justify-center">
@@ -41,6 +48,8 @@ const Hero = ({
           </Button>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default Hero;

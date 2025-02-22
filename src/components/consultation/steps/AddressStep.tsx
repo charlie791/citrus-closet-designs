@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import GooglePlacesAutocomplete from "../GooglePlacesAutocomplete";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
 
 interface AddressData {
   street: string;
@@ -20,6 +21,7 @@ interface AddressStepProps {
 
 const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepProps) => {
   const [address, setAddress] = useState<AddressData>(initialAddress);
+  const [confirmedAddress, setConfirmedAddress] = useState<string>("");
   const [isValid, setIsValid] = useState<boolean>(false);
 
   useEffect(() => {
@@ -34,12 +36,15 @@ const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepPro
 
   const handlePlaceSelected = (selectedAddress: AddressData) => {
     console.log("Address selected:", selectedAddress);
+    setAddress(selectedAddress);
+    
     if (selectedAddress.street && selectedAddress.city && 
         selectedAddress.state && selectedAddress.zipCode) {
-      onNext(selectedAddress);
+      const formattedAddress = formatDisplayAddress(selectedAddress);
+      setConfirmedAddress(formattedAddress);
       toast.success("Address selected");
     } else {
-      setAddress(selectedAddress);
+      setConfirmedAddress("");
       toast.error("Please select a valid address");
     }
   };
@@ -63,11 +68,31 @@ const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepPro
           onNext(address);
         }
       }} className="space-y-4">
-        <GooglePlacesAutocomplete
-          onPlaceSelected={handlePlaceSelected}
-          defaultValue={formatDisplayAddress(address)}
-          className="bg-white/5 border-white/10 text-white placeholder:text-white/50"
-        />
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Search for your address
+            </label>
+            <GooglePlacesAutocomplete
+              onPlaceSelected={handlePlaceSelected}
+              defaultValue={formatDisplayAddress(address)}
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/50"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Confirmed Service Address
+            </label>
+            <Input
+              type="text"
+              value={confirmedAddress}
+              readOnly
+              className="bg-white/5 border-white/10 text-white cursor-not-allowed"
+              placeholder="Select an address above to confirm"
+            />
+          </div>
+        </div>
 
         <div className="flex gap-3 pt-4">
           <Button
@@ -81,7 +106,7 @@ const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepPro
           <Button
             type="submit"
             className="flex-1 bg-citrus-orange hover:bg-citrus-coral"
-            disabled={!isValid}
+            disabled={!isValid || !confirmedAddress}
           >
             Continue
           </Button>

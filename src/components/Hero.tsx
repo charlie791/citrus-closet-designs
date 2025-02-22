@@ -43,8 +43,8 @@ const Hero = () => {
           Experience the difference of a fresh, clean, and perfectly organized space with our expertly crafted custom closet solutions.
         </p>
 
-        {/* CTA Buttons */}
-        <div className="animate-fade-in opacity-0 [animation-delay:0.9s] space-x-6">
+        {/* CTA Button - Now Centered */}
+        <div className="animate-fade-in opacity-0 [animation-delay:0.9s] flex justify-center">
           <Button 
             asChild
             size="lg" 
@@ -53,17 +53,6 @@ const Hero = () => {
             <Link to="/contact/consultation">
               <Calendar className="mr-2 h-6 w-6" />
               Schedule Free Consultation
-            </Link>
-          </Button>
-
-          <Button 
-            asChild
-            variant="outline" 
-            size="lg" 
-            className="border-2 border-citrus-charcoal/20 text-citrus-charcoal hover:bg-citrus-charcoal/5 text-lg px-8 py-6 rounded-full"
-          >
-            <Link to="/gallery">
-              View Our Work
             </Link>
           </Button>
         </div>

@@ -100,9 +100,35 @@ const GooglePlacesAutocomplete = ({
   className,
 }: GooglePlacesAutocompleteProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [inputValue, setInputValue] = useState(defaultValue);
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const scriptLoadAttempted = useRef(false);
+
+  useEffect(() => {
+    // Add CSS for Google Places Autocomplete dropdown
+    const style = document.createElement('style');
+    style.textContent = `
+      .pac-container {
+        z-index: 9999 !important;
+        background-color: white;
+        border-radius: 0.375rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+      .pac-item {
+        cursor: pointer !important;
+        padding: 0.5rem 1rem;
+      }
+      .pac-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -139,11 +165,11 @@ const GooglePlacesAutocomplete = ({
             types: ["address"]
           });
 
-          // Ensure the input is not read-only
-          inputRef.current.readOnly = false;
-
-          if (defaultValue && inputRef.current) {
-            inputRef.current.value = defaultValue;
+          // Ensure the input is not read-only and setup proper event handling
+          if (inputRef.current) {
+            inputRef.current.readOnly = false;
+            inputRef.current.setAttribute('autocomplete', 'off');
+            inputRef.current.setAttribute('role', 'combobox');
           }
 
           // Bind the place_changed event
@@ -158,9 +184,15 @@ const GooglePlacesAutocomplete = ({
               return;
             }
 
-            console.log('Place selected:', place);
             const addressComponents = extractAddressComponents(place);
             console.log('Extracted components:', addressComponents);
+            
+            // Update the input value with the formatted address
+            if (inputRef.current && place.formatted_address) {
+              setInputValue(place.formatted_address);
+              inputRef.current.value = place.formatted_address;
+            }
+
             onPlaceSelected(addressComponents);
           });
         }
@@ -195,7 +227,8 @@ const GooglePlacesAutocomplete = ({
     <Input
       ref={inputRef}
       type="text"
-      defaultValue={defaultValue}
+      value={inputValue}
+      onChange={(e) => setInputValue(e.target.value)}
       placeholder="Start typing your address..."
       className={`${className} cursor-text`}
       disabled={isLoading}

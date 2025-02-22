@@ -21,7 +21,6 @@ interface AddressStepProps {
 const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepProps) => {
   const [address, setAddress] = useState<AddressData>(initialAddress);
   const [isValid, setIsValid] = useState<boolean>(false);
-  const [isSelecting, setIsSelecting] = useState(false);
 
   useEffect(() => {
     const hasRequiredFields = Boolean(
@@ -34,22 +33,14 @@ const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepPro
   }, [address]);
 
   const handlePlaceSelected = (selectedAddress: AddressData) => {
-    console.log("Address step: Place selected:", selectedAddress);
-    setIsSelecting(true);
-    setAddress(selectedAddress);
-    
-    // Only proceed if we have all required fields
+    console.log("Address selected:", selectedAddress);
     if (selectedAddress.street && selectedAddress.city && 
         selectedAddress.state && selectedAddress.zipCode) {
-      // Delay the navigation slightly to ensure state updates complete
-      setTimeout(() => {
-        onNext(selectedAddress);
-        toast.success("Address selected");
-        setIsSelecting(false);
-      }, 100);
+      onNext(selectedAddress);
+      toast.success("Address selected");
     } else {
+      setAddress(selectedAddress);
       toast.error("Please select a valid address");
-      setIsSelecting(false);
     }
   };
 
@@ -68,7 +59,7 @@ const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepPro
       <h2 className="text-3xl font-bold text-center mb-8">Service Address</h2>
       <form onSubmit={(e) => {
         e.preventDefault();
-        if (isValid && !isSelecting) {
+        if (isValid) {
           onNext(address);
         }
       }} className="space-y-4">
@@ -90,7 +81,7 @@ const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepPro
           <Button
             type="submit"
             className="flex-1 bg-citrus-orange hover:bg-citrus-coral"
-            disabled={!isValid || isSelecting}
+            disabled={!isValid}
           >
             Continue
           </Button>

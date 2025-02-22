@@ -2,7 +2,7 @@
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import GooglePlacesAutocomplete from "@/components/consultation/GooglePlacesAutocomplete";
+import GooglePlacesAutocomplete from "@/components/common/GooglePlacesAutocomplete";
 import { useState } from "react";
 import { toast } from "sonner";
 

@@ -10,29 +10,21 @@ import PromoOffer from "@/components/PromoOffer";
 import BlogTeaser from "@/components/BlogTeaser";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
-import { useState } from "react";
-import { ConsultationDialog } from "@/components/consultation/ConsultationDialog";
 
 const Index = () => {
-  const [isConsultationOpen, setIsConsultationOpen] = useState(false);
-
   return (
     <main>
       <Navigation />
-      <Hero onScheduleConsultation={() => setIsConsultationOpen(true)} />
+      <Hero />
       <Services />
       <WhyChooseUs />
       <Gallery />
       <ProcessSteps />
       <Testimonials />
-      <PromoOffer onScheduleConsultation={() => setIsConsultationOpen(true)} />
+      <PromoOffer />
       <BlogTeaser />
-      <FinalCTA onScheduleConsultation={() => setIsConsultationOpen(true)} />
+      <FinalCTA />
       <Footer />
-      <ConsultationDialog
-        isOpen={isConsultationOpen}
-        onClose={() => setIsConsultationOpen(false)}
-      />
     </main>
   );
 };

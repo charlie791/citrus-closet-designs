@@ -4,8 +4,16 @@ import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
+interface AddressComponents {
+  street: string;
+  unit?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+}
+
 interface GooglePlacesAutocompleteProps {
-  onPlaceSelected: (fullAddress: string) => void;
+  onPlaceSelected: (address: AddressComponents) => void;
   defaultValue?: string;
   className?: string;
 }
@@ -24,6 +32,46 @@ const loadGoogleMapsScript = async (apiKey: string): Promise<void> => {
     script.onerror = () => reject(new Error('Failed to load Google Maps script'));
     document.head.appendChild(script);
   });
+};
+
+const extractAddressComponents = (place: google.maps.places.PlaceResult): AddressComponents => {
+  const addressComponents = place.address_components || [];
+  let street = '';
+  let unit = '';
+  let city = '';
+  let state = '';
+  let zipCode = '';
+
+  for (const component of addressComponents) {
+    const types = component.types;
+    
+    if (types.includes('street_number')) {
+      street = component.long_name + ' ';
+    }
+    if (types.includes('route')) {
+      street += component.long_name;
+    }
+    if (types.includes('subpremise')) {
+      unit = component.long_name;
+    }
+    if (types.includes('locality')) {
+      city = component.long_name;
+    }
+    if (types.includes('administrative_area_level_1')) {
+      state = component.short_name;
+    }
+    if (types.includes('postal_code')) {
+      zipCode = component.long_name;
+    }
+  }
+
+  return {
+    street: street.trim(),
+    ...(unit && { unit }),
+    city,
+    state,
+    zipCode
+  };
 };
 
 const GooglePlacesAutocomplete = ({
@@ -69,20 +117,21 @@ const GooglePlacesAutocomplete = ({
         if (inputRef.current && window.google) {
           autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
             componentRestrictions: { country: "us" },
-            fields: ["formatted_address"],
+            fields: ["address_components", "formatted_address"],
             types: ["address"]
           });
 
           autocompleteRef.current.addListener("place_changed", () => {
             const place = autocompleteRef.current?.getPlace();
             
-            if (!place?.formatted_address) {
+            if (!place?.address_components) {
               console.error('Invalid place selected:', place);
               return;
             }
 
-            setInputValue(place.formatted_address);
-            onPlaceSelected(place.formatted_address);
+            const addressComponents = extractAddressComponents(place);
+            setInputValue(place.formatted_address || '');
+            onPlaceSelected(addressComponents);
           });
         }
       } catch (error) {

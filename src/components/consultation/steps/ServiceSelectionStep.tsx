@@ -7,33 +7,27 @@ interface ServiceOption {
   id: string;
   title: string;
   description: string;
-  icon: string;
+  image: string;
 }
 
 const services: ServiceOption[] = [
   {
     id: "custom-closets",
     title: "Custom Closets",
-    description: "Personalized storage solutions for any closet space",
-    icon: "🗄️",
-  },
-  {
-    id: "pantry",
-    title: "Pantry Organization",
-    description: "Maximize your kitchen storage space",
-    icon: "🥫",
+    description: "Transform your closet space with custom organization",
+    image: "/lovable-uploads/534d080f-8704-4057-be6e-2b8ddc5a5803.png",
   },
   {
     id: "garage",
     title: "Garage Storage",
-    description: "Transform your garage into an organized space",
-    icon: "🚗",
+    description: "Maximize your garage space with smart storage solutions",
+    image: "/lovable-uploads/534d080f-8704-4057-be6e-2b8ddc5a5803.png", // You'll want to replace this with an actual garage image
   },
   {
     id: "home-office",
     title: "Home Office",
-    description: "Create a productive workspace at home",
-    icon: "💼",
+    description: "Design a productive and organized home office",
+    image: "/lovable-uploads/534d080f-8704-4057-be6e-2b8ddc5a5803.png", // You'll want to replace this with an actual office image
   },
 ];
 
@@ -60,42 +54,51 @@ const ServiceSelectionStep = ({
 
   return (
     <div className="p-6 md:p-8 text-white">
-      <h2 className="text-2xl font-bold text-center mb-6">
+      <h2 className="text-3xl font-bold text-center mb-2">
         Our Organization Solutions
       </h2>
-      <div className="grid grid-cols-1 gap-3 mb-6">
+      <p className="text-lg text-gray-400 text-center mb-8">
+        What areas can we help you with?
+      </p>
+      <div className="space-y-4">
         {services.map((service) => (
           <button
             key={service.id}
             onClick={() => toggleService(service.id)}
-            className={`p-4 rounded-lg border text-left transition-all ${
+            className={`w-full p-4 rounded-2xl border text-left transition-all ${
               selectedServices.includes(service.id)
-                ? "border-citrus-orange bg-citrus-orange/10"
-                : "border-white/10 hover:border-white/20"
+                ? "border-citrus-orange bg-[#1E2330]"
+                : "border-white/10 hover:border-white/20 bg-[#1E2330]"
             }`}
           >
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">{service.icon}</span>
-              <div className="flex-1">
-                <h3 className="font-semibold">{service.title}</h3>
-                <p className="text-sm text-white/70">{service.description}</p>
-              </div>
+            <div className="flex items-center gap-4">
               <div
-                className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+                className={`w-6 h-6 rounded-full border flex items-center justify-center flex-shrink-0 ${
                   selectedServices.includes(service.id)
                     ? "bg-citrus-orange border-citrus-orange"
                     : "border-white/30"
                 }`}
               >
                 {selectedServices.includes(service.id) && (
-                  <Check className="h-3 w-3 text-white" />
+                  <Check className="h-3.5 w-3.5 text-white" />
                 )}
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold text-white">{service.title}</h3>
+                <p className="text-gray-400 mt-1">{service.description}</p>
+              </div>
+              <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </button>
         ))}
       </div>
-      <div className="flex gap-3">
+      <div className="flex gap-3 mt-8">
         <Button
           type="button"
           variant="outline"

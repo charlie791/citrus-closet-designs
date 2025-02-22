@@ -100,7 +100,7 @@ const ServiceSelectionStep = ({
           type="button"
           variant="outline"
           onClick={onBack}
-          className="flex-1 border-white/10 text-white hover:bg-white/5"
+          className="flex-1 border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30"
         >
           Back
         </Button>

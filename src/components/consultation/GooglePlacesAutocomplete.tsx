@@ -43,7 +43,6 @@ const loadGoogleMapsScript = async (apiKey: string): Promise<void> => {
     script.async = true;
     script.defer = true;
 
-    // Define the callback function
     window.initGoogle = () => {
       resolve();
     };
@@ -103,6 +102,7 @@ const GooglePlacesAutocomplete = ({
   className,
 }: GooglePlacesAutocompleteProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isSelecting, setIsSelecting] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const scriptLoadAttempted = useRef(false);
@@ -134,21 +134,29 @@ const GooglePlacesAutocomplete = ({
             types: ["address"]
           });
 
-          // Set default value if provided
           if (defaultValue && inputRef.current) {
             inputRef.current.value = defaultValue;
           }
 
           autocompleteRef.current.addListener("place_changed", () => {
+            setIsSelecting(true);
             const place = autocompleteRef.current?.getPlace();
             
             if (!place?.address_components) {
               console.error('Invalid place selected:', place);
+              setIsSelecting(false);
               return;
             }
 
+            console.log('Place selected:', place);
             const addressComponents = extractAddressComponents(place);
-            onPlaceSelected(addressComponents);
+            console.log('Extracted address components:', addressComponents);
+
+            // Add a small delay to ensure the UI updates before triggering the callback
+            setTimeout(() => {
+              onPlaceSelected(addressComponents);
+              setIsSelecting(false);
+            }, 100);
           });
         }
       } catch (error) {
@@ -171,6 +179,13 @@ const GooglePlacesAutocomplete = ({
     };
   }, [onPlaceSelected, defaultValue]);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      console.log('Enter key pressed, preventing form submission');
+    }
+  };
+
   return (
     <Input
       ref={inputRef}
@@ -179,6 +194,9 @@ const GooglePlacesAutocomplete = ({
       placeholder="Start typing your address..."
       className={className}
       disabled={isLoading}
+      onKeyDown={handleKeyDown}
+      aria-label="Address autocomplete"
+      data-loading={isLoading || isSelecting}
     />
   );
 };

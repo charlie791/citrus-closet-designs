@@ -57,8 +57,7 @@ const GooglePlacesAutocomplete = ({
         const { data, error } = await supabase
           .from('_secret')
           .select('google_maps_api_key')
-          .limit(1)
-          .single();
+          .maybeSingle();
 
         if (error) {
           console.error('Error fetching API key:', error);

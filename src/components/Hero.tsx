@@ -6,14 +6,21 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Video Background with Overlay */}
       <div className="absolute inset-0 w-full h-full">
         <div className="absolute inset-0 bg-white/80 z-10" />
-        <img
-          src="/lovable-uploads/d43e797e-cf6f-49a7-a441-6d661fefbe40.png"
-          alt="Custom Closet Organization"
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
           className="w-full h-full object-cover"
-        />
+        >
+          <source 
+            src="https://igscountertops.b-cdn.net/Citrus%20Closets/Citrus%20closet%20hero%20cmp.mp4" 
+            type="video/mp4" 
+          />
+        </video>
       </div>
 
       {/* Content */}

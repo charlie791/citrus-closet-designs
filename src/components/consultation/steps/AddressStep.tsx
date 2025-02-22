@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import GooglePlacesAutocomplete from "../GooglePlacesAutocomplete";
 import { toast } from "sonner";
@@ -18,6 +19,9 @@ interface AddressStepProps {
 }
 
 const AddressStep = ({ address, onBack, onNext }: AddressStepProps) => {
+  const [selectedAddress, setSelectedAddress] = useState(address);
+  const [isAddressSelected, setIsAddressSelected] = useState(false);
+
   const handlePlaceSelected = (addressComponents: AddressComponents) => {
     const formattedAddress = [
       addressComponents.street,
@@ -28,11 +32,20 @@ const AddressStep = ({ address, onBack, onNext }: AddressStepProps) => {
     ].filter(Boolean).join(", ");
     
     if (formattedAddress) {
+      setSelectedAddress(formattedAddress);
+      setIsAddressSelected(true);
       toast.success("Address selected");
-      onNext(formattedAddress);
     } else {
       toast.error("Please select a valid address");
     }
+  };
+
+  const handleNext = () => {
+    if (!selectedAddress) {
+      toast.error("Please select an address first");
+      return;
+    }
+    onNext(selectedAddress);
   };
 
   return (
@@ -42,7 +55,7 @@ const AddressStep = ({ address, onBack, onNext }: AddressStepProps) => {
         <div>
           <GooglePlacesAutocomplete
             onPlaceSelected={handlePlaceSelected}
-            defaultValue={address}
+            defaultValue={selectedAddress}
             className="bg-white/5 border-white/10 text-white placeholder:text-white/50"
           />
         </div>
@@ -56,6 +69,15 @@ const AddressStep = ({ address, onBack, onNext }: AddressStepProps) => {
           >
             Back
           </Button>
+          <Button
+            type="button"
+            variant="default"
+            onClick={handleNext}
+            disabled={!isAddressSelected}
+            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
+          >
+            Next
+          </Button>
         </div>
       </div>
     </div>
@@ -63,4 +85,3 @@ const AddressStep = ({ address, onBack, onNext }: AddressStepProps) => {
 };
 
 export default AddressStep;
-

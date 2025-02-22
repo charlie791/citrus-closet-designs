@@ -1,6 +1,8 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import GooglePlacesAutocomplete from "../GooglePlacesAutocomplete";
 
 interface Address {
   street: string;
@@ -47,18 +49,19 @@ const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepPro
     }
   };
 
+  const handlePlaceSelected = (place: Address) => {
+    setAddress(place);
+    setErrors({});
+  };
+
   return (
     <div className="p-6 md:p-10 text-white">
       <h2 className="text-3xl font-bold text-center mb-8">Service Address</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Input
-            placeholder="Street Address"
-            value={address.street}
-            onChange={(e) => {
-              setAddress((prev) => ({ ...prev, street: e.target.value }));
-              setErrors((prev) => ({ ...prev, street: "" }));
-            }}
+          <GooglePlacesAutocomplete
+            onPlaceSelected={handlePlaceSelected}
+            defaultValue={address.street}
             className="bg-white/5 border-white/10 text-white placeholder:text-white/50"
           />
           {errors.street && <p className="text-red-400 text-sm mt-1">{errors.street}</p>}

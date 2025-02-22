@@ -3,14 +3,12 @@ import { useState, useCallback } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import ZipCodeStep from "./steps/ZipCodeStep";
 import ServiceSelectionStep from "./steps/ServiceSelectionStep";
 import AppointmentStep from "./steps/AppointmentStep";
 import ContactStep from "./steps/ContactStep";
 import AddressStep from "./steps/AddressStep";
 
 export type ConsultationFormData = {
-  zipCode: string;
   services: string[];
   appointmentDate: Date | null;
   appointmentTime: string;
@@ -31,7 +29,6 @@ export const ConsultationDialog = ({
 }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<ConsultationFormData>({
-    zipCode: "",
     services: [],
     appointmentDate: null,
     appointmentTime: "",
@@ -49,46 +46,38 @@ export const ConsultationDialog = ({
   }, []);
 
   const steps = [
-    <ZipCodeStep
-      key="zip"
-      value={formData.zipCode}
-      onNext={(zipCode) => {
-        setFormData((prev) => ({ ...prev, zipCode }));
-        handleStepChange(1);
-      }}
-    />,
     <ServiceSelectionStep
       key="services"
       selected={formData.services}
       onBack={() => handleStepChange(0)}
       onNext={(services) => {
         setFormData((prev) => ({ ...prev, services }));
-        handleStepChange(2);
+        handleStepChange(1);
       }}
     />,
     <AppointmentStep
       key="appointment"
       date={formData.appointmentDate}
       time={formData.appointmentTime}
-      onBack={() => handleStepChange(1)}
+      onBack={() => handleStepChange(0)}
       onNext={(date, time) => {
         setFormData((prev) => ({ ...prev, appointmentDate: date, appointmentTime: time }));
-        handleStepChange(3);
+        handleStepChange(2);
       }}
     />,
     <AddressStep
       key="address"
       address={formData.address}
-      onBack={() => handleStepChange(2)}
+      onBack={() => handleStepChange(1)}
       onNext={(address) => {
         setFormData((prev) => ({ ...prev, address }));
-        handleStepChange(4);
+        handleStepChange(3);
       }}
     />,
     <ContactStep
       key="contact"
       contact={formData.contact}
-      onBack={() => handleStepChange(3)}
+      onBack={() => handleStepChange(2)}
       onSubmit={(contact) => {
         setFormData((prev) => ({ ...prev, contact }));
         console.log("Form submitted:", { ...formData, contact });

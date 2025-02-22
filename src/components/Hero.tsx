@@ -1,41 +1,63 @@
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Video/Image Background */}
+      {/* Background Image with Overlay */}
       <div className="absolute inset-0 w-full h-full">
-        <div className="absolute inset-0 bg-gradient-to-r from-white/90 to-white/50 z-10" />
+        <div className="absolute inset-0 bg-white/80 z-10" />
         <img
-          src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=2000&auto=format&fit=crop"
-          alt="Luxury Walk-in Closet"
+          src="/lovable-uploads/d43e797e-cf6f-49a7-a441-6d661fefbe40.png"
+          alt="Custom Closet Organization"
           className="w-full h-full object-cover"
         />
       </div>
 
       {/* Content */}
       <div className="container relative z-20 mx-auto px-4 text-center">
-        <span className="inline-block animate-fade-in opacity-0 [animation-delay:0.3s] bg-citrus-orange/10 text-citrus-orange px-4 py-1.5 rounded-full text-sm font-medium mb-4">
-          Transform Your Space
-        </span>
-        <h1 className="animate-fade-in opacity-0 [animation-delay:0.5s] text-4xl md:text-6xl font-bold text-citrus-charcoal mb-6 max-w-4xl mx-auto">
-          Luxury Custom Closets 
+        {/* Fresh • Clean • Organized Tag */}
+        <div className="inline-block animate-fade-in opacity-0 [animation-delay:0.3s] bg-citrus-orange/10 text-citrus-orange px-8 py-2 rounded-full text-lg font-medium mb-6">
+          Fresh • Clean • Organized
+        </div>
+
+        {/* Main Heading */}
+        <h1 className="animate-fade-in opacity-0 [animation-delay:0.5s] text-4xl md:text-6xl font-bold text-citrus-charcoal mb-6 max-w-5xl mx-auto">
+          Central Florida's Premier{" "}
           <span className="text-citrus-orange">
-            {" "}Designed For Your Life
+            Custom<br />Closets
           </span>
         </h1>
-        <p className="animate-fade-in opacity-0 [animation-delay:0.7s] text-lg md:text-xl text-citrus-charcoal/80 mb-8 max-w-2xl mx-auto">
-          Experience the perfect blend of style and functionality with our premium custom storage solutions.
+
+        {/* Subheading */}
+        <p className="animate-fade-in opacity-0 [animation-delay:0.7s] text-xl md:text-2xl text-citrus-charcoal/80 mb-12 max-w-4xl mx-auto leading-relaxed">
+          Experience the difference of a fresh, clean, and perfectly organized space with our expertly crafted custom closet solutions.
         </p>
-        <div className="animate-fade-in opacity-0 [animation-delay:0.9s] space-x-4">
-          <Button size="lg" className="bg-citrus-orange hover:bg-citrus-coral transition-colors">
-            <Calendar className="mr-2 h-5 w-5" />
-            Schedule Free Consultation
+
+        {/* CTA Buttons */}
+        <div className="animate-fade-in opacity-0 [animation-delay:0.9s] space-x-6">
+          <Button 
+            asChild
+            size="lg" 
+            className="bg-citrus-orange hover:bg-citrus-coral transition-colors text-lg px-8 py-6 rounded-full"
+          >
+            <Link to="/contact/consultation">
+              <Calendar className="mr-2 h-6 w-6" />
+              Schedule Free Consultation
+            </Link>
           </Button>
-          <Button variant="outline" size="lg" className="border-citrus-charcoal/20 text-citrus-charcoal hover:bg-citrus-charcoal/5">
-            View Our Work
+
+          <Button 
+            asChild
+            variant="outline" 
+            size="lg" 
+            className="border-2 border-citrus-charcoal/20 text-citrus-charcoal hover:bg-citrus-charcoal/5 text-lg px-8 py-6 rounded-full"
+          >
+            <Link to="/gallery">
+              View Our Work
+            </Link>
           </Button>
         </div>
       </div>

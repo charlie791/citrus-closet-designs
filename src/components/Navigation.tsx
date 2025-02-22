@@ -77,10 +77,10 @@ const Navigation = () => {
               </div>
 
               <Button 
-                className="bg-citrus-orange hover:bg-citrus-coral transition-all duration-200 px-8 py-6 h-auto text-base shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                className="bg-citrus-orange hover:bg-citrus-coral transition-all duration-200 px-6 py-2.5 h-auto text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5"
                 onClick={() => setIsConsultationOpen(true)}
               >
-                <Calendar className="mr-2 h-5 w-5" />
+                <Calendar className="mr-2 h-4 w-4" />
                 Schedule Consultation
               </Button>
             </div>
@@ -117,13 +117,13 @@ const Navigation = () => {
                 </div>
 
                 <Button 
-                  className="w-full bg-citrus-orange hover:bg-citrus-coral transition-all duration-200 p-6 h-auto text-base shadow-md hover:shadow-lg"
+                  className="w-full bg-citrus-orange hover:bg-citrus-coral transition-all duration-200 px-6 py-2.5 h-auto text-sm shadow-md hover:shadow-lg"
                   onClick={() => {
                     setIsConsultationOpen(true);
                     setIsMobileMenuOpen(false);
                   }}
                 >
-                  <Calendar className="mr-2 h-5 w-5" />
+                  <Calendar className="mr-2 h-4 w-4" />
                   Schedule Consultation
                 </Button>
               </div>

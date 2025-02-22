@@ -1,3 +1,4 @@
+
 import { Input } from "@/components/ui/input";
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -124,9 +125,10 @@ const GooglePlacesAutocomplete = ({
         if (!mounted) return;
 
         if (inputRef.current && window.google?.maps?.places) {
+          console.log("Creating autocomplete instance");
           autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
             componentRestrictions: { country: "us" },
-            fields: ["address_components", "formatted_address"],
+            fields: ["address_components", "formatted_address", "geometry", "name", "place_id"],
             types: ["address"]
           });
 
@@ -135,10 +137,13 @@ const GooglePlacesAutocomplete = ({
           }
 
           autocompleteRef.current.addListener("place_changed", () => {
+            console.log("Place changed event fired");
             const place = autocompleteRef.current?.getPlace();
+            console.log("Raw place data:", place);
             
             if (!place?.address_components) {
               console.error('Invalid place selected:', place);
+              toast.error('Please select a valid address from the dropdown');
               return;
             }
 

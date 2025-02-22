@@ -44,16 +44,22 @@ const Navigation = () => {
                 
                 {/* Location Dropdown Menu */}
                 {isLocationDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-lg py-2 z-50">
-                    <div className="p-4">
-                      <div className="mb-4">
-                        <h3 className="text-lg font-semibold text-citrus-charcoal">Orlando Showroom</h3>
-                        <p className="text-gray-600">123 Storage Lane, Orlando, FL 32801</p>
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-citrus-charcoal">Tampa Showroom</h3>
-                        <p className="text-gray-600">456 Organization Blvd, Tampa, FL 33601</p>
-                      </div>
+                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg p-4 z-50">
+                    <h3 className="text-lg font-semibold text-citrus-charcoal mb-4 px-2">Our Showrooms</h3>
+                    <div className="space-y-3">
+                      <a href="#" className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div className="space-y-1">
+                          <h4 className="font-semibold text-citrus-charcoal">Orlando Showroom</h4>
+                          <p className="text-sm text-gray-600">123 Storage Lane, Orlando, FL 32801</p>
+                        </div>
+                      </a>
+                      <div className="h-px bg-gray-100" />
+                      <a href="#" className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div className="space-y-1">
+                          <h4 className="font-semibold text-citrus-charcoal">Tampa Showroom</h4>
+                          <p className="text-sm text-gray-600">456 Organization Blvd, Tampa, FL 33601</p>
+                        </div>
+                      </a>
                     </div>
                   </div>
                 )}
@@ -83,16 +89,16 @@ const Navigation = () => {
               <div className="container mx-auto px-4 py-4 space-y-4">
                 {/* Mobile Location Options */}
                 <div className="p-4 bg-gray-50 rounded-lg">
-                  <h3 className="text-lg font-semibold text-citrus-charcoal mb-2">Our Locations</h3>
+                  <h3 className="text-lg font-semibold text-citrus-charcoal mb-3">Our Showrooms</h3>
                   <div className="space-y-4">
-                    <div>
-                      <h4 className="font-medium text-citrus-charcoal">Orlando Showroom</h4>
-                      <p className="text-gray-600">123 Storage Lane, Orlando, FL 32801</p>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-citrus-charcoal">Tampa Showroom</h4>
-                      <p className="text-gray-600">456 Organization Blvd, Tampa, FL 33601</p>
-                    </div>
+                    <a href="#" className="block p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                      <h4 className="font-semibold text-citrus-charcoal">Orlando Showroom</h4>
+                      <p className="text-sm text-gray-600">123 Storage Lane, Orlando, FL 32801</p>
+                    </a>
+                    <a href="#" className="block p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                      <h4 className="font-semibold text-citrus-charcoal">Tampa Showroom</h4>
+                      <p className="text-sm text-gray-600">456 Organization Blvd, Tampa, FL 33601</p>
+                    </a>
                   </div>
                 </div>
 

@@ -4,6 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
+// Extend Window interface to include our callback
+declare global {
+  interface Window {
+    initGoogle?: () => void;
+  }
+}
+
 interface AddressComponents {
   street: string;
   unit?: string;

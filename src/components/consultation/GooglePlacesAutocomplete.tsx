@@ -35,17 +35,16 @@ const GooglePlacesAutocomplete = ({
       try {
         const { data, error } = await supabase
           .from('_secret')
-          .select('value')
-          .eq('name', 'GOOGLE_MAPS_API_KEY')
-          .single();
+          .select('google_maps_api_key')
+          .maybeSingle();
 
-        if (error || !data?.value) {
+        if (error || !data?.google_maps_api_key) {
           console.error('Error fetching API key:', error);
           toast.error('Failed to initialize address lookup');
           return;
         }
 
-        const apiKey = data.value;
+        const apiKey = data.google_maps_api_key;
 
         // Load Google Maps script
         if (!window.google) {

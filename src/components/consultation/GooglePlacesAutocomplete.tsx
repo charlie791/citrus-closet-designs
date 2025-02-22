@@ -126,17 +126,28 @@ const GooglePlacesAutocomplete = ({
 
         if (inputRef.current && window.google?.maps?.places) {
           console.log("Creating autocomplete instance");
+          
+          // Remove any existing instance
+          if (autocompleteRef.current) {
+            google.maps.event.clearInstanceListeners(autocompleteRef.current);
+          }
+
+          // Create new instance with updated options
           autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
             componentRestrictions: { country: "us" },
             fields: ["address_components", "formatted_address", "geometry", "name", "place_id"],
             types: ["address"]
           });
 
+          // Ensure the input is not read-only
+          inputRef.current.readOnly = false;
+
           if (defaultValue && inputRef.current) {
             inputRef.current.value = defaultValue;
           }
 
-          autocompleteRef.current.addListener("place_changed", () => {
+          // Bind the place_changed event
+          google.maps.event.addListener(autocompleteRef.current, 'place_changed', () => {
             console.log("Place changed event fired");
             const place = autocompleteRef.current?.getPlace();
             console.log("Raw place data:", place);
@@ -186,11 +197,12 @@ const GooglePlacesAutocomplete = ({
       type="text"
       defaultValue={defaultValue}
       placeholder="Start typing your address..."
-      className={className}
+      className={`${className} cursor-text`}
       disabled={isLoading}
       onKeyDown={handleKeyDown}
       aria-label="Address autocomplete"
       data-loading={isLoading}
+      autoComplete="off"
     />
   );
 };

@@ -3,6 +3,14 @@ import { Button } from "@/components/ui/button";
 import GooglePlacesAutocomplete from "../GooglePlacesAutocomplete";
 import { toast } from "sonner";
 
+interface AddressComponents {
+  street: string;
+  unit?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+}
+
 interface AddressStepProps {
   address: string;
   onBack: () => void;
@@ -10,13 +18,13 @@ interface AddressStepProps {
 }
 
 const AddressStep = ({ address, onBack, onNext }: AddressStepProps) => {
-  const handlePlaceSelected = (place: any) => {
+  const handlePlaceSelected = (addressComponents: AddressComponents) => {
     const formattedAddress = [
-      place.street,
-      place.unit,
-      place.city,
-      place.state,
-      place.zipCode
+      addressComponents.street,
+      addressComponents.unit,
+      addressComponents.city,
+      addressComponents.state,
+      addressComponents.zipCode
     ].filter(Boolean).join(", ");
     
     if (formattedAddress) {
@@ -55,3 +63,4 @@ const AddressStep = ({ address, onBack, onNext }: AddressStepProps) => {
 };
 
 export default AddressStep;
+

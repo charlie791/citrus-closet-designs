@@ -21,33 +21,40 @@ interface AddressStepProps {
 const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepProps) => {
   const [address, setAddress] = useState<AddressData>(initialAddress);
   const [isValid, setIsValid] = useState<boolean>(false);
+  const [isSelecting, setIsSelecting] = useState(false);
 
   useEffect(() => {
-    // Validate address whenever it changes
     const hasRequiredFields = Boolean(
       address.street && 
       address.city && 
       address.state && 
       address.zipCode
     );
-    
     setIsValid(hasRequiredFields);
   }, [address]);
 
   const handlePlaceSelected = (selectedAddress: AddressData) => {
-    console.log("Selected address:", selectedAddress);
+    console.log("Address step: Place selected:", selectedAddress);
+    setIsSelecting(true);
     setAddress(selectedAddress);
     
-    // If address is valid, automatically proceed to next step
-    if (selectedAddress.street && selectedAddress.city && selectedAddress.state && selectedAddress.zipCode) {
-      onNext(selectedAddress);
-      toast.success("Address selected");
+    // Only proceed if we have all required fields
+    if (selectedAddress.street && selectedAddress.city && 
+        selectedAddress.state && selectedAddress.zipCode) {
+      // Delay the navigation slightly to ensure state updates complete
+      setTimeout(() => {
+        onNext(selectedAddress);
+        toast.success("Address selected");
+        setIsSelecting(false);
+      }, 100);
     } else {
       toast.error("Please select a valid address");
+      setIsSelecting(false);
     }
   };
 
   const formatDisplayAddress = (addr: AddressData): string => {
+    if (!addr.street) return "";
     const parts = [addr.street];
     if (addr.unit) parts.push(addr.unit);
     if (addr.city) parts.push(addr.city);
@@ -61,7 +68,7 @@ const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepPro
       <h2 className="text-3xl font-bold text-center mb-8">Service Address</h2>
       <form onSubmit={(e) => {
         e.preventDefault();
-        if (isValid) {
+        if (isValid && !isSelecting) {
           onNext(address);
         }
       }} className="space-y-4">
@@ -83,7 +90,7 @@ const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepPro
           <Button
             type="submit"
             className="flex-1 bg-citrus-orange hover:bg-citrus-coral"
-            disabled={!isValid}
+            disabled={!isValid || isSelecting}
           >
             Continue
           </Button>

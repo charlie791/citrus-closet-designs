@@ -31,7 +31,6 @@ const loadGoogleMapsScript = async (apiKey: string): Promise<void> => {
     return Promise.resolve();
   }
 
-  // Remove any existing Google Maps script to prevent duplicates
   const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
   if (existingScript) {
     existingScript.remove();
@@ -106,6 +105,7 @@ const GooglePlacesAutocomplete = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const scriptLoadAttempted = useRef(false);
+  const placeChangedRef = useRef(false);
 
   useEffect(() => {
     let mounted = true;
@@ -139,23 +139,28 @@ const GooglePlacesAutocomplete = ({
           }
 
           autocompleteRef.current.addListener("place_changed", () => {
+            if (placeChangedRef.current) return;
+            placeChangedRef.current = true;
+            
             setIsSelecting(true);
             const place = autocompleteRef.current?.getPlace();
             
             if (!place?.address_components) {
               console.error('Invalid place selected:', place);
               setIsSelecting(false);
+              placeChangedRef.current = false;
               return;
             }
 
-            console.log('Place selected:', place);
+            console.log('GooglePlacesAutocomplete: Place selected:', place);
             const addressComponents = extractAddressComponents(place);
-            console.log('Extracted address components:', addressComponents);
+            console.log('GooglePlacesAutocomplete: Extracted components:', addressComponents);
 
-            // Add a small delay to ensure the UI updates before triggering the callback
+            // Reset the flag after a delay to allow for the next selection
             setTimeout(() => {
               onPlaceSelected(addressComponents);
               setIsSelecting(false);
+              placeChangedRef.current = false;
             }, 100);
           });
         }
@@ -193,7 +198,7 @@ const GooglePlacesAutocomplete = ({
       defaultValue={defaultValue}
       placeholder="Start typing your address..."
       className={className}
-      disabled={isLoading}
+      disabled={isLoading || isSelecting}
       onKeyDown={handleKeyDown}
       aria-label="Address autocomplete"
       data-loading={isLoading || isSelecting}

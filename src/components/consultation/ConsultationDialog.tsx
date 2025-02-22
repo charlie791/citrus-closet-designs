@@ -7,12 +7,14 @@ import ZipCodeStep from "./steps/ZipCodeStep";
 import ServiceSelectionStep from "./steps/ServiceSelectionStep";
 import AppointmentStep from "./steps/AppointmentStep";
 import ContactStep from "./steps/ContactStep";
+import AddressStep from "./steps/AddressStep";
 
 export type ConsultationFormData = {
   zipCode: string;
   services: string[];
   appointmentDate: Date | null;
   appointmentTime: string;
+  address: string;
   contact: {
     fullName: string;
     phone: string;
@@ -33,6 +35,7 @@ export const ConsultationDialog = ({
     services: [],
     appointmentDate: null,
     appointmentTime: "",
+    address: "",
     contact: {
       fullName: "",
       phone: "",
@@ -73,10 +76,19 @@ export const ConsultationDialog = ({
         handleStepChange(3);
       }}
     />,
+    <AddressStep
+      key="address"
+      address={formData.address}
+      onBack={() => handleStepChange(2)}
+      onNext={(address) => {
+        setFormData((prev) => ({ ...prev, address }));
+        handleStepChange(4);
+      }}
+    />,
     <ContactStep
       key="contact"
       contact={formData.contact}
-      onBack={() => handleStepChange(2)}
+      onBack={() => handleStepChange(3)}
       onSubmit={(contact) => {
         setFormData((prev) => ({ ...prev, contact }));
         console.log("Form submitted:", { ...formData, contact });

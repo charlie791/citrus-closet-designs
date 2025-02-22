@@ -9,7 +9,21 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      _secret: {
+        Row: {
+          google_maps_api_key: string | null
+          id: string
+        }
+        Insert: {
+          google_maps_api_key?: string | null
+          id?: string
+        }
+        Update: {
+          google_maps_api_key?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

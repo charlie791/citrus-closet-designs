@@ -1,4 +1,3 @@
-
 import { Input } from "@/components/ui/input";
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -26,7 +25,6 @@ interface GooglePlacesAutocompleteProps {
 }
 
 const loadGoogleMapsScript = async (apiKey: string): Promise<void> => {
-  // Check if script is already properly loaded and functioning
   if (window.google?.maps?.places?.Autocomplete) {
     console.log("Google Maps Places API already loaded");
     return Promise.resolve();
@@ -105,7 +103,6 @@ const GooglePlacesAutocomplete = ({
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const scriptLoadAttempted = useRef(false);
 
-  // Minimal CSS styling to ensure dropdown visibility
   useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
@@ -166,23 +163,19 @@ const GooglePlacesAutocomplete = ({
 
         console.log("Creating new Autocomplete instance");
 
-        // Clean up existing instance if any
         if (autocompleteRef.current) {
           google.maps.event.clearInstanceListeners(autocompleteRef.current);
         }
 
-        // Create new instance
         const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
           componentRestrictions: { country: "us" },
           fields: ["address_components", "formatted_address", "geometry", "name", "place_id"],
           types: ["address"]
         });
 
-        // Set the reference
         autocompleteRef.current = autocomplete;
 
-        // Use DOM listener for better event handling
-        google.maps.event.addDomListener(autocomplete, 'place_changed', () => {
+        autocomplete.addListener('place_changed', () => {
           console.log("Place changed event triggered");
           const place = autocomplete.getPlace();
           

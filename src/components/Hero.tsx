@@ -27,7 +27,9 @@ const Hero = ({ onScheduleConsultation }: HeroProps) => {
         {/* Main Heading */}
         <div className="max-w-3xl mx-auto">
           <h1 className="animate-fade-in opacity-0 [animation-delay:0.5s] text-4xl md:text-6xl font-bold text-citrus-charcoal mb-6">
-            Custom Closets & Storage Solutions
+            Custom Closets &
+            <br />
+            Storage Solutions
             <br />
             <span className="text-citrus-orange">
               for Every Room

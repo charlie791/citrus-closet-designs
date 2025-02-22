@@ -115,24 +115,19 @@ const GooglePlacesAutocomplete = ({
       scriptLoadAttempted.current = true;
 
       try {
-        const { data: secretData, error: secretError } = await supabase
+        // Get API key from Supabase secrets
+        const { data: apiKey, error: secretError } = await supabase
           .from('_secret')
           .select('google_maps_api_key')
-          .maybeSingle();
+          .single();
 
-        if (secretError) {
+        if (secretError || !apiKey?.google_maps_api_key) {
           console.error('Error fetching API key:', secretError);
           toast.error('Failed to initialize address lookup');
           return;
         }
 
-        if (!secretData?.google_maps_api_key) {
-          console.error('No API key found');
-          toast.error('Missing Google Maps configuration');
-          return;
-        }
-
-        await loadGoogleMapsScript(secretData.google_maps_api_key);
+        await loadGoogleMapsScript(apiKey.google_maps_api_key);
 
         if (!mounted) return;
 

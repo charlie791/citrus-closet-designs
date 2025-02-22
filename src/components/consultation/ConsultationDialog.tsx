@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import ZipCodeStep from "./steps/ZipCodeStep";
@@ -107,7 +107,8 @@ export const ConsultationDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#1A1F2C]/95 backdrop-blur-lg border-white/10 p-0 gap-0 max-w-2xl">
+      <DialogContent className="bg-[#1A1F2C]/95 backdrop-blur-lg border-white/10 p-0 gap-0 max-w-md mx-auto w-full">
+        <DialogTitle className="sr-only">Schedule Consultation</DialogTitle>
         <button
           onClick={onClose}
           className="absolute right-4 top-4 text-white/70 hover:text-white transition-colors"

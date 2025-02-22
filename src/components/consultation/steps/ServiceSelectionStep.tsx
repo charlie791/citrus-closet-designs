@@ -58,20 +58,12 @@ const ServiceSelectionStep = ({
     );
   };
 
-  const handleNext = () => {
-    if (selectedServices.length === 0) {
-      // Show error or disable button
-      return;
-    }
-    onNext(selectedServices);
-  };
-
   return (
-    <div className="p-6 md:p-10 text-white">
-      <h2 className="text-3xl font-bold text-center mb-8">
+    <div className="p-6 md:p-8 text-white">
+      <h2 className="text-2xl font-bold text-center mb-6">
         Our Organization Solutions
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 gap-3 mb-6">
         {services.map((service) => (
           <button
             key={service.id}
@@ -82,7 +74,7 @@ const ServiceSelectionStep = ({
                 : "border-white/10 hover:border-white/20"
             }`}
           >
-            <div className="flex items-start gap-3">
+            <div className="flex items-center gap-3">
               <span className="text-2xl">{service.icon}</span>
               <div className="flex-1">
                 <h3 className="font-semibold">{service.title}</h3>
@@ -105,6 +97,7 @@ const ServiceSelectionStep = ({
       </div>
       <div className="flex gap-3">
         <Button
+          type="button"
           variant="outline"
           onClick={onBack}
           className="flex-1 border-white/10 text-white hover:bg-white/5"
@@ -112,9 +105,9 @@ const ServiceSelectionStep = ({
           Back
         </Button>
         <Button
-          onClick={handleNext}
+          onClick={() => onNext(selectedServices)}
           disabled={selectedServices.length === 0}
-          className="flex-1 bg-citrus-orange hover:bg-citrus-coral disabled:opacity-50"
+          className="flex-1 bg-citrus-orange hover:bg-citrus-coral"
         >
           Continue
         </Button>

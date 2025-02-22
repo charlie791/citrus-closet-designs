@@ -18,23 +18,6 @@ interface GooglePlacesAutocompleteProps {
   className?: string;
 }
 
-const loadGoogleMapsScript = (apiKey: string): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    if (window.google) {
-      resolve();
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=Function.prototype`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error('Failed to load Google Maps script'));
-    document.head.appendChild(script);
-  });
-};
-
 const GooglePlacesAutocomplete = ({
   onPlaceSelected,
   defaultValue = "",
@@ -50,18 +33,31 @@ const GooglePlacesAutocomplete = ({
 
     const initializeAutocomplete = async () => {
       try {
-        const { data: secretData, error: fetchError } = await supabase
+        const { data, error } = await supabase
           .from('_secret')
-          .select('google_maps_api_key')
-          .maybeSingle();
+          .select('value')
+          .eq('name', 'GOOGLE_MAPS_API_KEY')
+          .single();
 
-        if (fetchError || !secretData?.google_maps_api_key) {
-          console.error('Error fetching API key:', fetchError);
+        if (error || !data?.value) {
+          console.error('Error fetching API key:', error);
           toast.error('Failed to initialize address lookup');
           return;
         }
 
-        await loadGoogleMapsScript(secretData.google_maps_api_key);
+        const apiKey = data.value;
+
+        // Load Google Maps script
+        if (!window.google) {
+          await new Promise<void>((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+            script.async = true;
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error('Failed to load Google Maps script'));
+            document.head.appendChild(script);
+          });
+        }
 
         if (!mounted) return;
 

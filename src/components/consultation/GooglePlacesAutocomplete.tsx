@@ -100,13 +100,12 @@ const GooglePlacesAutocomplete = ({
   className,
 }: GooglePlacesAutocompleteProps) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [inputValue, setInputValue] = useState(defaultValue);
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const scriptLoadAttempted = useRef(false);
 
+  // Add CSS for proper dropdown styling and z-index
   useEffect(() => {
-    // Add CSS for Google Places Autocomplete dropdown
     const style = document.createElement('style');
     style.textContent = `
       .pac-container {
@@ -114,6 +113,7 @@ const GooglePlacesAutocomplete = ({
         background-color: white;
         border-radius: 0.375rem;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        margin-top: 4px;
       }
       .pac-item {
         cursor: pointer !important;
@@ -122,9 +122,11 @@ const GooglePlacesAutocomplete = ({
       .pac-item:hover {
         background-color: rgba(0, 0, 0, 0.05);
       }
+      .pac-item-query {
+        color: #1a1f2c;
+      }
     `;
     document.head.appendChild(style);
-
     return () => {
       document.head.removeChild(style);
     };
@@ -152,32 +154,33 @@ const GooglePlacesAutocomplete = ({
 
         if (inputRef.current && window.google?.maps?.places) {
           console.log("Creating autocomplete instance");
-          
+
           // Remove any existing instance
           if (autocompleteRef.current) {
             google.maps.event.clearInstanceListeners(autocompleteRef.current);
           }
 
-          // Create new instance with updated options
           autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
             componentRestrictions: { country: "us" },
             fields: ["address_components", "formatted_address", "geometry", "name", "place_id"],
             types: ["address"]
           });
 
-          // Ensure the input is not read-only and setup proper event handling
-          if (inputRef.current) {
-            inputRef.current.readOnly = false;
-            inputRef.current.setAttribute('autocomplete', 'off');
-            inputRef.current.setAttribute('role', 'combobox');
+          // Set initial value if provided
+          if (defaultValue && inputRef.current) {
+            inputRef.current.value = defaultValue;
           }
 
-          // Bind the place_changed event
+          // Configure input attributes
+          inputRef.current.setAttribute('autocomplete', 'off');
+          inputRef.current.setAttribute('role', 'combobox');
+          inputRef.current.setAttribute('aria-autocomplete', 'list');
+
+          // Bind place_changed event
           google.maps.event.addListener(autocompleteRef.current, 'place_changed', () => {
-            console.log("Place changed event fired");
             const place = autocompleteRef.current?.getPlace();
-            console.log("Raw place data:", place);
-            
+            console.log("Place changed event fired", place);
+
             if (!place?.address_components) {
               console.error('Invalid place selected:', place);
               toast.error('Please select a valid address from the dropdown');
@@ -185,24 +188,21 @@ const GooglePlacesAutocomplete = ({
             }
 
             const addressComponents = extractAddressComponents(place);
-            console.log('Extracted components:', addressComponents);
-            
-            // Update the input value with the formatted address
+            console.log('Extracted address components:', addressComponents);
+
             if (inputRef.current && place.formatted_address) {
-              setInputValue(place.formatted_address);
               inputRef.current.value = place.formatted_address;
             }
 
             onPlaceSelected(addressComponents);
           });
+
+          setIsLoading(false);
         }
       } catch (error) {
         console.error('Error setting up Google Places:', error);
         toast.error('Failed to initialize address lookup');
-      } finally {
-        if (mounted) {
-          setIsLoading(false);
-        }
+        setIsLoading(false);
       }
     };
 
@@ -227,15 +227,13 @@ const GooglePlacesAutocomplete = ({
     <Input
       ref={inputRef}
       type="text"
-      value={inputValue}
-      onChange={(e) => setInputValue(e.target.value)}
+      defaultValue={defaultValue}
       placeholder="Start typing your address..."
       className={`${className} cursor-text`}
       disabled={isLoading}
       onKeyDown={handleKeyDown}
       aria-label="Address autocomplete"
       data-loading={isLoading}
-      autoComplete="off"
     />
   );
 };

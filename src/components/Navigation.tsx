@@ -28,19 +28,7 @@ const Navigation = () => {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <a href="#services" className="text-citrus-charcoal hover:text-citrus-orange transition-colors">
-              Services
-            </a>
-            <a href="#gallery" className="text-citrus-charcoal hover:text-citrus-orange transition-colors">
-              Gallery
-            </a>
-            <a href="#process" className="text-citrus-charcoal hover:text-citrus-orange transition-colors">
-              Process
-            </a>
-            <a href="#about" className="text-citrus-charcoal hover:text-citrus-orange transition-colors">
-              About
-            </a>
+          <div className="hidden md:flex items-center">
             <Button className="bg-citrus-orange hover:bg-citrus-coral transition-colors">
               <Calendar className="mr-2 h-4 w-4" />
               Schedule Consultation
@@ -59,19 +47,7 @@ const Navigation = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden absolute top-20 left-0 w-full bg-white/95 backdrop-blur-md shadow-lg animate-fade-in">
-            <div className="container mx-auto px-4 py-4 space-y-4">
-              <a href="#services" className="block text-citrus-charcoal hover:text-citrus-orange transition-colors">
-                Services
-              </a>
-              <a href="#gallery" className="block text-citrus-charcoal hover:text-citrus-orange transition-colors">
-                Gallery
-              </a>
-              <a href="#process" className="block text-citrus-charcoal hover:text-citrus-orange transition-colors">
-                Process
-              </a>
-              <a href="#about" className="block text-citrus-charcoal hover:text-citrus-orange transition-colors">
-                About
-              </a>
+            <div className="container mx-auto px-4 py-4">
               <Button className="w-full bg-citrus-orange hover:bg-citrus-coral transition-colors">
                 <Calendar className="mr-2 h-4 w-4" />
                 Schedule Consultation

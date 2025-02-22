@@ -18,6 +18,22 @@ interface GooglePlacesAutocompleteProps {
   className?: string;
 }
 
+const loadGoogleMapsScript = async (apiKey: string): Promise<void> => {
+  if (window.google?.maps?.places) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Failed to load Google Maps script'));
+    document.head.appendChild(script);
+  });
+};
+
 const GooglePlacesAutocomplete = ({
   onPlaceSelected,
   defaultValue = "",
@@ -27,36 +43,36 @@ const GooglePlacesAutocomplete = ({
   const [isLoading, setIsLoading] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const scriptLoadAttempted = useRef(false);
 
   useEffect(() => {
     let mounted = true;
 
     const initializeAutocomplete = async () => {
+      if (scriptLoadAttempted.current) return;
+      scriptLoadAttempted.current = true;
+
       try {
+        console.log("Fetching API key...");
         const { data, error } = await supabase
           .from('_secret')
           .select('google_maps_api_key')
-          .maybeSingle();
+          .single();
 
-        if (error || !data?.google_maps_api_key) {
+        if (error) {
           console.error('Error fetching API key:', error);
           toast.error('Failed to initialize address lookup');
           return;
         }
 
-        const apiKey = data.google_maps_api_key;
-
-        // Load Google Maps script
-        if (!window.google) {
-          await new Promise<void>((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
-            script.async = true;
-            script.onload = () => resolve();
-            script.onerror = () => reject(new Error('Failed to load Google Maps script'));
-            document.head.appendChild(script);
-          });
+        if (!data?.google_maps_api_key) {
+          console.error('No API key found');
+          toast.error('Missing Google Maps configuration');
+          return;
         }
+
+        console.log("API key fetched successfully");
+        await loadGoogleMapsScript(data.google_maps_api_key);
 
         if (!mounted) return;
 
@@ -140,6 +156,7 @@ const GooglePlacesAutocomplete = ({
       onChange={(e) => setInputValue(e.target.value)}
       placeholder="Start typing your address..."
       className={className}
+      disabled={isLoading}
     />
   );
 };

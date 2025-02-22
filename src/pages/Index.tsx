@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
@@ -10,8 +11,15 @@ import PromoOffer from "@/components/PromoOffer";
 import BlogTeaser from "@/components/BlogTeaser";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
+import { ConsultationDialog } from "@/components/consultation/ConsultationDialog";
 
 const Index = () => {
+  const [showConsultation, setShowConsultation] = useState(false);
+
+  const handleScheduleConsultation = () => {
+    setShowConsultation(true);
+  };
+
   return (
     <main>
       <Navigation />
@@ -21,10 +29,15 @@ const Index = () => {
       <Gallery />
       <ProcessSteps />
       <Testimonials />
-      <PromoOffer />
+      <PromoOffer onScheduleConsultation={handleScheduleConsultation} />
       <BlogTeaser />
-      <FinalCTA />
+      <FinalCTA onScheduleConsultation={handleScheduleConsultation} />
       <Footer />
+
+      <ConsultationDialog 
+        open={showConsultation}
+        onOpenChange={setShowConsultation}
+      />
     </main>
   );
 };

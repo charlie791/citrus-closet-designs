@@ -30,12 +30,22 @@ const GooglePlacesAutocomplete = ({
 
   // Fetch the API key from Supabase
   useMemo(async () => {
-    const { data: { GOOGLE_MAPS_API_KEY } } = await supabase
-      .from('_secret')
-      .select('GOOGLE_MAPS_API_KEY')
-      .single();
-    if (GOOGLE_MAPS_API_KEY) {
-      setApiKey(GOOGLE_MAPS_API_KEY);
+    try {
+      const { data, error } = await supabase
+        .from('_secret')
+        .select('*')
+        .maybeSingle();
+        
+      if (error) {
+        console.error('Error fetching API key:', error);
+        return;
+      }
+      
+      if (data?.GOOGLE_MAPS_API_KEY) {
+        setApiKey(data.GOOGLE_MAPS_API_KEY);
+      }
+    } catch (error) {
+      console.error('Error fetching API key:', error);
     }
   }, []);
 

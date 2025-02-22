@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import GooglePlacesAutocomplete from "../GooglePlacesAutocomplete";
 import { toast } from "sonner";
 
@@ -19,45 +20,66 @@ interface AddressStepProps {
 }
 
 const AddressStep = ({ address, onBack, onNext }: AddressStepProps) => {
-  const [selectedAddress, setSelectedAddress] = useState(address);
+  const [selectedAddress, setSelectedAddress] = useState<AddressComponents | null>(null);
+  const [formattedAddress, setFormattedAddress] = useState(address);
   const [isAddressSelected, setIsAddressSelected] = useState(false);
 
-  const handlePlaceSelected = (addressComponents: AddressComponents) => {
-    const formattedAddress = [
-      addressComponents.street,
-      addressComponents.unit,
-      addressComponents.city,
-      addressComponents.state,
-      addressComponents.zipCode
-    ].filter(Boolean).join(", ");
-    
-    if (formattedAddress) {
-      setSelectedAddress(formattedAddress);
-      setIsAddressSelected(true);
-      toast.success("Address selected");
-    } else {
-      toast.error("Please select a valid address");
-    }
+  const handleAddressSelected = (address: AddressComponents) => {
+    setSelectedAddress(address);
+    const formattedAddr = `${address.street}${address.unit ? ` ${address.unit}` : ''}, ${address.city}, ${address.state} ${address.zipCode}`;
+    setFormattedAddress(formattedAddr);
+    setIsAddressSelected(true);
+    toast.success("Address selected");
   };
 
   const handleNext = () => {
-    if (!selectedAddress) {
-      toast.error("Please select an address first");
+    if (!selectedAddress || !formattedAddress) {
+      toast.error("Please select a valid address from the dropdown");
       return;
     }
-    onNext(selectedAddress);
+    onNext(formattedAddress);
   };
 
   return (
     <div className="p-6 md:p-10 text-white">
       <h2 className="text-3xl font-bold text-center mb-8">Service Address</h2>
       <div className="space-y-6">
-        <div>
-          <GooglePlacesAutocomplete
-            onPlaceSelected={handlePlaceSelected}
-            defaultValue={selectedAddress}
-            className="bg-white/5 border-white/10 text-white placeholder:text-white/50"
-          />
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="address" className="block text-sm font-medium text-white/90 mb-2">
+              Street Address
+            </label>
+            <GooglePlacesAutocomplete
+              onPlaceSelected={handleAddressSelected}
+              defaultValue={formattedAddress}
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/50"
+            />
+          </div>
+
+          {selectedAddress && (
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white/90 mb-2">
+                  City
+                </label>
+                <Input 
+                  value={selectedAddress.city}
+                  readOnly
+                  className="bg-white/5 border-white/10 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-white/90 mb-2">
+                  State
+                </label>
+                <Input 
+                  value={selectedAddress.state}
+                  readOnly
+                  className="bg-white/5 border-white/10 text-white"
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex gap-3 pt-4">

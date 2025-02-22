@@ -1,10 +1,7 @@
 
-import { useLoadScript } from "@react-google-maps/api";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
-
-const libraries = ["places"];
 
 interface Place {
   street: string;
@@ -27,157 +24,160 @@ const GooglePlacesAutocomplete = ({
 }: GooglePlacesAutocompleteProps) => {
   const [inputValue, setInputValue] = useState(defaultValue);
   const [apiKey, setApiKey] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
 
-  // Fetch API key first
+  // Fetch API key and load Google Maps script
   useEffect(() => {
-    const fetchApiKey = async () => {
+    const fetchApiKeyAndLoadScript = async () => {
       try {
-        const { data, error } = await supabase
+        const { data, error: fetchError } = await supabase
           .from('_secret')
           .select('google_maps_api_key')
           .single();
           
-        if (error) {
-          console.error('Error fetching API key:', error);
+        if (fetchError) {
+          console.error('Error fetching API key:', fetchError);
+          setError('Failed to load address lookup');
+          setIsLoading(false);
           return;
         }
         
-        if (data?.google_maps_api_key) {
-          console.log('API key found:', !!data.google_maps_api_key); // Just log if we have a key, not the key itself
-          setApiKey(data.google_maps_api_key);
+        if (!data?.google_maps_api_key) {
+          console.error('No API key found');
+          setError('Address lookup configuration missing');
+          setIsLoading(false);
+          return;
+        }
+
+        setApiKey(data.google_maps_api_key);
+        
+        // Load Google Maps script
+        if (!window.google) {
+          scriptRef.current = document.createElement('script');
+          scriptRef.current.src = `https://maps.googleapis.com/maps/api/js?key=${data.google_maps_api_key}&libraries=places`;
+          scriptRef.current.async = true;
+          scriptRef.current.defer = true;
+          
+          scriptRef.current.onload = () => {
+            console.log('Google Maps script loaded successfully');
+            setIsLoading(false);
+            initializeAutocomplete();
+          };
+          
+          scriptRef.current.onerror = () => {
+            console.error('Failed to load Google Maps script');
+            setError('Failed to load address lookup');
+            setIsLoading(false);
+          };
+          
+          document.head.appendChild(scriptRef.current);
         } else {
-          console.error('No API key found in database');
+          setIsLoading(false);
+          initializeAutocomplete();
         }
       } catch (error) {
-        console.error('Error fetching API key:', error);
+        console.error('Error in setup:', error);
+        setError('Failed to initialize address lookup');
+        setIsLoading(false);
       }
     };
 
-    fetchApiKey();
+    fetchApiKeyAndLoadScript();
+
+    return () => {
+      if (scriptRef.current && document.head.contains(scriptRef.current)) {
+        document.head.removeChild(scriptRef.current);
+      }
+    };
   }, []);
 
-  // Only load Google Maps script after we have the API key
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: apiKey || '', // Ensure we never pass undefined
-    libraries: libraries as any[],
-    version: "weekly"
-  });
-
-  const handlePlaceSelect = useCallback(() => {
-    if (!autocompleteRef.current) {
-      console.error('Autocomplete not initialized');
+  const initializeAutocomplete = useCallback(() => {
+    if (!inputRef.current || !window.google) {
+      console.log('Not ready to initialize autocomplete');
       return;
     }
 
-    const place = autocompleteRef.current.getPlace();
-    if (!place || !place.address_components) {
-      console.error('Invalid place selected:', place);
-      return;
-    }
-
-    let streetNumber = "";
-    let streetName = "";
-    let unit = "";
-    let city = "";
-    let state = "";
-    let zipCode = "";
-
-    place.address_components.forEach((component) => {
-      const types = component.types;
-
-      if (types.includes("street_number")) {
-        streetNumber = component.long_name;
-      }
-      if (types.includes("route")) {
-        streetName = component.long_name;
-      }
-      if (types.includes("subpremise")) {
-        unit = component.long_name;
-      }
-      if (types.includes("locality")) {
-        city = component.long_name;
-      }
-      if (types.includes("administrative_area_level_1")) {
-        state = component.short_name;
-      }
-      if (types.includes("postal_code")) {
-        zipCode = component.long_name;
-      }
-    });
-
-    const formattedPlace: Place = {
-      street: `${streetNumber} ${streetName}`.trim(),
-      unit,
-      city,
-      state,
-      zipCode,
-    };
-
-    console.log('Place selected:', formattedPlace);
-    onPlaceSelected(formattedPlace);
-  }, [onPlaceSelected]);
-
-  // Initialize autocomplete only after script is loaded and we have an input ref
-  useEffect(() => {
-    if (!isLoaded || !inputRef.current || !window.google) {
-      console.log('Not ready to initialize autocomplete:', {
-        isLoaded,
-        hasInputRef: !!inputRef.current,
-        hasGoogle: !!window.google
-      });
-      return;
-    }
-
-    console.log('Initializing autocomplete...');
     try {
       autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
         componentRestrictions: { country: "us" },
-        fields: ["address_components", "formatted_address", "geometry", "name"],
+        fields: ["address_components", "formatted_address"],
         types: ["address"]
       });
 
-      autocompleteRef.current.addListener("place_changed", handlePlaceSelect);
+      autocompleteRef.current.addListener("place_changed", () => {
+        if (!autocompleteRef.current) return;
+
+        const place = autocompleteRef.current.getPlace();
+        if (!place || !place.address_components) {
+          console.error('Invalid place selected:', place);
+          return;
+        }
+
+        let streetNumber = "";
+        let streetName = "";
+        let unit = "";
+        let city = "";
+        let state = "";
+        let zipCode = "";
+
+        place.address_components.forEach((component) => {
+          const types = component.types;
+
+          if (types.includes("street_number")) {
+            streetNumber = component.long_name;
+          }
+          if (types.includes("route")) {
+            streetName = component.long_name;
+          }
+          if (types.includes("subpremise")) {
+            unit = component.long_name;
+          }
+          if (types.includes("locality")) {
+            city = component.long_name;
+          }
+          if (types.includes("administrative_area_level_1")) {
+            state = component.short_name;
+          }
+          if (types.includes("postal_code")) {
+            zipCode = component.long_name;
+          }
+        });
+
+        const formattedPlace: Place = {
+          street: `${streetNumber} ${streetName}`.trim(),
+          unit,
+          city,
+          state,
+          zipCode,
+        };
+
+        setInputValue(place.formatted_address || "");
+        onPlaceSelected(formattedPlace);
+      });
 
       console.log('Autocomplete initialized successfully');
     } catch (error) {
       console.error('Error initializing autocomplete:', error);
+      setError('Failed to initialize address lookup');
     }
+  }, [onPlaceSelected]);
 
-    return () => {
-      if (autocompleteRef.current) {
-        google.maps.event.clearInstanceListeners(autocompleteRef.current);
-      }
-    };
-  }, [isLoaded, handlePlaceSelect]);
-
-  // Early return while loading API key
-  if (!apiKey) {
-    console.log('Waiting for API key...');
+  if (error) {
     return (
       <Input
         type="text"
-        placeholder="Loading address lookup..."
+        placeholder={error}
         className={className}
         disabled
       />
     );
   }
 
-  if (loadError) {
-    console.error("Error loading Google Maps:", loadError);
-    return (
-      <Input
-        type="text"
-        placeholder="Error loading address lookup"
-        className={className}
-        disabled
-      />
-    );
-  }
-
-  if (!isLoaded) {
+  if (isLoading) {
     return (
       <Input
         type="text"

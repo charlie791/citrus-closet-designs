@@ -1,7 +1,7 @@
 
 import { useLoadScript } from "@react-google-maps/api";
 import { Input } from "@/components/ui/input";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 const libraries = ["places"];
@@ -27,6 +27,8 @@ const GooglePlacesAutocomplete = ({
 }: GooglePlacesAutocompleteProps) => {
   const [inputValue, setInputValue] = useState(defaultValue);
   const [apiKey, setApiKey] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   useEffect(() => {
     const fetchApiKey = async () => {
@@ -61,9 +63,11 @@ const GooglePlacesAutocomplete = ({
     version: "weekly"
   });
 
-  const handlePlaceSelect = useCallback((place: google.maps.places.PlaceResult) => {
-    if (!place.address_components) {
-      console.error('No address components found in place result');
+  const handlePlaceSelect = useCallback(() => {
+    const place = autocompleteRef.current?.getPlace();
+    
+    if (!place || !place.address_components) {
+      console.error('No place or address components found');
       return;
     }
 
@@ -106,26 +110,31 @@ const GooglePlacesAutocomplete = ({
     };
 
     console.log('Selected place:', formattedPlace);
+    console.log('Full place object:', place);
     onPlaceSelected(formattedPlace);
   }, [onPlaceSelected]);
 
-  const initAutocomplete = useCallback((input: HTMLInputElement | null) => {
-    if (!input || !window.google) {
-      console.log('Input element or Google API not available');
+  // Initialize autocomplete when the script is loaded
+  useEffect(() => {
+    if (!isLoaded || !window.google || !inputRef.current) {
       return;
     }
 
-    const autocomplete = new window.google.maps.places.Autocomplete(input, {
+    console.log('Initializing autocomplete...');
+    autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
       componentRestrictions: { country: "us" },
-      fields: ["address_components", "formatted_address"],
+      fields: ["address_components", "formatted_address", "geometry", "name"],
       types: ["address"]
     });
 
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-      handlePlaceSelect(place);
-    });
-  }, [handlePlaceSelect]);
+    autocompleteRef.current.addListener("place_changed", handlePlaceSelect);
+
+    return () => {
+      if (autocompleteRef.current) {
+        google.maps.event.clearInstanceListeners(autocompleteRef.current);
+      }
+    };
+  }, [isLoaded, handlePlaceSelect]);
 
   if (loadError) {
     console.error("Error loading Google Maps:", loadError);
@@ -152,8 +161,8 @@ const GooglePlacesAutocomplete = ({
 
   return (
     <Input
+      ref={inputRef}
       type="text"
-      ref={initAutocomplete}
       value={inputValue}
       onChange={(e) => setInputValue(e.target.value)}
       placeholder="Start typing your address..."

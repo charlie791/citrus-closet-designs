@@ -35,15 +35,15 @@ const Hero = ({ onScheduleConsultation }: HeroProps) => {
 
         {/* Main Heading */}
         <h1 className="animate-fade-in opacity-0 [animation-delay:0.5s] text-4xl md:text-6xl font-bold text-citrus-charcoal mb-6 max-w-5xl mx-auto">
-          Central Florida's Premier{" "}
+          Custom Closets & Storage Solutions{" "}
           <span className="text-citrus-orange">
-            Custom<br />Closets
+            for Every Room
           </span>
         </h1>
 
         {/* Subheading */}
         <p className="animate-fade-in opacity-0 [animation-delay:0.7s] text-xl md:text-2xl text-citrus-charcoal/80 mb-12 max-w-4xl mx-auto leading-relaxed">
-          Experience the difference of a fresh, clean, and perfectly organized space with our expertly crafted custom closet solutions.
+          Transform clutter into calm with expertly designed storage for your closets, pantry, laundry, garage, and more. Smart, stylish, and built around your lifestyle—because every space deserves to be effortlessly organized.
         </p>
 
         {/* CTA Button - Now Centered */}

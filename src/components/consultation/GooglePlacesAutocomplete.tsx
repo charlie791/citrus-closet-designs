@@ -4,10 +4,11 @@ import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-// Extend Window interface to include our callback
+// Declare Google Maps types
 declare global {
   interface Window {
     initGoogle?: () => void;
+    google: typeof google;
   }
 }
 
@@ -101,7 +102,6 @@ const GooglePlacesAutocomplete = ({
   defaultValue = "",
   className,
 }: GooglePlacesAutocompleteProps) => {
-  const [inputValue, setInputValue] = useState(defaultValue);
   const [isLoading, setIsLoading] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -115,7 +115,6 @@ const GooglePlacesAutocomplete = ({
       scriptLoadAttempted.current = true;
 
       try {
-        // Get API key from Edge Function
         const { data, error } = await supabase.functions.invoke('get-google-maps-key');
         
         if (error || !data?.apiKey) {
@@ -129,29 +128,28 @@ const GooglePlacesAutocomplete = ({
         if (!mounted) return;
 
         if (inputRef.current && window.google?.maps?.places) {
-          try {
-            autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
-              componentRestrictions: { country: "us" },
-              fields: ["address_components", "formatted_address"],
-              types: ["address"]
-            });
+          autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
+            componentRestrictions: { country: "us" },
+            fields: ["address_components", "formatted_address"],
+            types: ["address"]
+          });
 
-            autocompleteRef.current.addListener("place_changed", () => {
-              const place = autocompleteRef.current?.getPlace();
-              
-              if (!place?.address_components) {
-                console.error('Invalid place selected:', place);
-                return;
-              }
-
-              const addressComponents = extractAddressComponents(place);
-              setInputValue(place.formatted_address || '');
-              onPlaceSelected(addressComponents);
-            });
-          } catch (error) {
-            console.error('Error initializing Autocomplete:', error);
-            toast.error('Failed to initialize address lookup');
+          // Set default value if provided
+          if (defaultValue && inputRef.current) {
+            inputRef.current.value = defaultValue;
           }
+
+          autocompleteRef.current.addListener("place_changed", () => {
+            const place = autocompleteRef.current?.getPlace();
+            
+            if (!place?.address_components) {
+              console.error('Invalid place selected:', place);
+              return;
+            }
+
+            const addressComponents = extractAddressComponents(place);
+            onPlaceSelected(addressComponents);
+          });
         }
       } catch (error) {
         console.error('Error setting up Google Places:', error);
@@ -171,14 +169,13 @@ const GooglePlacesAutocomplete = ({
         google.maps.event.clearInstanceListeners(autocompleteRef.current);
       }
     };
-  }, [onPlaceSelected]);
+  }, [onPlaceSelected, defaultValue]);
 
   return (
     <Input
       ref={inputRef}
       type="text"
-      value={inputValue}
-      onChange={(e) => setInputValue(e.target.value)}
+      defaultValue={defaultValue}
       placeholder="Start typing your address..."
       className={className}
       disabled={isLoading}

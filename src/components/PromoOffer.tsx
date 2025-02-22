@@ -2,7 +2,11 @@
 import { Calendar } from "lucide-react";
 import { Button } from "./ui/button";
 
-const PromoOffer = () => {
+interface PromoOfferProps {
+  onScheduleConsultation: () => void;
+}
+
+const PromoOffer = ({ onScheduleConsultation }: PromoOfferProps) => {
   return (
     <section className="py-16 bg-citrus-orange">
       <div className="container mx-auto px-4">
@@ -16,7 +20,11 @@ const PromoOffer = () => {
           <p className="text-citrus-charcoal/70 max-w-2xl mx-auto mb-8">
             Book your free consultation by the end of the month and receive 20% off your custom closet project. Plus, enjoy special financing options!
           </p>
-          <Button size="lg" className="bg-citrus-orange hover:bg-citrus-coral">
+          <Button 
+            size="lg" 
+            className="bg-citrus-orange hover:bg-citrus-coral"
+            onClick={onScheduleConsultation}
+          >
             <Calendar className="mr-2 h-5 w-5" />
             Schedule Your Free Consultation
           </Button>

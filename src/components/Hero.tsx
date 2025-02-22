@@ -1,9 +1,12 @@
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
-import { Link } from "react-router-dom";
 
-const Hero = () => {
+interface HeroProps {
+  onScheduleConsultation: () => void;
+}
+
+const Hero = ({ onScheduleConsultation }: HeroProps) => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Video Background with Overlay */}
@@ -46,14 +49,12 @@ const Hero = () => {
         {/* CTA Button - Now Centered */}
         <div className="animate-fade-in opacity-0 [animation-delay:0.9s] flex justify-center">
           <Button 
-            asChild
             size="lg" 
             className="bg-citrus-orange hover:bg-citrus-coral transition-colors text-lg px-8 py-6 rounded-full"
+            onClick={onScheduleConsultation}
           >
-            <Link to="/contact/consultation">
-              <Calendar className="mr-2 h-6 w-6" />
-              Schedule Free Consultation
-            </Link>
+            <Calendar className="mr-2 h-6 w-6" />
+            Schedule Free Consultation
           </Button>
         </div>
       </div>

@@ -5,14 +5,14 @@ import { format, addDays, isSameDay } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const timeSlots = [
-  { start: "9:00 AM", end: "10:00 AM" },
-  { start: "10:00 AM", end: "11:00 AM" },
-  { start: "11:00 AM", end: "12:00 PM" },
-  { start: "1:00 PM", end: "2:00 PM" },
-  { start: "2:00 PM", end: "3:00 PM" },
-  { start: "3:00 PM", end: "4:00 PM" },
-  { start: "4:00 PM", end: "5:00 PM" },
-  { start: "5:00 PM", end: "6:00 PM" },
+  { start: "9 AM", end: "10 AM" },
+  { start: "10 AM", end: "11 AM" },
+  { start: "11 AM", end: "12 PM" },
+  { start: "1 PM", end: "2 PM" },
+  { start: "2 PM", end: "3 PM" },
+  { start: "3 PM", end: "4 PM" },
+  { start: "4 PM", end: "5 PM" },
+  { start: "5 PM", end: "6 PM" },
 ];
 
 interface AppointmentStepProps {
@@ -98,12 +98,12 @@ const AppointmentStep = ({
           <h3 className="font-medium mb-4">
             Available Times for {format(date, "MMMM d, yyyy")}
           </h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2">
             {timeSlots.map((slot) => (
               <button
                 key={slot.start}
                 onClick={() => setTime(slot.start)}
-                className={`p-4 rounded-xl border text-center transition-all ${
+                className={`p-3 rounded-xl border text-center transition-all text-sm ${
                   time === slot.start
                     ? "border-citrus-orange bg-citrus-orange/10 text-citrus-orange"
                     : "border-white/10 hover:border-white/20"

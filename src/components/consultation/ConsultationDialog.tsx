@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
@@ -54,47 +54,53 @@ export const ConsultationDialog = ({
     },
   });
 
+  const handleStepChange = useCallback((step: number) => {
+    console.log("Changing to step:", step);
+    setCurrentStep(step);
+  }, []);
+
   const steps = [
     <ZipCodeStep
       key="zip"
       value={formData.zipCode}
       onNext={(zipCode) => {
         setFormData((prev) => ({ ...prev, zipCode }));
-        setCurrentStep(1);
+        handleStepChange(1);
       }}
     />,
     <ServiceSelectionStep
       key="services"
       selected={formData.services}
-      onBack={() => setCurrentStep(0)}
+      onBack={() => handleStepChange(0)}
       onNext={(services) => {
         setFormData((prev) => ({ ...prev, services }));
-        setCurrentStep(2);
+        handleStepChange(2);
       }}
     />,
     <AppointmentStep
       key="appointment"
       date={formData.appointmentDate}
       time={formData.appointmentTime}
-      onBack={() => setCurrentStep(1)}
+      onBack={() => handleStepChange(1)}
       onNext={(date, time) => {
         setFormData((prev) => ({ ...prev, appointmentDate: date, appointmentTime: time }));
-        setCurrentStep(3);
+        handleStepChange(3);
       }}
     />,
     <AddressStep
       key="address"
       address={formData.address}
-      onBack={() => setCurrentStep(2)}
+      onBack={() => handleStepChange(2)}
       onNext={(address) => {
+        console.log("Address step complete:", address);
         setFormData((prev) => ({ ...prev, address }));
-        setCurrentStep(4);
+        handleStepChange(4);
       }}
     />,
     <ContactStep
       key="contact"
       contact={formData.contact}
-      onBack={() => setCurrentStep(3)}
+      onBack={() => handleStepChange(3)}
       onSubmit={(contact) => {
         setFormData((prev) => ({ ...prev, contact }));
         console.log("Form submitted:", { ...formData, contact });

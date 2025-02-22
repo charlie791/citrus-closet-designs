@@ -1,7 +1,8 @@
 
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GooglePlacesAutocomplete from "../GooglePlacesAutocomplete";
+import { toast } from "sonner";
 
 interface AddressData {
   street: string;
@@ -19,11 +20,29 @@ interface AddressStepProps {
 
 const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepProps) => {
   const [address, setAddress] = useState<AddressData>(initialAddress);
+  const [isValid, setIsValid] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (address.street && address.city && address.state && address.zipCode) {
-      onNext(address);
+  useEffect(() => {
+    // Validate address whenever it changes
+    const hasRequiredFields = 
+      address.street && 
+      address.city && 
+      address.state && 
+      address.zipCode;
+    
+    setIsValid(hasRequiredFields);
+  }, [address]);
+
+  const handlePlaceSelected = (selectedAddress: AddressData) => {
+    console.log("Selected address:", selectedAddress);
+    setAddress(selectedAddress);
+    
+    // If address is valid, automatically proceed to next step
+    if (selectedAddress.street && selectedAddress.city && selectedAddress.state && selectedAddress.zipCode) {
+      onNext(selectedAddress);
+      toast.success("Address selected");
+    } else {
+      toast.error("Please select a valid address");
     }
   };
 
@@ -39,9 +58,14 @@ const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepPro
   return (
     <div className="p-6 md:p-10 text-white">
       <h2 className="text-3xl font-bold text-center mb-8">Service Address</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        if (isValid) {
+          onNext(address);
+        }
+      }} className="space-y-4">
         <GooglePlacesAutocomplete
-          onPlaceSelected={(addressComponents) => setAddress(addressComponents)}
+          onPlaceSelected={handlePlaceSelected}
           defaultValue={formatDisplayAddress(address)}
           className="bg-white/5 border-white/10 text-white placeholder:text-white/50"
         />
@@ -58,7 +82,7 @@ const AddressStep = ({ address: initialAddress, onBack, onNext }: AddressStepPro
           <Button
             type="submit"
             className="flex-1 bg-citrus-orange hover:bg-citrus-coral"
-            disabled={!address.street || !address.city || !address.state || !address.zipCode}
+            disabled={!isValid}
           >
             Continue
           </Button>

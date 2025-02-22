@@ -1,12 +1,12 @@
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
+import { useState } from "react";
+import { ConsultationDialog } from "./consultation/ConsultationDialog";
 
-interface HeroProps {
-  onScheduleConsultation: () => void;
-}
+const Hero = () => {
+  const [showConsultation, setShowConsultation] = useState(false);
 
-const Hero = ({ onScheduleConsultation }: HeroProps) => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Video Background with Overlay */}
@@ -42,14 +42,23 @@ const Hero = ({ onScheduleConsultation }: HeroProps) => {
           Transform clutter into calm with expertly designed storage for your closets, pantry, laundry, garage, and more. Smart, stylish, and built around your lifestyle.
         </p>
 
-        {/* CTA Button - Now Centered */}
+        {/* CTA Button */}
         <div className="animate-fade-in opacity-0 [animation-delay:0.9s] flex justify-center">
-          <Button size="lg" className="bg-citrus-orange hover:bg-citrus-coral transition-colors text-lg px-8 py-6 rounded-full" onClick={onScheduleConsultation}>
+          <Button 
+            size="lg" 
+            className="bg-citrus-orange hover:bg-citrus-coral transition-colors text-lg px-8 py-6 rounded-full"
+            onClick={() => setShowConsultation(true)}
+          >
             <Calendar className="mr-2 h-6 w-6" />
             Schedule Free Consultation
           </Button>
         </div>
       </div>
+
+      <ConsultationDialog 
+        open={showConsultation} 
+        onOpenChange={setShowConsultation}
+      />
     </div>
   );
 };

@@ -15,11 +15,7 @@ export type ConsultationFormData = {
   appointmentDate: Date | null;
   appointmentTime: string;
   address: {
-    street: string;
-    unit?: string;
-    city: string;
-    state: string;
-    zipCode: string;
+    fullAddress: string;
   };
   contact: {
     fullName: string;
@@ -42,11 +38,7 @@ export const ConsultationDialog = ({
     appointmentDate: null,
     appointmentTime: "",
     address: {
-      street: "",
-      unit: "",
-      city: "",
-      state: "",
-      zipCode: "",
+      fullAddress: "",
     },
     contact: {
       fullName: "",

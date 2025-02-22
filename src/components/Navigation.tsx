@@ -1,9 +1,7 @@
-
 import { useState, useEffect } from "react";
 import { Calendar, Menu, X, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "./consultation/ConsultationDialog";
-import logo from "@/assets/svg/logo.svg";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -29,7 +27,7 @@ const Navigation = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             <a href="/" className="text-2xl font-semibold text-citrus-charcoal">
-              <img src={logo} alt="Citrus Closets" className="h-8" />
+              <img src="/citrus-closets.svg" alt="Citrus Closets" className="h-8" />
             </a>
 
             {/* Desktop Navigation */}

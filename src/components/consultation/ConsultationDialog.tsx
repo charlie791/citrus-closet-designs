@@ -6,7 +6,6 @@ import { X } from "lucide-react";
 import ZipCodeStep from "./steps/ZipCodeStep";
 import ServiceSelectionStep from "./steps/ServiceSelectionStep";
 import AppointmentStep from "./steps/AppointmentStep";
-import AddressStep from "./steps/AddressStep";
 import ContactStep from "./steps/ContactStep";
 
 export type ConsultationFormData = {
@@ -14,13 +13,6 @@ export type ConsultationFormData = {
   services: string[];
   appointmentDate: Date | null;
   appointmentTime: string;
-  address: {
-    street: string;
-    unit?: string;
-    city: string;
-    state: string;
-    zipCode: string;
-  };
   contact: {
     fullName: string;
     phone: string;
@@ -41,12 +33,6 @@ export const ConsultationDialog = ({
     services: [],
     appointmentDate: null,
     appointmentTime: "",
-    address: {
-      street: "",
-      city: "",
-      state: "",
-      zipCode: "",
-    },
     contact: {
       fullName: "",
       phone: "",
@@ -87,20 +73,10 @@ export const ConsultationDialog = ({
         handleStepChange(3);
       }}
     />,
-    <AddressStep
-      key="address"
-      address={formData.address}
-      onBack={() => handleStepChange(2)}
-      onNext={(address) => {
-        console.log("Address step complete:", address);
-        setFormData((prev) => ({ ...prev, address }));
-        handleStepChange(4);
-      }}
-    />,
     <ContactStep
       key="contact"
       contact={formData.contact}
-      onBack={() => handleStepChange(3)}
+      onBack={() => handleStepChange(2)}
       onSubmit={(contact) => {
         setFormData((prev) => ({ ...prev, contact }));
         console.log("Form submitted:", { ...formData, contact });

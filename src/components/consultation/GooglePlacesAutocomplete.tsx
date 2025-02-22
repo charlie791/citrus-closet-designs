@@ -1,6 +1,7 @@
+
 import { useLoadScript } from "@react-google-maps/api";
 import { Input } from "@/components/ui/input";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 const libraries = ["places"];
@@ -21,7 +22,7 @@ interface GooglePlacesAutocompleteProps {
 
 interface SecretData {
   id: string;
-  GOOGLE_MAPS_API_KEY: string;
+  google_maps_api_key: string;
 }
 
 const GooglePlacesAutocomplete = ({
@@ -37,7 +38,7 @@ const GooglePlacesAutocomplete = ({
       try {
         const { data, error } = await supabase
           .from('_secret')
-          .select('id, GOOGLE_MAPS_API_KEY')
+          .select('id, google_maps_api_key')
           .single();
           
         if (error) {
@@ -45,9 +46,8 @@ const GooglePlacesAutocomplete = ({
           return;
         }
         
-        const secretData = data as SecretData;
-        if (secretData?.GOOGLE_MAPS_API_KEY) {
-          setApiKey(secretData.GOOGLE_MAPS_API_KEY);
+        if (data?.google_maps_api_key) {
+          setApiKey(data.google_maps_api_key);
         }
       } catch (error) {
         console.error('Error fetching API key:', error);

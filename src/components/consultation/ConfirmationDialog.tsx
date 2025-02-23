@@ -17,9 +17,9 @@ interface ConfirmationDialogProps {
   open: boolean;
   onClose: () => void;
   selectedServices: string[];
-  selectedDate: Date;
-  selectedTime: string;
-  serviceAddress: AddressComponents;
+  selectedDate: Date | null;
+  selectedTime: string | null;
+  serviceAddress: AddressComponents | null;
   contactInfo: {
     fullName: string;
     phone: string;
@@ -42,6 +42,10 @@ export function ConfirmationDialog({
   serviceAddress,
   contactInfo,
 }: ConfirmationDialogProps) {
+  if (!selectedDate || !selectedTime || !serviceAddress) {
+    return null;
+  }
+
   const formattedAddress = `${serviceAddress.street}${serviceAddress.unit ? ` ${serviceAddress.unit}` : ''}, ${serviceAddress.city}, ${serviceAddress.state} ${serviceAddress.zipCode}`;
   
   return (

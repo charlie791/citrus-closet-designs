@@ -17,24 +17,14 @@ const services: Service[] = [
     description: "Walk-in closets, reach-in closets, and wardrobe solutions",
   },
   {
-    id: "pantry-laundry",
-    title: "Pantry & Laundry",
-    description: "Organized storage for your kitchen and laundry spaces",
-  },
-  {
     id: "garage-storage",
     title: "Garage Storage",
     description: "Custom garage organization and storage systems",
   },
   {
-    id: "home-office",
-    title: "Home Office",
-    description: "Productive workspace solutions and organization",
-  },
-  {
-    id: "other-solutions",
-    title: "Other Solutions",
-    description: "Entertainment centers, murphy beds, and more",
+    id: "home-solutions",
+    title: "Home Solutions",
+    description: "Complete home organization including pantry, laundry, home office, entertainment centers, murphy beds, and more",
   },
 ];
 

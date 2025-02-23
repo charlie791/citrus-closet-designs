@@ -149,14 +149,14 @@ export function DateTimeSelection({
         </div>
       </div>
 
-      <div>
+      <div className="mt-8">
         <Button
-          className="w-full bg-citrus-orange hover:bg-citrus-coral text-white rounded-xl py-6 h-auto"
+          className="w-full bg-citrus-orange hover:bg-citrus-coral text-white rounded-xl py-6 h-auto text-base font-medium"
           disabled={!selectedDate || !selectedTime}
           onClick={onNext}
         >
           Continue
-          <ArrowRight className="h-4 w-4 ml-1" />
+          <ArrowRight className="h-5 w-5 ml-2" />
         </Button>
       </div>
     </div>

@@ -99,6 +99,7 @@ const GooglePlacesAutocomplete = ({
   className,
 }: GooglePlacesAutocompleteProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isSelecting, setIsSelecting] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const scriptLoadAttempted = useRef(false);
@@ -136,7 +137,6 @@ const GooglePlacesAutocomplete = ({
 
     const initializeAutocomplete = async () => {
       if (scriptLoadAttempted.current) {
-        console.log("Script load already attempted");
         return;
       }
       
@@ -152,16 +152,11 @@ const GooglePlacesAutocomplete = ({
 
         await loadGoogleMapsScript(data.apiKey);
 
-        if (!mounted) {
-          console.log("Component unmounted during initialization");
-          return;
-        }
+        if (!mounted) return;
 
         if (!inputRef.current || !window.google?.maps?.places) {
           throw new Error('Required dependencies not available');
         }
-
-        console.log("Creating new Autocomplete instance");
 
         if (autocompleteRef.current) {
           google.maps.event.clearInstanceListeners(autocompleteRef.current);
@@ -176,27 +171,30 @@ const GooglePlacesAutocomplete = ({
         autocompleteRef.current = autocomplete;
 
         autocomplete.addListener('place_changed', () => {
-          console.log("Place changed event triggered");
+          setIsSelecting(true);
           const place = autocomplete.getPlace();
           
           if (!place?.address_components) {
             console.warn('Invalid place selected:', place);
             toast.error('Please select a valid address from the dropdown');
+            setIsSelecting(false);
             return;
           }
 
           const addressComponents = extractAddressComponents(place);
-          console.log('Successfully extracted address:', addressComponents);
-
+          
           if (place.formatted_address && inputRef.current) {
             inputRef.current.value = place.formatted_address;
           }
 
           onPlaceSelected(addressComponents);
+          
+          setTimeout(() => {
+            setIsSelecting(false);
+          }, 100);
         });
 
         setIsLoading(false);
-        console.log("Autocomplete initialization complete");
 
       } catch (error) {
         console.error('Error in Google Places setup:', error);
@@ -210,7 +208,6 @@ const GooglePlacesAutocomplete = ({
     return () => {
       mounted = false;
       if (autocompleteRef.current) {
-        console.log("Cleaning up Autocomplete instance");
         google.maps.event.clearInstanceListeners(autocompleteRef.current);
       }
     };
@@ -219,7 +216,6 @@ const GooglePlacesAutocomplete = ({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      console.log('Prevented form submission on Enter key');
     }
   };
 
@@ -234,6 +230,7 @@ const GooglePlacesAutocomplete = ({
       onKeyDown={handleKeyDown}
       aria-label="Address autocomplete"
       data-loading={isLoading}
+      data-selecting={isSelecting}
     />
   );
 };

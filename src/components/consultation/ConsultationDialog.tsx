@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -64,6 +63,7 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
     address: "",
   });
   const [selectedAddress, setSelectedAddress] = React.useState<AddressComponents | null>(null);
+  const [isAddressSelecting, setIsAddressSelecting] = React.useState(false);
 
   const toggleService = (serviceId: string) => {
     setSelectedServices((current) =>
@@ -97,12 +97,22 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
   };
 
   const handleAddressSelected = (address: AddressComponents) => {
+    setIsAddressSelecting(true);
     setSelectedAddress(address);
     const formattedAddress = `${address.street}${address.unit ? ` ${address.unit}` : ''}, ${address.city}, ${address.state} ${address.zipCode}`;
     setFormData((prev) => ({
       ...prev,
       address: formattedAddress,
     }));
+    setTimeout(() => {
+      setIsAddressSelecting(false);
+    }, 100);
+  };
+
+  const handleOpenChange = (open: boolean) => {
+    if (!isAddressSelecting) {
+      onOpenChange(open);
+    }
   };
 
   const handleNext = () => {
@@ -259,7 +269,7 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
   );
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-2xl p-0 overflow-hidden">
         <div className="p-6 bg-white">
           {step === 'services' ? renderServiceSelection() : renderContactForm()}

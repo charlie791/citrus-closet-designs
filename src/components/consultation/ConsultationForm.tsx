@@ -3,15 +3,6 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft } from "lucide-react";
-import GooglePlacesAutocomplete from "@/components/common/GooglePlacesAutocomplete";
-
-interface AddressComponents {
-  street: string;
-  unit?: string;
-  city: string;
-  state: string;
-  zipCode: string;
-}
 
 interface ConsultationFormProps {
   formData: {
@@ -22,7 +13,6 @@ interface ConsultationFormProps {
   };
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPhoneChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onAddressSelected: (address: AddressComponents) => void;
   onBack: () => void;
   onSubmit: () => void;
 }
@@ -31,7 +21,6 @@ export function ConsultationForm({
   formData,
   onInputChange,
   onPhoneChange,
-  onAddressSelected,
   onBack,
   onSubmit
 }: ConsultationFormProps) {
@@ -78,16 +67,6 @@ export function ConsultationForm({
             className="consultation-input w-full"
             placeholder="Email Address"
           />
-        </div>
-
-        <div>
-          <div className="relative">
-            <GooglePlacesAutocomplete
-              onPlaceSelected={onAddressSelected}
-              defaultValue={formData.address}
-              className="consultation-input w-full"
-            />
-          </div>
         </div>
       </div>
 

@@ -60,7 +60,17 @@
   }
 
   .consultation-input {
-    @apply h-14 bg-white/5 border-white/10 text-white placeholder:text-white/70 focus:border-citrus-orange focus:ring-citrus-orange/20;
+    @apply h-14 
+      bg-white/15 
+      border-white/20 
+      text-white 
+      placeholder:text-white/70 
+      focus:border-citrus-orange 
+      focus:ring-citrus-orange/20 
+      focus:bg-white/20
+      hover:border-white/30
+      transition-colors
+      duration-200;
   }
 }
 

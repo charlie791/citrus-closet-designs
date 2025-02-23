@@ -104,10 +104,6 @@ export function ServiceSelection({
         ))}
       </div>
 
-      <p className="text-sm text-white/70 text-center mb-4">
-        Please select at least one area
-      </p>
-
       <Button
         className="w-full py-2 bg-citrus-orange hover:bg-citrus-coral text-white"
         disabled={selectedServices.length === 0}

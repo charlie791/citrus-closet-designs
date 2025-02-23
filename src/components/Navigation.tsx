@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { Menu, X, MapPin } from "lucide-react";
+import { Menu, X, MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Navigation = () => {
@@ -74,10 +74,11 @@ const Navigation = () => {
             </div>
 
             <Button 
-              className="bg-citrus-orange hover:bg-citrus-coral transition-all duration-200 px-6 py-2.5 h-auto text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5"
+              className="bg-citrus-orange hover:bg-citrus-coral transition-all duration-200 px-6 py-2.5 h-auto text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5 rounded-full flex items-center gap-2"
               onClick={() => window.location.href = '/contact'}
             >
-              Contact Us
+              <Calendar className="h-4 w-4" />
+              Schedule Free Consultation
             </Button>
           </div>
 
@@ -113,10 +114,11 @@ const Navigation = () => {
               </div>
 
               <Button 
-                className="w-full bg-citrus-orange hover:bg-citrus-coral transition-all duration-200 px-6 py-2.5 h-auto text-sm shadow-md hover:shadow-lg"
+                className="w-full bg-citrus-orange hover:bg-citrus-coral transition-all duration-200 px-6 py-3 h-auto text-sm shadow-md hover:shadow-lg rounded-full flex items-center justify-center gap-2"
                 onClick={() => window.location.href = '/contact'}
               >
-                Contact Us
+                <Calendar className="h-4 w-4" />
+                Schedule Free Consultation
               </Button>
             </div>
           </div>

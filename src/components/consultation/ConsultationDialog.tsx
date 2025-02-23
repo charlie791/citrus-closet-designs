@@ -5,6 +5,8 @@ import { ServiceSelection } from "./ServiceSelection";
 import { DateTimeSelection } from "./DateTimeSelection";
 import { ServiceAddressForm } from "./ServiceAddressForm";
 import { ConsultationForm } from "./ConsultationForm";
+import { ConfirmationDialog } from "./ConfirmationDialog";
+import { toast } from "sonner";
 
 interface AddressComponents {
   street: string;
@@ -35,7 +37,24 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
   const [selectedContactAddress, setSelectedContactAddress] = React.useState<AddressComponents | null>(null);
   const [isPending, startTransition] = React.useTransition();
   const [isAddressSelecting, setIsAddressSelecting] = React.useState(false);
+  const [showConfirmation, setShowConfirmation] = React.useState(false);
   const dialogRef = React.useRef<HTMLDivElement>(null);
+
+  const resetForm = () => {
+    setStep('services');
+    setSelectedServices([]);
+    setSelectedDate(null);
+    setSelectedTime(null);
+    setServiceAddress("");
+    setSelectedServiceAddress(null);
+    setFormData({
+      fullName: "",
+      phone: "",
+      email: "",
+      address: "",
+    });
+    setSelectedContactAddress(null);
+  };
 
   const toggleService = (serviceId: string) => {
     setSelectedServices((current) =>
@@ -97,70 +116,96 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
 
   const handleOpenChange = (open: boolean) => {
     if (!isAddressSelecting && !isPending) {
+      if (!open) {
+        resetForm();
+      }
       onOpenChange(open);
     }
   };
 
   const handleSubmitForm = () => {
-    console.log("Form submitted:", { 
-      selectedServices, 
-      selectedDate, 
-      selectedTime,
-      serviceAddress: selectedServiceAddress,
-      contactInfo: {
-        ...formData,
-        address: selectedContactAddress
-      }
-    });
+    if (!selectedServiceAddress) {
+      toast.error("Please select a valid service address");
+      return;
+    }
+
+    if (!selectedDate || !selectedTime) {
+      toast.error("Please select a valid date and time");
+      return;
+    }
+
+    setShowConfirmation(true);
+    onOpenChange(false);
+  };
+
+  const handleConfirmationClose = () => {
+    setShowConfirmation(false);
+    resetForm();
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent 
-        ref={dialogRef}
-        className="max-w-lg p-0 overflow-hidden dark-consultation glass-effect"
-        onPointerDownOutside={(e) => {
-          const target = e.target as HTMLElement;
-          if (target.closest('.pac-container')) {
-            e.preventDefault();
-          }
+    <>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
+        <DialogContent 
+          ref={dialogRef}
+          className="max-w-lg p-0 overflow-hidden dark-consultation glass-effect"
+          onPointerDownOutside={(e) => {
+            const target = e.target as HTMLElement;
+            if (target.closest('.pac-container')) {
+              e.preventDefault();
+            }
+          }}
+        >
+          <div className="p-4">
+            {step === 'services' ? (
+              <ServiceSelection
+                selectedServices={selectedServices}
+                onToggleService={toggleService}
+                onNext={() => setStep('datetime')}
+                onCancel={() => onOpenChange(false)}
+              />
+            ) : step === 'datetime' ? (
+              <DateTimeSelection
+                selectedDate={selectedDate}
+                selectedTime={selectedTime}
+                onDateSelect={setSelectedDate}
+                onTimeSelect={setSelectedTime}
+                onBack={() => setStep('services')}
+                onNext={() => setStep('service-address')}
+              />
+            ) : step === 'service-address' ? (
+              <ServiceAddressForm
+                address={serviceAddress}
+                onAddressSelected={handleServiceAddressSelected}
+                onBack={() => setStep('datetime')}
+                onNext={() => setStep('contact')}
+              />
+            ) : (
+              <ConsultationForm
+                formData={formData}
+                onInputChange={handleInputChange}
+                onPhoneChange={handlePhoneChange}
+                onBack={() => setStep('service-address')}
+                onSubmit={handleSubmitForm}
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <ConfirmationDialog
+        open={showConfirmation}
+        onClose={handleConfirmationClose}
+        selectedServices={selectedServices}
+        selectedDate={selectedDate!}
+        selectedTime={selectedTime!}
+        serviceAddress={selectedServiceAddress!}
+        contactInfo={{
+          fullName: formData.fullName,
+          phone: formData.phone,
+          email: formData.email,
         }}
-      >
-        <div className="p-4">
-          {step === 'services' ? (
-            <ServiceSelection
-              selectedServices={selectedServices}
-              onToggleService={toggleService}
-              onNext={() => setStep('datetime')}
-              onCancel={() => onOpenChange(false)}
-            />
-          ) : step === 'datetime' ? (
-            <DateTimeSelection
-              selectedDate={selectedDate}
-              selectedTime={selectedTime}
-              onDateSelect={setSelectedDate}
-              onTimeSelect={setSelectedTime}
-              onBack={() => setStep('services')}
-              onNext={() => setStep('service-address')}
-            />
-          ) : step === 'service-address' ? (
-            <ServiceAddressForm
-              address={serviceAddress}
-              onAddressSelected={handleServiceAddressSelected}
-              onBack={() => setStep('datetime')}
-              onNext={() => setStep('contact')}
-            />
-          ) : (
-            <ConsultationForm
-              formData={formData}
-              onInputChange={handleInputChange}
-              onPhoneChange={handlePhoneChange}
-              onBack={() => setStep('service-address')}
-              onSubmit={handleSubmitForm}
-            />
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
+      />
+    </>
   );
 }

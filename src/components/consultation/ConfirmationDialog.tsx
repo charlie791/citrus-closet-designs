@@ -50,42 +50,42 @@ export function ConfirmationDialog({
   
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg p-6 dark-consultation glass-effect">
-        <div className="text-center mb-8">
-          <div className="mx-auto w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mb-4">
-            <Check className="h-8 w-8 text-green-400" />
+      <DialogContent className="max-w-lg p-4 md:p-6 dark-consultation glass-effect max-h-[90vh] overflow-y-auto">
+        <div className="text-center mb-6 md:mb-8">
+          <div className="mx-auto w-12 h-12 md:w-16 md:h-16 rounded-full bg-green-500/20 flex items-center justify-center mb-4">
+            <Check className="h-6 w-6 md:h-8 md:w-8 text-green-400" />
           </div>
-          <h2 className="text-2xl font-semibold text-white mb-2">
+          <h2 className="text-xl md:text-2xl font-semibold text-white mb-2">
             You have been scheduled!
           </h2>
-          <p className="text-white/70">
+          <p className="text-xs md:text-sm text-white/70">
             We're looking forward to helping you get organized.
           </p>
         </div>
 
-        <div className="space-y-6 mb-8">
+        <div className="space-y-4 md:space-y-6 mb-6 md:mb-8">
           <div>
-            <h3 className="text-sm font-medium text-white/50 mb-1">Selected Services</h3>
-            <p className="text-white">
+            <h3 className="text-xs md:text-sm font-medium text-white/50 mb-1">Selected Services</h3>
+            <p className="text-sm md:text-base text-white">
               {selectedServices.map(id => serviceNames[id]).join(", ")}
             </p>
           </div>
 
           <div>
-            <h3 className="text-sm font-medium text-white/50 mb-1">Service Location</h3>
-            <p className="text-white">{formattedAddress}</p>
+            <h3 className="text-xs md:text-sm font-medium text-white/50 mb-1">Service Location</h3>
+            <p className="text-sm md:text-base text-white">{formattedAddress}</p>
           </div>
 
           <div>
-            <h3 className="text-sm font-medium text-white/50 mb-1">Appointment Time</h3>
-            <p className="text-white">
+            <h3 className="text-xs md:text-sm font-medium text-white/50 mb-1">Appointment Time</h3>
+            <p className="text-sm md:text-base text-white">
               {format(selectedDate, "MMMM d, yyyy")} at {selectedTime}
             </p>
           </div>
 
           <div>
-            <h3 className="text-sm font-medium text-white/50 mb-1">Contact Information</h3>
-            <div className="text-white space-y-1">
+            <h3 className="text-xs md:text-sm font-medium text-white/50 mb-1">Contact Information</h3>
+            <div className="text-sm md:text-base text-white space-y-1">
               <p>{contactInfo.fullName}</p>
               <p>{contactInfo.phone}</p>
               <p>{contactInfo.email}</p>
@@ -94,12 +94,12 @@ export function ConfirmationDialog({
         </div>
 
         <div className="text-center">
-          <p className="text-white/70 mb-6">
+          <p className="text-xs md:text-sm text-white/70 mb-4 md:mb-6">
             Thank you for choosing Citrus Closets!
           </p>
           <Button 
             onClick={onClose}
-            className="bg-citrus-orange hover:bg-citrus-coral text-white rounded-xl py-6 h-auto text-base font-medium px-8"
+            className="w-full md:w-auto bg-citrus-orange hover:bg-citrus-coral text-white rounded-xl py-4 md:py-6 h-auto text-sm md:text-base font-medium px-6 md:px-8 touch-manipulation"
           >
             Close
           </Button>

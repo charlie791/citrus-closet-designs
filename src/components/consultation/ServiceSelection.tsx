@@ -16,16 +16,19 @@ const services: Service[] = [
     id: "custom-closets",
     title: "Custom Closets",
     description: "Transform your closet space with custom organization",
+    image: "/lovable-uploads/534d080f-8704-4057-be6e-2b8ddc5a5803.png"
   },
   {
     id: "garage-storage",
     title: "Garage Storage",
     description: "Maximize your garage space with smart storage solutions",
+    image: "/lovable-uploads/d43e797e-cf6f-49a7-a441-6d661fefbe40.png"
   },
   {
     id: "home-solutions",
     title: "Home Solutions",
     description: "Complete home organization including pantry, laundry, home office, entertainment centers, murphy beds, and more",
+    image: "/lovable-uploads/534d080f-8704-4057-be6e-2b8ddc5a5803.png"
   },
 ];
 
@@ -43,75 +46,86 @@ export function ServiceSelection({
   onCancel 
 }: ServiceSelectionProps) {
   return (
-    <div className="relative">
+    <div className="max-w-md mx-auto">
       <button 
         onClick={onCancel}
-        className="absolute right-0 top-0 p-2 text-white/70 hover:text-white transition-colors"
+        className="absolute right-2 top-2 p-1.5 text-white/70 hover:text-white transition-colors"
       >
-        <X className="h-6 w-6" />
+        <X className="h-5 w-5" />
       </button>
       
-      <div className="mb-12 text-center">
-        <h1 className="text-4xl font-semibold text-white mb-4">
+      <div className="mb-6 text-center">
+        <h2 className="text-2xl font-semibold text-white mb-2">
           Our Organization Solutions
-        </h1>
-        <p className="text-xl text-white/70">
+        </h2>
+        <p className="text-sm text-white/70">
           What areas can we help you with?
         </p>
       </div>
 
-      <div className="space-y-4 mb-12">
+      <div className="space-y-3 mb-6">
         {services.map((service) => (
           <button
             key={service.id}
             onClick={() => onToggleService(service.id)}
             className={cn(
-              "w-full flex items-center p-6 rounded-2xl border-2 text-left transition-all duration-200",
+              "w-full flex items-center p-3 rounded-xl border text-left transition-all duration-200",
               selectedServices.includes(service.id)
                 ? "border-citrus-orange bg-citrus-orange/5"
                 : "border-white/10 hover:border-white/20 bg-white/5"
             )}
           >
-            <div 
-              className={cn(
-                "w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-200 mr-6",
-                selectedServices.includes(service.id)
-                  ? "border-citrus-orange"
-                  : "border-white/30"
-              )}
-            >
-              {selectedServices.includes(service.id) && (
-                <div className="w-3 h-3 rounded-full bg-citrus-orange" />
-              )}
+            <div className="flex-1 min-w-0 mr-3">
+              <h3 className="text-base font-medium text-white truncate">{service.title}</h3>
+              <p className="text-sm text-white/70 line-clamp-2">{service.description}</p>
             </div>
-            <div className="flex-1">
-              <h3 className="text-xl font-medium text-white mb-1">{service.title}</h3>
-              <p className="text-white/70">{service.description}</p>
+            <div className="flex items-center gap-3">
+              {service.image && (
+                <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              <div 
+                className={cn(
+                  "w-5 h-5 rounded-full border flex-shrink-0 flex items-center justify-center transition-all duration-200",
+                  selectedServices.includes(service.id)
+                    ? "border-citrus-orange"
+                    : "border-white/30"
+                )}
+              >
+                {selectedServices.includes(service.id) && (
+                  <div className="w-2.5 h-2.5 rounded-full bg-citrus-orange" />
+                )}
+              </div>
             </div>
           </button>
         ))}
       </div>
 
-      <p className="text-white/70 text-center mb-8">
+      <p className="text-sm text-white/70 text-center mb-4">
         Please select at least one area
       </p>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3">
         <Button
           variant="outline"
           onClick={onCancel}
-          className="py-6 text-lg border-white/10 text-white hover:bg-white/5"
+          className="py-2 border-white/10 text-white hover:bg-white/5"
         >
-          <ChevronLeft className="mr-2 h-5 w-5" />
+          <ChevronLeft className="h-4 w-4 mr-1" />
           Back
         </Button>
         <Button
-          className="py-6 text-lg bg-citrus-orange hover:bg-citrus-coral text-white"
+          className="py-2 bg-citrus-orange hover:bg-citrus-coral text-white"
           disabled={selectedServices.length === 0}
           onClick={onNext}
         >
           Continue
-          <ArrowRight className="ml-2 h-5 w-5" />
+          <ArrowRight className="h-4 w-4 ml-1" />
         </Button>
       </div>
     </div>

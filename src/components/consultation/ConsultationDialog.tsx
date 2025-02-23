@@ -2,6 +2,7 @@
 import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ServiceSelection } from "./ServiceSelection";
+import { DateTimeSelection } from "./DateTimeSelection";
 import { ConsultationForm } from "./ConsultationForm";
 
 interface AddressComponents {
@@ -18,8 +19,10 @@ interface ConsultationDialogProps {
 }
 
 export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogProps) {
-  const [step, setStep] = React.useState<'services' | 'contact'>('services');
+  const [step, setStep] = React.useState<'services' | 'datetime' | 'contact'>('services');
   const [selectedServices, setSelectedServices] = React.useState<string[]>([]);
+  const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = React.useState<string | null>(null);
   const [formData, setFormData] = React.useState({
     fullName: "",
     phone: "",
@@ -84,7 +87,13 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
   };
 
   const handleSubmitForm = () => {
-    console.log("Form submitted:", { selectedServices, formData, selectedAddress });
+    console.log("Form submitted:", { 
+      selectedServices, 
+      selectedDate, 
+      selectedTime, 
+      formData, 
+      selectedAddress 
+    });
   };
 
   return (
@@ -104,8 +113,17 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
             <ServiceSelection
               selectedServices={selectedServices}
               onToggleService={toggleService}
-              onNext={() => setStep('contact')}
+              onNext={() => setStep('datetime')}
               onCancel={() => onOpenChange(false)}
+            />
+          ) : step === 'datetime' ? (
+            <DateTimeSelection
+              selectedDate={selectedDate}
+              selectedTime={selectedTime}
+              onDateSelect={setSelectedDate}
+              onTimeSelect={setSelectedTime}
+              onBack={() => setStep('services')}
+              onNext={() => setStep('contact')}
             />
           ) : (
             <ConsultationForm
@@ -113,7 +131,7 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
               onInputChange={handleInputChange}
               onPhoneChange={handlePhoneChange}
               onAddressSelected={handleAddressSelected}
-              onBack={() => setStep('services')}
+              onBack={() => setStep('datetime')}
               onSubmit={handleSubmitForm}
             />
           )}

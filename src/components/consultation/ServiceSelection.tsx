@@ -1,7 +1,7 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { Check, ArrowRight, X, ChevronLeft } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Service {
@@ -108,24 +108,14 @@ export function ServiceSelection({
         Please select at least one area
       </p>
 
-      <div className="grid grid-cols-2 gap-3">
-        <Button
-          variant="outline"
-          onClick={onCancel}
-          className="py-2 border-white/10 text-white hover:bg-white/5"
-        >
-          <ChevronLeft className="h-4 w-4 mr-1" />
-          Back
-        </Button>
-        <Button
-          className="py-2 bg-citrus-orange hover:bg-citrus-coral text-white"
-          disabled={selectedServices.length === 0}
-          onClick={onNext}
-        >
-          Continue
-          <ArrowRight className="h-4 w-4 ml-1" />
-        </Button>
-      </div>
+      <Button
+        className="w-full py-2 bg-citrus-orange hover:bg-citrus-coral text-white"
+        disabled={selectedServices.length === 0}
+        onClick={onNext}
+      >
+        Continue
+        <ArrowRight className="h-4 w-4 ml-1" />
+      </Button>
     </div>
   );
 }

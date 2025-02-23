@@ -46,7 +46,7 @@ export function ServiceSelection({
   onCancel 
 }: ServiceSelectionProps) {
   return (
-    <div className="max-w-md mx-auto">
+    <div className="w-full">
       <button 
         onClick={onCancel}
         className="absolute right-2 top-2 p-1.5 text-white/70 hover:text-white transition-colors"
@@ -105,12 +105,12 @@ export function ServiceSelection({
       </div>
 
       <Button
-        className="w-full py-2 bg-citrus-orange hover:bg-citrus-coral text-white"
+        className="w-full bg-citrus-orange hover:bg-citrus-coral text-white rounded-xl py-6 h-auto text-base font-medium"
         disabled={selectedServices.length === 0}
         onClick={onNext}
       >
         Continue
-        <ArrowRight className="h-4 w-4 ml-1" />
+        <ArrowRight className="h-5 w-5 ml-2" />
       </Button>
     </div>
   );

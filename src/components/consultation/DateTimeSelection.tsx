@@ -149,9 +149,17 @@ export function DateTimeSelection({
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8 flex gap-3">
         <Button
-          className="w-full bg-citrus-orange hover:bg-citrus-coral text-white rounded-xl py-6 h-auto text-base font-medium"
+          variant="outline"
+          onClick={onBack}
+          className="flex-1 border-white/10 text-white hover:bg-white/5 rounded-xl py-6 h-auto text-base font-medium"
+        >
+          <ArrowLeft className="h-5 w-5 mr-2" />
+          Back
+        </Button>
+        <Button
+          className="flex-1 bg-citrus-orange hover:bg-citrus-coral text-white rounded-xl py-6 h-auto text-base font-medium"
           disabled={!selectedDate || !selectedTime}
           onClick={onNext}
         >

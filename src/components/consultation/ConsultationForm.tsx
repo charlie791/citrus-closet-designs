@@ -2,6 +2,7 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ArrowLeft } from "lucide-react";
 import GooglePlacesAutocomplete from "@/components/common/GooglePlacesAutocomplete";
 
 interface AddressComponents {
@@ -90,16 +91,17 @@ export function ConsultationForm({
         </div>
       </div>
 
-      <div className="mt-8 flex justify-end gap-3">
+      <div className="mt-8 flex gap-3">
         <Button
           variant="outline"
           onClick={onBack}
-          className="border-white/10 text-white hover:bg-white/5"
+          className="flex-1 border-white/10 text-white hover:bg-white/5 rounded-xl py-6 h-auto text-base font-medium"
         >
+          <ArrowLeft className="h-5 w-5 mr-2" />
           Back
         </Button>
         <Button
-          className="bg-citrus-orange hover:bg-citrus-coral text-white"
+          className="flex-1 bg-citrus-orange hover:bg-citrus-coral text-white rounded-xl py-6 h-auto text-base font-medium"
           onClick={onSubmit}
         >
           Schedule Consultation

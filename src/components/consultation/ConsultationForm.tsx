@@ -27,10 +27,10 @@ export function ConsultationForm({
   return (
     <>
       <h2 className="text-2xl font-semibold text-white mb-2">
-        Contact Information
+        Almost Done!
       </h2>
       <p className="text-white/70 mb-6">
-        Please provide your details so we can get in touch with you.
+        Enter your contact info to finalize your appointment.
       </p>
 
       <div className="space-y-6">

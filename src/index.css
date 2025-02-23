@@ -61,15 +61,17 @@
 
   .consultation-input {
     @apply h-14 
-      bg-white/15 
+      bg-white/20 
       border-white/20 
       text-white 
+      shadow-sm
+      shadow-white/5
       placeholder:text-white/70 
       focus:border-citrus-orange 
       focus:ring-citrus-orange/20 
-      focus:bg-white/20
-      hover:border-white/30
-      transition-colors
+      focus:bg-white/25
+      hover:border-white/40
+      transition-all
       duration-200;
   }
 }

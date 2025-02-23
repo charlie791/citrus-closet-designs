@@ -60,7 +60,33 @@
   }
 
   .consultation-input {
-    @apply h-14 bg-white/5 border-white/10 text-white placeholder:text-white/70 focus:border-citrus-orange focus:ring-citrus-orange/20;
+    @apply h-14 
+      bg-white/10 
+      border-white/20 
+      text-white 
+      placeholder:text-white/50
+      shadow-sm
+      shadow-black/10
+      transition-all
+      duration-200
+      hover:border-white/30
+      focus:border-citrus-orange 
+      focus:ring-citrus-orange/20
+      focus:bg-white/15
+      focus:shadow-lg
+      pl-11;
+  }
+
+  .input-container {
+    @apply relative flex flex-col gap-1.5;
+  }
+
+  .input-label {
+    @apply text-sm font-medium text-white/80 pl-1;
+  }
+
+  .input-icon {
+    @apply absolute left-3 top-1/2 -translate-y-1/2 text-white/50;
   }
 }
 

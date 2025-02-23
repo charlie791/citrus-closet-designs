@@ -99,7 +99,6 @@ const GooglePlacesAutocomplete = ({
   className,
 }: GooglePlacesAutocompleteProps) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [isSelecting, setIsSelecting] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const scriptLoadAttempted = useRef(false);
@@ -109,7 +108,7 @@ const GooglePlacesAutocomplete = ({
     style.textContent = `
       .pac-container {
         z-index: 99999 !important;
-        position: absolute !important;
+        position: fixed !important;
         background-color: white;
         border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 0.375rem;
@@ -171,13 +170,11 @@ const GooglePlacesAutocomplete = ({
         autocompleteRef.current = autocomplete;
 
         autocomplete.addListener('place_changed', () => {
-          setIsSelecting(true);
           const place = autocomplete.getPlace();
           
           if (!place?.address_components) {
             console.warn('Invalid place selected:', place);
             toast.error('Please select a valid address from the dropdown');
-            setIsSelecting(false);
             return;
           }
 
@@ -188,10 +185,6 @@ const GooglePlacesAutocomplete = ({
           }
 
           onPlaceSelected(addressComponents);
-          
-          setTimeout(() => {
-            setIsSelecting(false);
-          }, 100);
         });
 
         setIsLoading(false);
@@ -230,7 +223,6 @@ const GooglePlacesAutocomplete = ({
       onKeyDown={handleKeyDown}
       aria-label="Address autocomplete"
       data-loading={isLoading}
-      data-selecting={isSelecting}
     />
   );
 };

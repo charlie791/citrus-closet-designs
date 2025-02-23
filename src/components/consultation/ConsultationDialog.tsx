@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -63,7 +64,9 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
     address: "",
   });
   const [selectedAddress, setSelectedAddress] = React.useState<AddressComponents | null>(null);
+  const [isPending, startTransition] = React.useTransition();
   const [isAddressSelecting, setIsAddressSelecting] = React.useState(false);
+  const dialogRef = React.useRef<HTMLDivElement>(null);
 
   const toggleService = (serviceId: string) => {
     setSelectedServices((current) =>
@@ -98,19 +101,22 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
 
   const handleAddressSelected = (address: AddressComponents) => {
     setIsAddressSelecting(true);
-    setSelectedAddress(address);
-    const formattedAddress = `${address.street}${address.unit ? ` ${address.unit}` : ''}, ${address.city}, ${address.state} ${address.zipCode}`;
-    setFormData((prev) => ({
-      ...prev,
-      address: formattedAddress,
-    }));
-    setTimeout(() => {
-      setIsAddressSelecting(false);
-    }, 100);
+    startTransition(() => {
+      setSelectedAddress(address);
+      const formattedAddress = `${address.street}${address.unit ? ` ${address.unit}` : ''}, ${address.city}, ${address.state} ${address.zipCode}`;
+      setFormData((prev) => ({
+        ...prev,
+        address: formattedAddress,
+      }));
+      // Delay resetting the selection state to ensure proper state updates
+      setTimeout(() => {
+        setIsAddressSelecting(false);
+      }, 150);
+    });
   };
 
   const handleOpenChange = (open: boolean) => {
-    if (!isAddressSelecting) {
+    if (!isAddressSelecting && !isPending) {
       onOpenChange(open);
     }
   };
@@ -241,11 +247,13 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
           <label htmlFor="address" className="block text-sm font-medium text-citrus-charcoal mb-1">
             Street Address
           </label>
-          <GooglePlacesAutocomplete
-            onPlaceSelected={handleAddressSelected}
-            defaultValue={formData.address}
-            className="w-full"
-          />
+          <div className="relative">
+            <GooglePlacesAutocomplete
+              onPlaceSelected={handleAddressSelected}
+              defaultValue={formData.address}
+              className="w-full"
+            />
+          </div>
         </div>
       </div>
 
@@ -270,7 +278,17 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-w-2xl p-0 overflow-hidden">
+      <DialogContent 
+        ref={dialogRef}
+        className="max-w-2xl p-0 overflow-hidden"
+        onPointerDownOutside={(e) => {
+          // Prevent closing if clicking on Google Places dropdown
+          const target = e.target as HTMLElement;
+          if (target.closest('.pac-container')) {
+            e.preventDefault();
+          }
+        }}
+      >
         <div className="p-6 bg-white">
           {step === 'services' ? renderServiceSelection() : renderContactForm()}
         </div>

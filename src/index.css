@@ -62,10 +62,13 @@
   .consultation-input {
     @apply h-14 
       bg-white/25 
-      border-white/20 
+      border-white/30
+      rounded-xl
       text-white 
       shadow-sm
       shadow-white/5
+      ring-1
+      ring-white/20
       placeholder:text-white/70 
       focus:border-citrus-orange 
       focus:ring-citrus-orange/20 

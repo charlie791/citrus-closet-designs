@@ -1,25 +1,26 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, X, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Service {
   id: string;
   title: string;
   description: string;
+  image?: string;
 }
 
 const services: Service[] = [
   {
     id: "custom-closets",
     title: "Custom Closets",
-    description: "Walk-in closets, reach-in closets, and wardrobe solutions",
+    description: "Transform your closet space with custom organization",
   },
   {
     id: "garage-storage",
     title: "Garage Storage",
-    description: "Custom garage organization and storage systems",
+    description: "Maximize your garage space with smart storage solutions",
   },
   {
     id: "home-solutions",
@@ -42,61 +43,77 @@ export function ServiceSelection({
   onCancel 
 }: ServiceSelectionProps) {
   return (
-    <>
-      <h2 className="text-2xl font-semibold text-white mb-2">
-        Select Your Areas of Interest
-      </h2>
-      <p className="text-white/70 mb-6">
-        Choose the areas you'd like to organize and improve.
-      </p>
+    <div className="relative">
+      <button 
+        onClick={onCancel}
+        className="absolute right-0 top-0 p-2 text-white/70 hover:text-white transition-colors"
+      >
+        <X className="h-6 w-6" />
+      </button>
+      
+      <div className="mb-12 text-center">
+        <h1 className="text-4xl font-semibold text-white mb-4">
+          Our Organization Solutions
+        </h1>
+        <p className="text-xl text-white/70">
+          What areas can we help you with?
+        </p>
+      </div>
 
-      <div className="grid gap-4">
+      <div className="space-y-4 mb-12">
         {services.map((service) => (
           <button
             key={service.id}
             onClick={() => onToggleService(service.id)}
             className={cn(
-              "flex items-start p-4 rounded-lg border text-left transition-all duration-200",
+              "w-full flex items-center p-6 rounded-2xl border-2 text-left transition-all duration-200",
               selectedServices.includes(service.id)
-                ? "border-citrus-orange bg-citrus-orange/10"
-                : "border-white/10 hover:border-citrus-orange/50 bg-white/5"
+                ? "border-citrus-orange bg-citrus-orange/5"
+                : "border-white/10 hover:border-white/20 bg-white/5"
             )}
           >
-            <div className="flex-1">
-              <h3 className="font-medium text-white">{service.title}</h3>
-              <p className="text-sm text-white/70">{service.description}</p>
-            </div>
-            <div className={cn(
-              "w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200",
-              selectedServices.includes(service.id)
-                ? "border-citrus-orange bg-citrus-orange text-white"
-                : "border-white/30"
-            )}>
-              {selectedServices.includes(service.id) && (
-                <Check className="w-3 h-3" />
+            <div 
+              className={cn(
+                "w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-200 mr-6",
+                selectedServices.includes(service.id)
+                  ? "border-citrus-orange"
+                  : "border-white/30"
               )}
+            >
+              {selectedServices.includes(service.id) && (
+                <div className="w-3 h-3 rounded-full bg-citrus-orange" />
+              )}
+            </div>
+            <div className="flex-1">
+              <h3 className="text-xl font-medium text-white mb-1">{service.title}</h3>
+              <p className="text-white/70">{service.description}</p>
             </div>
           </button>
         ))}
       </div>
 
-      <div className="mt-6 flex justify-end gap-3">
+      <p className="text-white/70 text-center mb-8">
+        Please select at least one area
+      </p>
+
+      <div className="grid grid-cols-2 gap-4">
         <Button
           variant="outline"
           onClick={onCancel}
-          className="border-white/10 text-white hover:bg-white/5"
+          className="py-6 text-lg border-white/10 text-white hover:bg-white/5"
         >
-          Cancel
+          <ChevronLeft className="mr-2 h-5 w-5" />
+          Back
         </Button>
         <Button
-          className="bg-citrus-orange hover:bg-citrus-coral text-white"
+          className="py-6 text-lg bg-citrus-orange hover:bg-citrus-coral text-white"
           disabled={selectedServices.length === 0}
           onClick={onNext}
         >
-          <span>Next Step</span>
-          <ArrowRight className="ml-2 h-4 w-4" />
+          Continue
+          <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
       </div>
-    </>
+    </div>
   );
 }

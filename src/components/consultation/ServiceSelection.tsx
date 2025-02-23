@@ -56,7 +56,7 @@ export function ServiceSelection({
       
       <div className="mb-6 text-center">
         <h2 className="text-2xl font-semibold text-white mb-2">
-          Our Organization Solutions
+          Let's Get Organized
         </h2>
         <p className="text-sm text-white/70">
           What areas can we help you with?
@@ -75,33 +75,31 @@ export function ServiceSelection({
                 : "border-white/10 hover:border-white/20 bg-white/5"
             )}
           >
-            <div className="flex-1 min-w-0 mr-3">
+            <div 
+              className={cn(
+                "w-5 h-5 rounded-full border flex-shrink-0 flex items-center justify-center transition-all duration-200 mr-3",
+                selectedServices.includes(service.id)
+                  ? "border-citrus-orange"
+                  : "border-white/30"
+              )}
+            >
+              {selectedServices.includes(service.id) && (
+                <div className="w-2.5 h-2.5 rounded-full bg-citrus-orange" />
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
               <h3 className="text-base font-medium text-white truncate">{service.title}</h3>
               <p className="text-sm text-white/70 line-clamp-2">{service.description}</p>
             </div>
-            <div className="flex items-center gap-3">
-              {service.image && (
-                <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                  <img 
-                    src={service.image} 
-                    alt={service.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
-              <div 
-                className={cn(
-                  "w-5 h-5 rounded-full border flex-shrink-0 flex items-center justify-center transition-all duration-200",
-                  selectedServices.includes(service.id)
-                    ? "border-citrus-orange"
-                    : "border-white/30"
-                )}
-              >
-                {selectedServices.includes(service.id) && (
-                  <div className="w-2.5 h-2.5 rounded-full bg-citrus-orange" />
-                )}
+            {service.image && (
+              <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 ml-3">
+                <img 
+                  src={service.image} 
+                  alt={service.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
-            </div>
+            )}
           </button>
         ))}
       </div>

@@ -3,7 +3,15 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft } from "lucide-react";
-import { User, Phone, Mail } from "lucide-react";
+import GooglePlacesAutocomplete from "@/components/common/GooglePlacesAutocomplete";
+
+interface AddressComponents {
+  street: string;
+  unit?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+}
 
 interface ConsultationFormProps {
   formData: {
@@ -14,6 +22,7 @@ interface ConsultationFormProps {
   };
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPhoneChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onAddressSelected: (address: AddressComponents) => void;
   onBack: () => void;
   onSubmit: () => void;
 }
@@ -22,6 +31,7 @@ export function ConsultationForm({
   formData,
   onInputChange,
   onPhoneChange,
+  onAddressSelected,
   onBack,
   onSubmit
 }: ConsultationFormProps) {
@@ -35,49 +45,47 @@ export function ConsultationForm({
       </p>
 
       <div className="space-y-6">
-        <div className="input-container">
-          <label htmlFor="fullName" className="input-label">Full Name</label>
-          <div className="relative">
-            <User className="input-icon" size={20} />
-            <Input
-              id="fullName"
-              name="fullName"
-              value={formData.fullName}
-              onChange={onInputChange}
-              className="consultation-input w-full"
-              placeholder="Enter your full name"
-            />
-          </div>
+        <div>
+          <Input
+            id="fullName"
+            name="fullName"
+            value={formData.fullName}
+            onChange={onInputChange}
+            className="consultation-input w-full"
+            placeholder="Full Name"
+          />
         </div>
 
-        <div className="input-container">
-          <label htmlFor="phone" className="input-label">Phone Number</label>
-          <div className="relative">
-            <Phone className="input-icon" size={20} />
-            <Input
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={onPhoneChange}
-              className="consultation-input w-full"
-              placeholder="(555) 555-5555"
-              maxLength={14}
-            />
-          </div>
+        <div>
+          <Input
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={onPhoneChange}
+            className="consultation-input w-full"
+            placeholder="Phone Number"
+            maxLength={14}
+          />
         </div>
 
-        <div className="input-container">
-          <label htmlFor="email" className="input-label">Email Address</label>
+        <div>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={onInputChange}
+            className="consultation-input w-full"
+            placeholder="Email Address"
+          />
+        </div>
+
+        <div>
           <div className="relative">
-            <Mail className="input-icon" size={20} />
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={onInputChange}
+            <GooglePlacesAutocomplete
+              onPlaceSelected={onAddressSelected}
+              defaultValue={formData.address}
               className="consultation-input w-full"
-              placeholder="Enter your email address"
             />
           </div>
         </div>

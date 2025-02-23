@@ -70,7 +70,7 @@ export function DateTimeSelection({
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="w-full">
       <div className="mb-6 text-center">
         <h2 className="text-xl font-semibold text-white mb-2">
           Date & Time

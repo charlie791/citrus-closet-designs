@@ -53,10 +53,10 @@ export function ServiceSelection({
 }: ServiceSelectionProps) {
   return (
     <>
-      <h2 className="text-2xl font-semibold text-citrus-charcoal mb-2">
+      <h2 className="text-2xl font-semibold text-white mb-2">
         Select Your Areas of Interest
       </h2>
-      <p className="text-citrus-charcoal/70 mb-6">
+      <p className="text-white/70 mb-6">
         Choose the areas you'd like to organize and improve.
       </p>
 
@@ -66,21 +66,21 @@ export function ServiceSelection({
             key={service.id}
             onClick={() => onToggleService(service.id)}
             className={cn(
-              "flex items-start p-4 rounded-lg border-2 text-left transition-all duration-200",
+              "flex items-start p-4 rounded-lg border text-left transition-all duration-200",
               selectedServices.includes(service.id)
-                ? "border-citrus-orange bg-citrus-orange/5"
-                : "border-gray-200 hover:border-citrus-orange/50"
+                ? "border-citrus-orange bg-citrus-orange/10"
+                : "border-white/10 hover:border-citrus-orange/50 bg-white/5"
             )}
           >
             <div className="flex-1">
-              <h3 className="font-medium text-citrus-charcoal">{service.title}</h3>
-              <p className="text-sm text-citrus-charcoal/70">{service.description}</p>
+              <h3 className="font-medium text-white">{service.title}</h3>
+              <p className="text-sm text-white/70">{service.description}</p>
             </div>
             <div className={cn(
               "w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200",
               selectedServices.includes(service.id)
                 ? "border-citrus-orange bg-citrus-orange text-white"
-                : "border-gray-300"
+                : "border-white/30"
             )}>
               {selectedServices.includes(service.id) && (
                 <Check className="w-3 h-3" />
@@ -94,11 +94,12 @@ export function ServiceSelection({
         <Button
           variant="outline"
           onClick={onCancel}
+          className="border-white/10 text-white hover:bg-white/5"
         >
           Cancel
         </Button>
         <Button
-          className="bg-citrus-orange hover:bg-citrus-coral"
+          className="bg-citrus-orange hover:bg-citrus-coral text-white"
           disabled={selectedServices.length === 0}
           onClick={onNext}
         >

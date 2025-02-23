@@ -36,81 +36,70 @@ export function ConsultationForm({
 }: ConsultationFormProps) {
   return (
     <>
-      <h2 className="text-2xl font-semibold text-citrus-charcoal mb-2">
+      <h2 className="text-2xl font-semibold text-white mb-2">
         Contact Information
       </h2>
-      <p className="text-citrus-charcoal/70 mb-6">
+      <p className="text-white/70 mb-6">
         Please provide your details so we can get in touch with you.
       </p>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div>
-          <label htmlFor="fullName" className="block text-sm font-medium text-citrus-charcoal mb-1">
-            Full Name
-          </label>
           <Input
             id="fullName"
             name="fullName"
             value={formData.fullName}
             onChange={onInputChange}
-            className="w-full"
-            placeholder="John Doe"
+            className="consultation-input w-full"
+            placeholder="Full Name"
           />
         </div>
 
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-citrus-charcoal mb-1">
-            Phone Number
-          </label>
           <Input
             id="phone"
             name="phone"
             value={formData.phone}
             onChange={onPhoneChange}
-            className="w-full"
-            placeholder="(123) 456-7890"
+            className="consultation-input w-full"
+            placeholder="Phone Number"
             maxLength={14}
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-citrus-charcoal mb-1">
-            Email Address
-          </label>
           <Input
             id="email"
             name="email"
             type="email"
             value={formData.email}
             onChange={onInputChange}
-            className="w-full"
-            placeholder="john@example.com"
+            className="consultation-input w-full"
+            placeholder="Email Address"
           />
         </div>
 
         <div>
-          <label htmlFor="address" className="block text-sm font-medium text-citrus-charcoal mb-1">
-            Street Address
-          </label>
           <div className="relative">
             <GooglePlacesAutocomplete
               onPlaceSelected={onAddressSelected}
               defaultValue={formData.address}
-              className="w-full"
+              className="consultation-input w-full"
             />
           </div>
         </div>
       </div>
 
-      <div className="mt-6 flex justify-end gap-3">
+      <div className="mt-8 flex justify-end gap-3">
         <Button
           variant="outline"
           onClick={onBack}
+          className="border-white/10 text-white hover:bg-white/5"
         >
           Back
         </Button>
         <Button
-          className="bg-citrus-orange hover:bg-citrus-coral"
+          className="bg-citrus-orange hover:bg-citrus-coral text-white"
           onClick={onSubmit}
         >
           Schedule Consultation

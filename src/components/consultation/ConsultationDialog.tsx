@@ -91,7 +91,7 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent 
         ref={dialogRef}
-        className="max-w-2xl p-0 overflow-hidden"
+        className="max-w-2xl p-0 overflow-hidden dark-consultation glass-effect"
         onPointerDownOutside={(e) => {
           const target = e.target as HTMLElement;
           if (target.closest('.pac-container')) {
@@ -99,7 +99,7 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
           }
         }}
       >
-        <div className="p-6 bg-white">
+        <div className="p-6">
           {step === 'services' ? (
             <ServiceSelection
               selectedServices={selectedServices}

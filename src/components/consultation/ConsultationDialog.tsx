@@ -3,6 +3,7 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ServiceSelection } from "./ServiceSelection";
 import { DateTimeSelection } from "./DateTimeSelection";
+import { ServiceAddressForm } from "./ServiceAddressForm";
 import { ConsultationForm } from "./ConsultationForm";
 
 interface AddressComponents {
@@ -19,17 +20,19 @@ interface ConsultationDialogProps {
 }
 
 export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogProps) {
-  const [step, setStep] = React.useState<'services' | 'datetime' | 'contact'>('services');
+  const [step, setStep] = React.useState<'services' | 'datetime' | 'service-address' | 'contact'>('services');
   const [selectedServices, setSelectedServices] = React.useState<string[]>([]);
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = React.useState<string | null>(null);
+  const [serviceAddress, setServiceAddress] = React.useState("");
+  const [selectedServiceAddress, setSelectedServiceAddress] = React.useState<AddressComponents | null>(null);
   const [formData, setFormData] = React.useState({
     fullName: "",
     phone: "",
     email: "",
     address: "",
   });
-  const [selectedAddress, setSelectedAddress] = React.useState<AddressComponents | null>(null);
+  const [selectedContactAddress, setSelectedContactAddress] = React.useState<AddressComponents | null>(null);
   const [isPending, startTransition] = React.useTransition();
   const [isAddressSelecting, setIsAddressSelecting] = React.useState(false);
   const dialogRef = React.useRef<HTMLDivElement>(null);
@@ -65,10 +68,22 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
     }));
   };
 
-  const handleAddressSelected = (address: AddressComponents) => {
+  const handleServiceAddressSelected = (address: AddressComponents) => {
     setIsAddressSelecting(true);
     startTransition(() => {
-      setSelectedAddress(address);
+      setSelectedServiceAddress(address);
+      const formattedAddress = `${address.street}${address.unit ? ` ${address.unit}` : ''}, ${address.city}, ${address.state} ${address.zipCode}`;
+      setServiceAddress(formattedAddress);
+      setTimeout(() => {
+        setIsAddressSelecting(false);
+      }, 150);
+    });
+  };
+
+  const handleContactAddressSelected = (address: AddressComponents) => {
+    setIsAddressSelecting(true);
+    startTransition(() => {
+      setSelectedContactAddress(address);
       const formattedAddress = `${address.street}${address.unit ? ` ${address.unit}` : ''}, ${address.city}, ${address.state} ${address.zipCode}`;
       setFormData((prev) => ({
         ...prev,
@@ -90,9 +105,12 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
     console.log("Form submitted:", { 
       selectedServices, 
       selectedDate, 
-      selectedTime, 
-      formData, 
-      selectedAddress 
+      selectedTime,
+      serviceAddress: selectedServiceAddress,
+      contactInfo: {
+        ...formData,
+        address: selectedContactAddress
+      }
     });
   };
 
@@ -123,6 +141,13 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
               onDateSelect={setSelectedDate}
               onTimeSelect={setSelectedTime}
               onBack={() => setStep('services')}
+              onNext={() => setStep('service-address')}
+            />
+          ) : step === 'service-address' ? (
+            <ServiceAddressForm
+              address={serviceAddress}
+              onAddressSelected={handleServiceAddressSelected}
+              onBack={() => setStep('datetime')}
               onNext={() => setStep('contact')}
             />
           ) : (
@@ -130,8 +155,8 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
               formData={formData}
               onInputChange={handleInputChange}
               onPhoneChange={handlePhoneChange}
-              onAddressSelected={handleAddressSelected}
-              onBack={() => setStep('datetime')}
+              onAddressSelected={handleContactAddressSelected}
+              onBack={() => setStep('service-address')}
               onSubmit={handleSubmitForm}
             />
           )}

@@ -155,7 +155,6 @@ export function ConsultationDialog({ open, onOpenChange }: ConsultationDialogPro
               formData={formData}
               onInputChange={handleInputChange}
               onPhoneChange={handlePhoneChange}
-              onAddressSelected={handleContactAddressSelected}
               onBack={() => setStep('service-address')}
               onSubmit={handleSubmitForm}
             />

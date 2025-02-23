@@ -1,22 +1,32 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { DayPicker } from "react-day-picker";
-import { format } from "date-fns";
+import { format, addDays, isSameDay } from "date-fns";
 
-const timeSlots = [
-  "9:00 AM",
-  "10:00 AM",
-  "11:00 AM",
-  "12:00 PM",
-  "1:00 PM",
-  "2:00 PM",
-  "3:00 PM",
-  "4:00 PM",
-  "5:00 PM"
+const generateTimeSlots = () => [
+  { start: "9:00 AM", end: "10:00 AM" },
+  { start: "10:00 AM", end: "11:00 AM" },
+  { start: "11:00 AM", end: "12:00 PM" },
+  { start: "12:00 PM", end: "1:00 PM" },
+  { start: "1:00 PM", end: "2:00 PM" },
+  { start: "2:00 PM", end: "3:00 PM" },
+  { start: "3:00 PM", end: "4:00 PM" },
+  { start: "4:00 PM", end: "5:00 PM" }
 ];
+
+const generateAvailableDates = (startDate: Date, count: number) => {
+  const dates = [];
+  let currentDate = startDate;
+
+  for (let i = 0; i < count; i++) {
+    dates.push(currentDate);
+    currentDate = addDays(currentDate, 1);
+  }
+
+  return dates;
+};
 
 interface DateTimeSelectionProps {
   selectedDate: Date | null;
@@ -35,67 +45,105 @@ export function DateTimeSelection({
   onBack,
   onNext
 }: DateTimeSelectionProps) {
+  const [startIndex, setStartIndex] = React.useState(0);
   const today = new Date();
-  const threeDaysFromNow = new Date();
-  threeDaysFromNow.setMonth(threeDaysFromNow.getMonth() + 3);
+  const availableDates = React.useMemo(
+    () => generateAvailableDates(today, 14),
+    [today]
+  );
+  const timeSlots = React.useMemo(() => generateTimeSlots(), []);
+  const visibleDates = availableDates.slice(startIndex, startIndex + 5);
+
+  const canScrollLeft = startIndex > 0;
+  const canScrollRight = startIndex + 5 < availableDates.length;
+
+  const handlePrevious = () => {
+    if (canScrollLeft) {
+      setStartIndex(prev => Math.max(0, prev - 1));
+    }
+  };
+
+  const handleNext = () => {
+    if (canScrollRight) {
+      setStartIndex(prev => Math.min(availableDates.length - 5, prev + 1));
+    }
+  };
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="mb-6 text-center">
-        <h2 className="text-2xl font-semibold text-white mb-2">
+      <div className="mb-8 text-center">
+        <h2 className="text-2xl font-semibold text-white mb-3">
           Select Date & Time
         </h2>
         <p className="text-sm text-white/70">
-          Choose your preferred consultation time
+          Pick a date and time for your appointment, and we'll be there
         </p>
       </div>
 
-      <div className="mb-6">
-        <DayPicker
-          mode="single"
-          selected={selectedDate}
-          onSelect={onDateSelect}
-          disabled={{ before: today }}
-          fromDate={today}
-          toDate={threeDaysFromNow}
-          modifiers={{
-            selected: selectedDate ? [selectedDate] : [],
-          }}
-          modifiersStyles={{
-            selected: {
-              backgroundColor: '#F26722',
-              color: 'white'
-            }
-          }}
-          styles={{
-            root: { width: '100%' },
-            caption: { color: 'white' },
-            head: { color: 'rgba(255, 255, 255, 0.7)' },
-            day: { color: 'white' },
-            nav: { color: 'white' },
-          }}
-          showOutsideDays={false}
-          components={{
-            IconLeft: () => <ChevronLeft className="h-4 w-4" />,
-            IconRight: () => <ChevronRight className="h-4 w-4" />,
-          }}
-        />
+      <div className="mb-8">
+        <div className="relative">
+          <div className="flex justify-between items-center mb-6">
+            <button
+              onClick={handlePrevious}
+              disabled={!canScrollLeft}
+              className={cn(
+                "p-2 rounded-full transition-colors",
+                !canScrollLeft && "opacity-50 cursor-not-allowed",
+                canScrollLeft && "hover:bg-white/10"
+              )}
+            >
+              <ArrowLeft className="h-5 w-5 text-white" />
+            </button>
+            <div className="flex gap-3 flex-1 justify-center">
+              {visibleDates.map((date) => (
+                <button
+                  key={date.toISOString()}
+                  onClick={() => onDateSelect(date)}
+                  className={cn(
+                    "flex flex-col items-center min-w-[84px] p-3 rounded-lg transition-all",
+                    selectedDate && isSameDay(selectedDate, date)
+                      ? "border-b-2 border-citrus-orange"
+                      : "hover:bg-white/5"
+                  )}
+                >
+                  <span className="text-sm font-medium text-white/70">
+                    {format(date, "EEE")}
+                  </span>
+                  <span className="text-lg font-semibold text-white mt-1">
+                    {format(date, "MMM d")}
+                  </span>
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={handleNext}
+              disabled={!canScrollRight}
+              className={cn(
+                "p-2 rounded-full transition-colors",
+                !canScrollRight && "opacity-50 cursor-not-allowed",
+                canScrollRight && "hover:bg-white/10"
+              )}
+            >
+              <ArrowRight className="h-5 w-5 text-white" />
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className="mb-6">
-        <div className="grid grid-cols-3 gap-3">
-          {timeSlots.map((time) => (
+      <div className="mb-8">
+        <div className="grid grid-cols-2 gap-3">
+          {timeSlots.map((slot) => (
             <button
-              key={time}
-              onClick={() => onTimeSelect(time)}
+              key={slot.start}
+              onClick={() => onTimeSelect(slot.start)}
               className={cn(
-                "p-3 rounded-lg border text-center transition-all duration-200",
-                selectedTime === time
-                  ? "border-citrus-orange bg-citrus-orange text-white"
+                "p-4 rounded-lg border text-center transition-all",
+                selectedTime === slot.start
+                  ? "border-citrus-orange bg-white/10 text-white"
                   : "border-white/10 hover:border-white/20 bg-white/5 text-white"
               )}
             >
-              {time}
+              {slot.start} - {slot.end}
             </button>
           ))}
         </div>

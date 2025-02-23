@@ -6,14 +6,14 @@ import { cn } from "@/lib/utils";
 import { format, addDays, isSameDay } from "date-fns";
 
 const generateTimeSlots = () => [
-  { start: "9 AM", end: "10 AM" },
-  { start: "10 AM", end: "11 AM" },
-  { start: "11 AM", end: "12 PM" },
-  { start: "12 PM", end: "1 PM" },
-  { start: "1 PM", end: "2 PM" },
-  { start: "2 PM", end: "3 PM" },
-  { start: "3 PM", end: "4 PM" },
-  { start: "4 PM", end: "5 PM" }
+  { start: "9:00 AM", end: "10:00 AM" },
+  { start: "10:00 AM", end: "11:00 AM" },
+  { start: "11:00 AM", end: "12:00 PM" },
+  { start: "12:00 PM", end: "1:00 PM" },
+  { start: "1:00 PM", end: "2:00 PM" },
+  { start: "2:00 PM", end: "3:00 PM" },
+  { start: "3:00 PM", end: "4:00 PM" },
+  { start: "4:00 PM", end: "5:00 PM" }
 ];
 
 const generateAvailableDates = (startDate: Date, count: number) => {
@@ -73,7 +73,7 @@ export function DateTimeSelection({
     <div className="max-w-md mx-auto">
       <div className="mb-8 text-center">
         <h2 className="text-2xl font-semibold text-white mb-3">
-          Date & Time
+          Select Date & Time
         </h2>
         <p className="text-sm text-white/70">
           Pick a date and time for your appointment, and we'll be there
@@ -81,41 +81,36 @@ export function DateTimeSelection({
       </div>
 
       <div className="mb-8">
-        <div className="relative px-2">
-          <div className="flex justify-between items-center mb-8">
+        <div className="relative">
+          <div className="flex justify-between items-center mb-6">
             <button
               onClick={handlePrevious}
               disabled={!canScrollLeft}
               className={cn(
-                "p-3 rounded-full transition-colors absolute left-0 z-10",
+                "p-2 rounded-full transition-colors",
                 !canScrollLeft && "opacity-50 cursor-not-allowed",
                 canScrollLeft && "hover:bg-white/10"
               )}
             >
-              <ArrowLeft className="h-6 w-6 text-white" />
+              <ArrowLeft className="h-5 w-5 text-white" />
             </button>
-            <div className="flex gap-4 flex-1 justify-center overflow-hidden px-10">
+            <div className="flex gap-3 flex-1 justify-center">
               {visibleDates.map((date) => (
                 <button
                   key={date.toISOString()}
                   onClick={() => onDateSelect(date)}
                   className={cn(
-                    "flex flex-col items-center min-w-[96px] p-4 rounded-xl transition-all border",
+                    "flex flex-col items-center min-w-[84px] p-3 rounded-lg transition-all",
                     selectedDate && isSameDay(selectedDate, date)
-                      ? "bg-white/10 border-citrus-orange"
-                      : "border-white/10 hover:border-white/20 bg-white/5"
+                      ? "border-b-2 border-citrus-orange"
+                      : "hover:bg-white/5"
                   )}
                 >
-                  <span className={cn(
-                    "text-lg font-semibold mb-1",
-                    selectedDate && isSameDay(selectedDate, date)
-                      ? "text-citrus-orange"
-                      : "text-white"
-                  )}>
+                  <span className="text-sm font-medium text-white/70">
                     {format(date, "EEE")}
                   </span>
-                  <span className="text-sm text-white/70">
-                    {format(date, "d")}
+                  <span className="text-lg font-semibold text-white mt-1">
+                    {format(date, "MMM d")}
                   </span>
                 </button>
               ))}
@@ -124,28 +119,28 @@ export function DateTimeSelection({
               onClick={handleNext}
               disabled={!canScrollRight}
               className={cn(
-                "p-3 rounded-full transition-colors absolute right-0 z-10",
+                "p-2 rounded-full transition-colors",
                 !canScrollRight && "opacity-50 cursor-not-allowed",
                 canScrollRight && "hover:bg-white/10"
               )}
             >
-              <ArrowRight className="h-6 w-6 text-white" />
+              <ArrowRight className="h-5 w-5 text-white" />
             </button>
           </div>
         </div>
       </div>
 
       <div className="mb-8">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           {timeSlots.map((slot) => (
             <button
               key={slot.start}
               onClick={() => onTimeSelect(slot.start)}
               className={cn(
-                "p-5 rounded-xl border text-center transition-all text-base",
+                "p-4 rounded-lg border text-center transition-all",
                 selectedTime === slot.start
                   ? "border-citrus-orange bg-white/10 text-white"
-                  : "border-white/10 hover:border-white/20 bg-white/5 text-white/90"
+                  : "border-white/10 hover:border-white/20 bg-white/5 text-white"
               )}
             >
               {slot.start} - {slot.end}
@@ -154,14 +149,24 @@ export function DateTimeSelection({
         </div>
       </div>
 
-      <Button
-        className="w-full bg-citrus-orange hover:bg-citrus-coral text-white text-base py-6 rounded-xl h-auto"
-        disabled={!selectedDate || !selectedTime}
-        onClick={onNext}
-      >
-        Continue
-        <ArrowRight className="h-5 w-5 ml-2" />
-      </Button>
+      <div className="flex gap-3">
+        <Button
+          variant="outline"
+          onClick={onBack}
+          className="flex-1 border-white/10 text-white hover:bg-white/5"
+        >
+          <ArrowLeft className="h-4 w-4 mr-1" />
+          Back
+        </Button>
+        <Button
+          className="flex-1 bg-citrus-orange hover:bg-citrus-coral text-white"
+          disabled={!selectedDate || !selectedTime}
+          onClick={onNext}
+        >
+          Continue
+          <ArrowRight className="h-4 w-4 ml-1" />
+        </Button>
+      </div>
     </div>
   );
 }

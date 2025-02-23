@@ -61,7 +61,7 @@
 
   .consultation-input {
     @apply h-14 
-      bg-white/20 
+      bg-white/25 
       border-white/20 
       text-white 
       shadow-sm
@@ -69,7 +69,7 @@
       placeholder:text-white/70 
       focus:border-citrus-orange 
       focus:ring-citrus-orange/20 
-      focus:bg-white/25
+      focus:bg-white/30
       hover:border-white/40
       transition-all
       duration-200;

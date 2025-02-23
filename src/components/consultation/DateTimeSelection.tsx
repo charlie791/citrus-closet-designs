@@ -71,45 +71,45 @@ export function DateTimeSelection({
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="mb-8 text-center">
-        <h2 className="text-2xl font-semibold text-white mb-3">
-          Select Date & Time
+      <div className="mb-6 text-center">
+        <h2 className="text-xl font-semibold text-white mb-2">
+          Date & Time
         </h2>
-        <p className="text-sm text-white/70">
-          Pick a date and time for your appointment, and we'll be there
+        <p className="text-sm text-white/50">
+          Pick a date and time for your appointment
         </p>
       </div>
 
-      <div className="mb-8">
+      <div className="mb-6">
         <div className="relative">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-4">
             <button
               onClick={handlePrevious}
               disabled={!canScrollLeft}
               className={cn(
-                "p-2 rounded-full transition-colors",
+                "p-1.5 rounded-full transition-colors",
                 !canScrollLeft && "opacity-50 cursor-not-allowed",
                 canScrollLeft && "hover:bg-white/10"
               )}
             >
-              <ArrowLeft className="h-5 w-5 text-white" />
+              <ArrowLeft className="h-4 w-4 text-white" />
             </button>
-            <div className="flex gap-3 flex-1 justify-center">
+            <div className="flex gap-2 flex-1 justify-center">
               {visibleDates.map((date) => (
                 <button
                   key={date.toISOString()}
                   onClick={() => onDateSelect(date)}
                   className={cn(
-                    "flex flex-col items-center min-w-[84px] p-3 rounded-lg transition-all",
+                    "flex flex-col items-center min-w-[68px] py-2 px-1 rounded-lg transition-all",
                     selectedDate && isSameDay(selectedDate, date)
-                      ? "border-b-2 border-citrus-orange"
+                      ? "border-b-2 border-citrus-orange bg-white/5"
                       : "hover:bg-white/5"
                   )}
                 >
-                  <span className="text-sm font-medium text-white/70">
+                  <span className="text-base font-semibold text-white mb-0.5">
                     {format(date, "EEE")}
                   </span>
-                  <span className="text-lg font-semibold text-white mt-1">
+                  <span className="text-xs text-white/70">
                     {format(date, "MMM d")}
                   </span>
                 </button>
@@ -119,28 +119,28 @@ export function DateTimeSelection({
               onClick={handleNext}
               disabled={!canScrollRight}
               className={cn(
-                "p-2 rounded-full transition-colors",
+                "p-1.5 rounded-full transition-colors",
                 !canScrollRight && "opacity-50 cursor-not-allowed",
                 canScrollRight && "hover:bg-white/10"
               )}
             >
-              <ArrowRight className="h-5 w-5 text-white" />
+              <ArrowRight className="h-4 w-4 text-white" />
             </button>
           </div>
         </div>
       </div>
 
-      <div className="mb-8">
-        <div className="grid grid-cols-2 gap-3">
+      <div className="mb-6">
+        <div className="grid grid-cols-2 gap-2">
           {timeSlots.map((slot) => (
             <button
               key={slot.start}
               onClick={() => onTimeSelect(slot.start)}
               className={cn(
-                "p-4 rounded-lg border text-center transition-all",
+                "p-3 rounded-lg border text-center transition-all text-sm",
                 selectedTime === slot.start
-                  ? "border-citrus-orange bg-white/10 text-white"
-                  : "border-white/10 hover:border-white/20 bg-white/5 text-white"
+                  ? "border-citrus-orange bg-white/5 text-white"
+                  : "border-white/5 hover:border-white/10 bg-white/5 text-white/90"
               )}
             >
               {slot.start} - {slot.end}
@@ -149,17 +149,9 @@ export function DateTimeSelection({
         </div>
       </div>
 
-      <div className="flex gap-3">
+      <div>
         <Button
-          variant="outline"
-          onClick={onBack}
-          className="flex-1 border-white/10 text-white hover:bg-white/5"
-        >
-          <ArrowLeft className="h-4 w-4 mr-1" />
-          Back
-        </Button>
-        <Button
-          className="flex-1 bg-citrus-orange hover:bg-citrus-coral text-white"
+          className="w-full bg-citrus-orange hover:bg-citrus-coral text-white rounded-xl py-6 h-auto"
           disabled={!selectedDate || !selectedTime}
           onClick={onNext}
         >

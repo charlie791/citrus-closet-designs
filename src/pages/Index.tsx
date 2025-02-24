@@ -28,9 +28,9 @@ const Index = () => {
       <Hero />
       <ServicesGrid />
       <OneOnOneCollaboration onScheduleConsultation={handleScheduleConsultation} />
+      <ProcessSteps onScheduleConsultation={handleScheduleConsultation} />
       <WhyChooseUs />
       <Gallery />
-      <ProcessSteps />
       <Testimonials />
       <PromoOffer onScheduleConsultation={handleScheduleConsultation} />
       <BlogTeaser />

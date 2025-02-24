@@ -15,7 +15,6 @@ import WinePantryIcon from "@/components/icons/WinePantryIcon";
 interface Service {
   id: string;
   title: string;
-  description: string;
   Icon: React.ComponentType<{ className?: string }>;
 }
 
@@ -23,49 +22,41 @@ const services: Service[] = [
   {
     id: "custom-closets",
     title: "Custom Closets",
-    description: "Transform your closet space with custom organization",
     Icon: CustomClosetIcon
   },
   {
     id: "garage-storage",
     title: "Garage Storage",
-    description: "Maximize your garage space with smart storage solutions",
     Icon: GarageStorageIcon
   },
   {
     id: "home-office",
     title: "Home Office",
-    description: "Create an organized and productive workspace",
     Icon: HomeOfficeIcon
   },
   {
     id: "laundry-storage",
     title: "Laundry Storage",
-    description: "Optimize your laundry room with custom storage",
     Icon: LaundryStorageIcon
   },
   {
     id: "craft-rooms",
     title: "Craft Rooms",
-    description: "Design the perfect space for your creative pursuits",
     Icon: CraftRoomIcon
   },
   {
     id: "entertainment",
     title: "Entertainment",
-    description: "Custom entertainment centers and media storage",
     Icon: EntertainmentIcon
   },
   {
     id: "wall-units",
     title: "Wall Units",
-    description: "Beautiful and functional wall storage solutions",
     Icon: WallUnitIcon
   },
   {
     id: "wine-pantry",
     title: "Wine Pantry",
-    description: "Specialized storage for wine and pantry items",
     Icon: WinePantryIcon
   }
 ];
@@ -87,21 +78,21 @@ export function ServiceSelection({
     <div className="w-full">
       <button 
         onClick={onCancel}
-        className="absolute right-2 top-2 p-2 md:p-1.5 text-white/70 hover:text-white transition-colors"
+        className="absolute right-2 top-2 p-1.5 text-white/70 hover:text-white transition-colors"
       >
-        <X className="h-5 w-5" />
+        <X className="h-4 w-4" />
       </button>
       
-      <div className="mb-4 md:mb-6 text-center">
-        <h2 className="text-xl md:text-2xl font-semibold text-white mb-2">
+      <div className="mb-3 text-center">
+        <h2 className="text-lg font-semibold text-white mb-1">
           Let's Get Organized
         </h2>
-        <p className="text-xs md:text-sm text-white/70">
+        <p className="text-xs text-white/70">
           What areas can we help you with?
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 md:gap-3 mb-4 md:mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
         {services.map((service) => {
           const isSelected = selectedServices.includes(service.id);
           return (
@@ -109,13 +100,13 @@ export function ServiceSelection({
               key={service.id}
               onClick={() => onToggleService(service.id)}
               className={cn(
-                "flex flex-col items-center p-3 md:p-4 rounded-xl border text-center transition-all duration-200 active:scale-[0.99] touch-manipulation",
+                "flex flex-col items-center p-2 rounded-lg border text-center transition-all duration-200 active:scale-[0.98] touch-manipulation",
                 isSelected
                   ? "border-citrus-orange bg-citrus-orange/5"
                   : "border-white/10 hover:border-white/20 bg-white/5"
               )}
             >
-              <div className="w-12 h-12 md:w-16 md:h-16 mb-2 md:mb-3">
+              <div className="w-8 h-8 mb-1.5">
                 <service.Icon 
                   className={cn(
                     "w-full h-full transition-colors duration-300",
@@ -123,24 +114,21 @@ export function ServiceSelection({
                   )} 
                 />
               </div>
-              <h3 className="text-sm md:text-base font-medium text-white mb-1">
+              <h3 className="text-xs font-medium text-white">
                 {service.title}
               </h3>
-              <p className="text-xs md:text-sm text-white/70 line-clamp-2">
-                {service.description}
-              </p>
             </button>
           );
         })}
       </div>
 
       <Button
-        className="w-full bg-citrus-orange hover:bg-citrus-coral text-white rounded-xl py-4 md:py-6 h-auto text-sm md:text-base font-medium touch-manipulation"
+        className="w-full bg-citrus-orange hover:bg-citrus-coral text-white rounded-lg py-3 h-auto text-sm font-medium touch-manipulation"
         disabled={selectedServices.length === 0}
         onClick={onNext}
       >
         Continue
-        <ArrowRight className="h-4 md:h-5 w-4 md:w-5 ml-2" />
+        <ArrowRight className="h-4 w-4 ml-1.5" />
       </Button>
     </div>
   );

@@ -30,7 +30,20 @@ const Testimonials = () => {
     <section className="py-24 bg-gradient-to-b from-white to-citrus-peach/10">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Left Column - Stacked Testimonials */}
+          {/* Left Column - Content */}
+          <div className="space-y-6">
+            <span className="inline-block bg-citrus-orange/10 text-citrus-orange px-4 py-1.5 rounded-full text-sm font-medium">
+              Testimonials
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-citrus-charcoal">
+              What Our Clients Say
+            </h2>
+            <p className="text-citrus-charcoal/70 max-w-xl">
+              Read about experiences from our satisfied customers who have transformed their spaces with our custom storage solutions.
+            </p>
+          </div>
+
+          {/* Right Column - Stacked Testimonials */}
           <div className="space-y-6 max-h-[600px] overflow-y-auto pr-4 custom-scrollbar">
             {testimonials.map((testimonial) => (
               <div 
@@ -65,19 +78,6 @@ const Testimonials = () => {
                 </p>
               </div>
             ))}
-          </div>
-
-          {/* Right Column - Content */}
-          <div className="space-y-6">
-            <span className="inline-block bg-citrus-orange/10 text-citrus-orange px-4 py-1.5 rounded-full text-sm font-medium">
-              Testimonials
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-citrus-charcoal">
-              What Our Clients Say
-            </h2>
-            <p className="text-citrus-charcoal/70 max-w-xl">
-              Read about experiences from our satisfied customers who have transformed their spaces with our custom storage solutions.
-            </p>
           </div>
         </div>
       </div>

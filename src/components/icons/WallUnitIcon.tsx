@@ -5,7 +5,7 @@ const WallUnitIcon = ({ className }: { className?: string }) => (
     viewBox="-83.5 86.5 15 15.100006103515625"
     className={className}
   >
-    <g>
+    <g fill="currentColor">
       <rect x="-83.5" y="86.5" width="4.2" height="10.2" />
       <rect x="-78.1" y="86.5" width="4.2" height="10.2" />
       <rect x="-72.7" y="86.5" width="4.2" height="2.5" />

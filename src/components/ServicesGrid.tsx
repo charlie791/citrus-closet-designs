@@ -1,11 +1,4 @@
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import ServiceCard from "./ServiceCard";
 
 const services = [
@@ -51,36 +44,21 @@ const services = [
   }
 ];
 
-const ServicesCarousel = () => {
+const ServicesGrid = () => {
   return (
     <div className="relative z-20 -mt-16 px-4">
       <div className="max-w-[1400px] mx-auto">
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-xl p-4 animate-fade-in [animation-delay:1.1s] opacity-0">
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent className="-ml-2">
-              {services.map((service, index) => (
-                <CarouselItem 
-                  key={index} 
-                  className="pl-2 basis-1/2 sm:basis-1/3 lg:basis-1/4 xl:basis-1/5"
-                >
-                  <ServiceCard {...service} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="absolute -left-6 bg-white/10 hover:bg-white/20 border-white/20" />
-            <CarouselNext className="absolute -right-6 bg-white/10 hover:bg-white/20 border-white/20" />
-          </Carousel>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {services.map((service, index) => (
+              <ServiceCard key={index} {...service} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ServicesCarousel;
+export default ServicesGrid;
 

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import ServicesCarousel from "@/components/ServicesCarousel";
+import ServicesGrid from "@/components/ServicesGrid";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Gallery from "@/components/Gallery";
 import ProcessSteps from "@/components/ProcessSteps";
@@ -25,7 +25,7 @@ const Index = () => {
     <main>
       <Navigation />
       <Hero />
-      <ServicesCarousel />
+      <ServicesGrid />
       <WhyChooseUs />
       <Gallery />
       <ProcessSteps />
@@ -45,3 +45,4 @@ const Index = () => {
 };
 
 export default Index;
+

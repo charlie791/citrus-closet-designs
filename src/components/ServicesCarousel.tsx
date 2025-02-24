@@ -56,15 +56,21 @@ const ServicesCarousel = () => {
             <CarouselContent className="-ml-3">
               {services.map((service, index) => (
                 <CarouselItem key={index} className="pl-3 basis-full sm:basis-1/2 lg:basis-1/4">
-                  <div className="group relative bg-white/10 rounded-lg overflow-hidden border border-white/20 backdrop-blur-sm hover:bg-white/15 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                  <div className="group relative bg-gradient-to-b from-white/15 to-white/5 rounded-lg overflow-hidden border border-white/25 backdrop-blur-sm transition-all duration-300 
+                    shadow-[0_4px_12px_-1px_rgba(0,0,0,0.2),0_0_8px_-2px_rgba(255,255,255,0.1)] 
+                    hover:shadow-[0_8px_20px_-2px_rgba(0,0,0,0.25),0_0_12px_-2px_rgba(255,255,255,0.2)]
+                    hover:bg-white/20 hover:-translate-y-1">
                     <div className="aspect-video overflow-hidden">
-                      <img
-                        src={service.image}
-                        alt={service.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
+                      <div className="relative w-full h-full">
+                        <img
+                          src={service.image}
+                          alt={service.title}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+                      </div>
                     </div>
-                    <div className="p-3">
+                    <div className="relative p-3">
                       <h3 className="text-base font-semibold text-white">
                         {service.title}
                       </h3>

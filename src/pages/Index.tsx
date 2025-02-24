@@ -3,6 +3,7 @@ import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import ServicesGrid from "@/components/ServicesGrid";
+import OneOnOneCollaboration from "@/components/OneOnOneCollaboration";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Gallery from "@/components/Gallery";
 import ProcessSteps from "@/components/ProcessSteps";
@@ -26,6 +27,7 @@ const Index = () => {
       <Navigation />
       <Hero />
       <ServicesGrid />
+      <OneOnOneCollaboration onScheduleConsultation={handleScheduleConsultation} />
       <WhyChooseUs />
       <Gallery />
       <ProcessSteps />

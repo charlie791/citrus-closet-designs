@@ -3,12 +3,20 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import CustomClosetIcon from "@/components/icons/CustomClosetIcon";
+import GarageStorageIcon from "@/components/icons/GarageStorageIcon";
+import HomeOfficeIcon from "@/components/icons/HomeOfficeIcon";
+import LaundryStorageIcon from "@/components/icons/LaundryStorageIcon";
+import CraftRoomIcon from "@/components/icons/CraftRoomIcon";
+import EntertainmentIcon from "@/components/icons/EntertainmentIcon";
+import WallUnitIcon from "@/components/icons/WallUnitIcon";
+import WinePantryIcon from "@/components/icons/WinePantryIcon";
 
 interface Service {
   id: string;
   title: string;
   description: string;
-  image?: string;
+  Icon: React.ComponentType<{ className?: string }>;
 }
 
 const services: Service[] = [
@@ -16,20 +24,50 @@ const services: Service[] = [
     id: "custom-closets",
     title: "Custom Closets",
     description: "Transform your closet space with custom organization",
-    image: "/lovable-uploads/534d080f-8704-4057-be6e-2b8ddc5a5803.png"
+    Icon: CustomClosetIcon
   },
   {
     id: "garage-storage",
     title: "Garage Storage",
     description: "Maximize your garage space with smart storage solutions",
-    image: "/lovable-uploads/d43e797e-cf6f-49a7-a441-6d661fefbe40.png"
+    Icon: GarageStorageIcon
   },
   {
-    id: "home-solutions",
-    title: "Home Solutions",
-    description: "Complete home organization including pantry, laundry, home office, entertainment centers, murphy beds, and more",
-    image: "/lovable-uploads/534d080f-8704-4057-be6e-2b8ddc5a5803.png"
+    id: "home-office",
+    title: "Home Office",
+    description: "Create an organized and productive workspace",
+    Icon: HomeOfficeIcon
   },
+  {
+    id: "laundry-storage",
+    title: "Laundry Storage",
+    description: "Optimize your laundry room with custom storage",
+    Icon: LaundryStorageIcon
+  },
+  {
+    id: "craft-rooms",
+    title: "Craft Rooms",
+    description: "Design the perfect space for your creative pursuits",
+    Icon: CraftRoomIcon
+  },
+  {
+    id: "entertainment",
+    title: "Entertainment",
+    description: "Custom entertainment centers and media storage",
+    Icon: EntertainmentIcon
+  },
+  {
+    id: "wall-units",
+    title: "Wall Units",
+    description: "Beautiful and functional wall storage solutions",
+    Icon: WallUnitIcon
+  },
+  {
+    id: "wine-pantry",
+    title: "Wine Pantry",
+    description: "Specialized storage for wine and pantry items",
+    Icon: WinePantryIcon
+  }
 ];
 
 interface ServiceSelectionProps {
@@ -63,45 +101,37 @@ export function ServiceSelection({
         </p>
       </div>
 
-      <div className="space-y-2 md:space-y-3 mb-4 md:mb-6">
-        {services.map((service) => (
-          <button
-            key={service.id}
-            onClick={() => onToggleService(service.id)}
-            className={cn(
-              "w-full flex items-center p-2.5 md:p-3 rounded-xl border text-left transition-all duration-200 active:scale-[0.99] touch-manipulation",
-              selectedServices.includes(service.id)
-                ? "border-citrus-orange bg-citrus-orange/5"
-                : "border-white/10 hover:border-white/20 bg-white/5"
-            )}
-          >
-            <div 
+      <div className="grid grid-cols-2 gap-2 md:gap-3 mb-4 md:mb-6">
+        {services.map((service) => {
+          const isSelected = selectedServices.includes(service.id);
+          return (
+            <button
+              key={service.id}
+              onClick={() => onToggleService(service.id)}
               className={cn(
-                "w-4 md:w-5 h-4 md:h-5 rounded-full border flex-shrink-0 flex items-center justify-center transition-all duration-200 mr-2 md:mr-3",
-                selectedServices.includes(service.id)
-                  ? "border-citrus-orange"
-                  : "border-white/30"
+                "flex flex-col items-center p-3 md:p-4 rounded-xl border text-center transition-all duration-200 active:scale-[0.99] touch-manipulation",
+                isSelected
+                  ? "border-citrus-orange bg-citrus-orange/5"
+                  : "border-white/10 hover:border-white/20 bg-white/5"
               )}
             >
-              {selectedServices.includes(service.id) && (
-                <div className="w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-citrus-orange" />
-              )}
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm md:text-base font-medium text-white truncate">{service.title}</h3>
-              <p className="text-xs md:text-sm text-white/70 line-clamp-2">{service.description}</p>
-            </div>
-            {service.image && (
-              <div className="w-12 h-12 md:w-16 md:h-16 rounded-lg overflow-hidden flex-shrink-0 ml-2 md:ml-3">
-                <img 
-                  src={service.image} 
-                  alt={service.title}
-                  className="w-full h-full object-cover"
+              <div className="w-12 h-12 md:w-16 md:h-16 mb-2 md:mb-3">
+                <service.Icon 
+                  className={cn(
+                    "w-full h-full transition-colors duration-300",
+                    isSelected ? "text-citrus-orange" : "text-[#999B98]"
+                  )} 
                 />
               </div>
-            )}
-          </button>
-        ))}
+              <h3 className="text-sm md:text-base font-medium text-white mb-1">
+                {service.title}
+              </h3>
+              <p className="text-xs md:text-sm text-white/70 line-clamp-2">
+                {service.description}
+              </p>
+            </button>
+          );
+        })}
       </div>
 
       <Button

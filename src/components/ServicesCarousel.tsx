@@ -37,15 +37,6 @@ const ServicesCarousel = () => {
     <div className="relative z-20 -mt-24 px-4">
       <div className="max-w-[1400px] mx-auto">
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-6 animate-fade-in [animation-delay:1.1s] opacity-0">
-          <div className="text-center mb-6">
-            <span className="inline-block bg-citrus-orange/10 text-citrus-orange px-3 py-1 rounded-full text-sm font-medium mb-2">
-              Our Services
-            </span>
-            <h2 className="text-2xl md:text-3xl font-bold text-white">
-              Solutions for Every Space
-            </h2>
-          </div>
-
           <Carousel
             opts={{
               align: "start",

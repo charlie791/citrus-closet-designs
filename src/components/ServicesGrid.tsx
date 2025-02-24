@@ -1,45 +1,53 @@
 
 import ServiceCard from "./ServiceCard";
+import CustomClosetIcon from "./icons/CustomClosetIcon";
+import GarageStorageIcon from "./icons/GarageStorageIcon";
+import HomeOfficeIcon from "./icons/HomeOfficeIcon";
+import LaundryStorageIcon from "./icons/LaundryStorageIcon";
+import CraftRoomIcon from "./icons/CraftRoomIcon";
+import EntertainmentIcon from "./icons/EntertainmentIcon";
+import WallUnitIcon from "./icons/WallUnitIcon";
+import WinePantryIcon from "./icons/WinePantryIcon";
 
 const services = [
   {
     title: "Custom Closets",
-    icon: "/svg-cat/1 Custom closets.svg",
+    Icon: CustomClosetIcon,
     href: "/services/custom-closets"
   },
   {
     title: "Garage Storage",
-    icon: "/svg-cat/2 Garage storage.svg",
+    Icon: GarageStorageIcon,
     href: "/services/garage-storage"
   },
   {
     title: "Home Office",
-    icon: "/svg-cat/3 Home office.svg",
+    Icon: HomeOfficeIcon,
     href: "/services/home-office"
   },
   {
     title: "Laundry Storage",
-    icon: "/svg-cat/4 Laundry storage.svg",
+    Icon: LaundryStorageIcon,
     href: "/services/pantry-and-laundry"
   },
   {
     title: "Craft Rooms",
-    icon: "/svg-cat/5 Craft rooms.svg",
+    Icon: CraftRoomIcon,
     href: "/services/other-solutions"
   },
   {
     title: "Entertainment",
-    icon: "/svg-cat/6 Entertainment centers.svg",
+    Icon: EntertainmentIcon,
     href: "/services/other-solutions"
   },
   {
     title: "Wall Units",
-    icon: "/svg-cat/7 Wall units.svg",
+    Icon: WallUnitIcon,
     href: "/services/other-solutions"
   },
   {
     title: "Wine Pantry",
-    icon: "/svg-cat/8 Wine pantry.svg",
+    Icon: WinePantryIcon,
     href: "/services/pantry-and-laundry"
   }
 ];
@@ -51,7 +59,12 @@ const ServicesGrid = () => {
         <div className="bg-white/30 backdrop-blur-md border border-white/30 rounded-xl shadow-lg p-3 animate-fade-in [animation-delay:1.1s] opacity-0">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {services.map((service, index) => (
-              <ServiceCard key={index} {...service} />
+              <ServiceCard 
+                key={index} 
+                title={service.title}
+                Icon={service.Icon}
+                href={service.href}
+              />
             ))}
           </div>
         </div>
@@ -61,4 +74,3 @@ const ServicesGrid = () => {
 };
 
 export default ServicesGrid;
-

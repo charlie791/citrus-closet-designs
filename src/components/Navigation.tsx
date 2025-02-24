@@ -41,20 +41,8 @@ const Navigation = () => {
               <div className="absolute inset-0 bg-citrus-peach/20 filter blur-xl rounded-full scale-75 group-hover:scale-100 transition-transform duration-300" />
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-8">
-              <Link 
-                to="/services/custom-closets" 
-                className="text-sm font-medium tracking-wide hover:text-citrus-orange transition-colors duration-200"
-              >
-                CLOSETS
-              </Link>
-              <Link 
-                to="/services" 
-                className="text-sm font-medium tracking-wide hover:text-citrus-orange transition-colors duration-200"
-              >
-                CUSTOM SPACES
-              </Link>
+            {/* Desktop Phone Number */}
+            <div className="hidden lg:flex items-center">
               <a 
                 href="tel:8445673477" 
                 className="flex items-center space-x-2 text-sm font-medium tracking-wide hover:text-citrus-orange transition-colors duration-200"

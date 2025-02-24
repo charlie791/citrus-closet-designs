@@ -122,10 +122,9 @@ const Navigation = () => {
       {/* Floating Phone Widget (Mobile Only) */}
       <a 
         href="tel:8445673477" 
-        className="lg:hidden fixed bottom-6 right-6 bg-citrus-orange hover:bg-citrus-coral shadow-lg rounded-full p-4 flex items-center gap-2 text-white z-50 transition-all duration-200 active:scale-95"
+        className="lg:hidden fixed bottom-6 right-6 bg-citrus-orange hover:bg-citrus-coral shadow-lg rounded-full p-4 flex items-center justify-center text-white z-50 transition-all duration-200 active:scale-95"
       >
         <Phone className="h-6 w-6" />
-        <span className="text-sm font-medium">CALL NOW</span>
       </a>
     </>
   );

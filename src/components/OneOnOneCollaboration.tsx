@@ -1,7 +1,36 @@
 
 import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { useEffect, useState } from "react";
+import Autoplay from "embla-carousel-autoplay";
+
+const CLOSET_IMAGES = [
+  "/closet-images/All white closet colorful clothes tall mirror great picture_1920x1072.webp",
+  "/closet-images/Black custom closet very realistic_1920x1072.webp",
+  "/closet-images/Classic walk-in closet with a chair_1920x1072.webp",
+  "/closet-images/Medium tone, vibrant clothes very realistic custom closet_1920x1072.webp",
+  "/closet-images/White closet realistic clean_1920x1072.webp",
+  "/closet-images/Gray colored cabinet custom closet_1920x1072.webp"
+];
 
 const OneOnOneCollaboration = ({ onScheduleConsultation }: { onScheduleConsultation: () => void }) => {
+  const [api, setApi] = useState<any>(null);
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
+
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-4">
@@ -9,12 +38,45 @@ const OneOnOneCollaboration = ({ onScheduleConsultation }: { onScheduleConsultat
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Image Column */}
             <div className="relative rounded-2xl overflow-hidden animate-fade-in [animation-delay:0.3s] opacity-0">
-              <img 
-                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2070&auto=format&fit=crop" 
-                alt="Designer consultation" 
-                className="w-full h-[500px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+              <Carousel
+                setApi={setApi}
+                plugins={[
+                  Autoplay({
+                    delay: 5000,
+                  }),
+                ]}
+                opts={{
+                  loop: true,
+                  align: "start",
+                }}
+                className="w-full"
+              >
+                <CarouselContent>
+                  {CLOSET_IMAGES.map((src, index) => (
+                    <CarouselItem key={index}>
+                      <div className="relative w-full">
+                        <img 
+                          src={src}
+                          alt={`Designer consultation ${index + 1}`}
+                          className="w-full h-[500px] object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                  {CLOSET_IMAGES.map((_, index) => (
+                    <button
+                      key={index}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        current === index ? "bg-white scale-125" : "bg-white/50"
+                      }`}
+                      onClick={() => api?.scrollTo(index)}
+                    />
+                  ))}
+                </div>
+              </Carousel>
             </div>
 
             {/* Content Column */}
@@ -89,4 +151,3 @@ const OneOnOneCollaboration = ({ onScheduleConsultation }: { onScheduleConsultat
 };
 
 export default OneOnOneCollaboration;
-

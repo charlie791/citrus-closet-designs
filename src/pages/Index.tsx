@@ -4,8 +4,6 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import ServicesGrid from "@/components/ServicesGrid";
 import OneOnOneCollaboration from "@/components/OneOnOneCollaboration";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import Gallery from "@/components/Gallery";
 import ProcessSteps from "@/components/ProcessSteps";
 import Testimonials from "@/components/Testimonials";
 import PromoOffer from "@/components/PromoOffer";
@@ -28,8 +26,6 @@ const Index = () => {
       <ServicesGrid />
       <OneOnOneCollaboration onScheduleConsultation={handleScheduleConsultation} />
       <ProcessSteps onScheduleConsultation={handleScheduleConsultation} />
-      <WhyChooseUs />
-      <Gallery />
       <Testimonials />
       <PromoOffer onScheduleConsultation={handleScheduleConsultation} />
       <BlogTeaser />

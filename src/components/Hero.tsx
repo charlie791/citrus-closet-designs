@@ -8,7 +8,7 @@ const Hero = () => {
   const [showConsultation, setShowConsultation] = useState(false);
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div className="relative h-[100vh] flex items-center justify-center overflow-hidden">
       {/* Video Background with Overlay */}
       <div className="absolute inset-0 w-full h-full">
         <div className="absolute inset-0 bg-white/80 z-10" />

@@ -44,11 +44,11 @@ const Navigation = () => {
             {/* Desktop Phone Number */}
             <div className="hidden lg:flex items-center">
               <a 
-                href="tel:8445673477" 
+                href="tel:4073498466" 
                 className="flex items-center space-x-2 text-sm font-medium tracking-wide hover:text-citrus-orange transition-colors duration-200"
               >
                 <Phone className="h-4 w-4" />
-                <span>CALL NOW (844) 567-3477</span>
+                <span>CALL NOW (407) 349-8466</span>
               </a>
             </div>
 
@@ -90,7 +90,7 @@ const Navigation = () => {
 
       {/* Floating Phone Widget (Mobile Only) */}
       <a 
-        href="tel:8445673477" 
+        href="tel:4073498466" 
         className="lg:hidden fixed bottom-6 right-6 bg-citrus-orange hover:bg-citrus-coral shadow-lg rounded-full p-4 flex items-center justify-center text-white z-50 transition-all duration-200 active:scale-95"
       >
         <Phone className="h-6 w-6" />

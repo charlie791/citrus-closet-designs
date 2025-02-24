@@ -51,9 +51,9 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2 text-white/70">
-              <li>123 Storage Lane</li>
-              <li>Organization City, ST 12345</li>
-              <li>Phone: (555) 123-4567</li>
+              <li>4450 Seaboard Rd</li>
+              <li>Orlando, FL 32808</li>
+              <li>Phone: (407) 349-8466</li>
               <li>Email: info@citrusclosets.com</li>
             </ul>
           </div>

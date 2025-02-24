@@ -21,6 +21,26 @@ const services = [
     href: "/services/custom-closets"
   },
   {
+    title: "Home Office",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=800&auto=format&fit=crop",
+    href: "/services/home-office"
+  },
+  {
+    title: "Laundry Room",
+    image: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?q=80&w=800&auto=format&fit=crop",
+    href: "/services/pantry-and-laundry"
+  },
+  {
+    title: "Wall Units",
+    image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=800&auto=format&fit=crop",
+    href: "/services/other-solutions"
+  },
+  {
+    title: "Entertainment",
+    image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?q=80&w=800&auto=format&fit=crop",
+    href: "/services/other-solutions"
+  },
+  {
     title: "Pantry Storage",
     image: "https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=800&auto=format&fit=crop",
     href: "/services/pantry-and-laundry"
@@ -46,7 +66,7 @@ const ServicesCarousel = () => {
           >
             <CarouselContent className="-ml-3">
               {services.map((service, index) => (
-                <CarouselItem key={index} className="pl-3 basis-full sm:basis-1/2 lg:basis-1/4">
+                <CarouselItem key={index} className="pl-3 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                   <Link 
                     to={service.href}
                     className="block group relative bg-gradient-to-b from-white/15 to-white/5 rounded-lg overflow-hidden border border-white/25 backdrop-blur-sm transition-all duration-300 
@@ -54,7 +74,7 @@ const ServicesCarousel = () => {
                       hover:shadow-[0_8px_20px_-2px_rgba(0,0,0,0.25),0_0_12px_-2px_rgba(255,255,255,0.2)]
                       hover:bg-white/20 hover:-translate-y-1"
                   >
-                    <div className="aspect-video overflow-hidden">
+                    <div className="aspect-square overflow-hidden">
                       <div className="relative w-full h-full">
                         <img
                           src={service.image}

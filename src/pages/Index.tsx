@@ -11,7 +11,6 @@ import Testimonials from "@/components/Testimonials";
 import PromoOffer from "@/components/PromoOffer";
 import BlogTeaser from "@/components/BlogTeaser";
 import FinalCTA from "@/components/FinalCTA";
-import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
 import { ConsultationDialog } from "@/components/consultation/ConsultationDialog";
 
@@ -35,7 +34,6 @@ const Index = () => {
       <PromoOffer onScheduleConsultation={handleScheduleConsultation} />
       <BlogTeaser />
       <FinalCTA onScheduleConsultation={handleScheduleConsultation} />
-      <ContactForm />
       <Footer />
 
       <ConsultationDialog 
@@ -47,4 +45,3 @@ const Index = () => {
 };
 
 export default Index;
-

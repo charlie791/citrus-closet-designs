@@ -1,40 +1,41 @@
+
 import { useState, useEffect, useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const galleryImages = [
   {
-    src: "/closet-images/All white closet colorful clothes tall mirror great picture_1920x1072.webp",
+    src: "closet-images/All white closet colorful clothes tall mirror great picture_1920x1072.webp",
     alt: "White closet with colorful clothes and tall mirror",
     title: "Modern Walk-in Closet",
     note: "Perfect blend of style & function ✨",
   },
   {
-    src: "/closet-images/Black colored custom closet_1920x1072.webp",
+    src: "closet-images/Black colored custom closet_1920x1072.webp",
     alt: "Black colored custom closet",
     title: "Luxury Black Custom Closet",
     note: "Sleek & sophisticated design 🖤",
   },
   {
-    src: "/closet-images/Built-in closet on wall single room integrated closet_1920x1072.webp",
+    src: "closet-images/Built-in closet on wall single room integrated closet_1920x1072.webp",
     alt: "Built-in wall closet",
     title: "Integrated Wall Closet",
     note: "Smart space utilization 📐",
   },
   {
-    src: "/closet-images/Classic walk-in closet with a chair_1920x1072.webp",
+    src: "closet-images/Classic walk-in closet with a chair_1920x1072.webp",
     alt: "Classic walk-in closet",
     title: "Classic Walk-in Design",
     note: "Timeless elegance ⭐",
   },
   {
-    src: "/closet-images/Gray colored cabinet custom closet_1920x1072.webp",
+    src: "closet-images/Gray colored cabinet custom closet_1920x1072.webp",
     alt: "Gray cabinet custom closet",
     title: "Modern Gray Storage",
     note: "Contemporary & clean 🌟",
   },
   {
-    src: "/closet-images/Mocha brown slab front very realistic closet_1920x1072.webp",
+    src: "closet-images/Mocha brown slab front very realistic closet_1920x1072.webp",
     alt: "Mocha brown closet",
     title: "Elegant Mocha Design",
     note: "Warm & inviting space ✨",
@@ -133,7 +134,7 @@ const Gallery = () => {
                       hover:shadow-xl
                     ">
                       <motion.img
-                        src={image.src}
+                        src={`/${image.src}`}
                         alt={image.alt}
                         className="w-full aspect-[4/3] object-cover rounded"
                       />
@@ -170,7 +171,7 @@ const Gallery = () => {
               className="relative overflow-hidden rounded-lg"
             >
               <img
-                src={galleryImages[selectedImage].src}
+                src={`/${galleryImages[selectedImage].src}`}
                 alt={galleryImages[selectedImage].alt}
                 className="w-full object-cover"
               />

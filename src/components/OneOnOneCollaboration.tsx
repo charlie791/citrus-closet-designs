@@ -11,12 +11,12 @@ import { useEffect, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 
 const CLOSET_IMAGES = [
-  "/closet-images/All white closet colorful clothes tall mirror great picture_1920x1072.webp",
-  "/closet-images/Black colored custom closet_1920x1072.webp",
-  "/closet-images/Built-in closet on wall single room integrated closet_1920x1072.webp",
-  "/closet-images/Classic walk-in closet with a chair_1920x1072.webp",
-  "/closet-images/Gray colored cabinet custom closet_1920x1072.webp",
-  "/closet-images/Mocha brown slab front very realistic closet_1920x1072.webp"
+  "closet-images/All white closet colorful clothes tall mirror great picture_1920x1072.webp",
+  "closet-images/Black colored custom closet_1920x1072.webp",
+  "closet-images/Built-in closet on wall single room integrated closet_1920x1072.webp",
+  "closet-images/Classic walk-in closet with a chair_1920x1072.webp",
+  "closet-images/Gray colored cabinet custom closet_1920x1072.webp",
+  "closet-images/Mocha brown slab front very realistic closet_1920x1072.webp"
 ];
 
 const OneOnOneCollaboration = ({ onScheduleConsultation }: { onScheduleConsultation: () => void }) => {
@@ -56,7 +56,7 @@ const OneOnOneCollaboration = ({ onScheduleConsultation }: { onScheduleConsultat
                     <CarouselItem key={index}>
                       <div className="relative w-full">
                         <img 
-                          src={src}
+                          src={`/${src}`}
                           alt={`Designer consultation ${index + 1}`}
                           className="w-full h-[500px] object-cover"
                         />

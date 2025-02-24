@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import Services from "@/components/Services";
+import ServicesCarousel from "@/components/ServicesCarousel";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Gallery from "@/components/Gallery";
 import ProcessSteps from "@/components/ProcessSteps";
@@ -25,7 +25,7 @@ const Index = () => {
     <main>
       <Navigation />
       <Hero />
-      <Services />
+      <ServicesCarousel />
       <WhyChooseUs />
       <Gallery />
       <ProcessSteps />

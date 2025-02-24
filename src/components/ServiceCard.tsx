@@ -15,7 +15,7 @@ const ServiceCard = ({ title, icon, href }: ServiceCardProps) => {
         hover:shadow-lg hover:bg-white/30 hover:-translate-y-0.5"
     >
       <div className="flex flex-col items-center justify-center gap-3">
-        <div className="w-16 h-16 [&>img]:text-[#999B98] [&>img]:fill-current transition-colors duration-300 group-hover:[&>img]:text-citrus-orange">
+        <div className="w-16 h-16 text-[#999B98] transition-colors duration-300 group-hover:text-citrus-orange [&_svg]:w-full [&_svg]:h-full [&_path]:fill-current [&_polygon]:fill-current [&_rect]:fill-current [&_g]:fill-current">
           <img
             src={icon}
             alt={title}

@@ -12,11 +12,11 @@ import Autoplay from "embla-carousel-autoplay";
 
 const CLOSET_IMAGES = [
   "/closet-images/All white closet colorful clothes tall mirror great picture_1920x1072.webp",
-  "/closet-images/Black custom closet very realistic_1920x1072.webp",
+  "/closet-images/Black colored custom closet_1920x1072.webp",
+  "/closet-images/Built-in closet on wall single room integrated closet_1920x1072.webp",
   "/closet-images/Classic walk-in closet with a chair_1920x1072.webp",
-  "/closet-images/Medium tone, vibrant clothes very realistic custom closet_1920x1072.webp",
-  "/closet-images/White closet realistic clean_1920x1072.webp",
-  "/closet-images/Gray colored cabinet custom closet_1920x1072.webp"
+  "/closet-images/Gray colored cabinet custom closet_1920x1072.webp",
+  "/closet-images/Mocha brown slab front very realistic closet_1920x1072.webp"
 ];
 
 const OneOnOneCollaboration = ({ onScheduleConsultation }: { onScheduleConsultation: () => void }) => {

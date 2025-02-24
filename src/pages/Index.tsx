@@ -7,7 +7,7 @@ import OneOnOneCollaboration from "@/components/OneOnOneCollaboration";
 import ProcessSteps from "@/components/ProcessSteps";
 import Testimonials from "@/components/Testimonials";
 import PromoOffer from "@/components/PromoOffer";
-import BlogTeaser from "@/components/BlogTeaser";
+import Gallery from "@/components/Gallery";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 import { ConsultationDialog } from "@/components/consultation/ConsultationDialog";
@@ -28,7 +28,7 @@ const Index = () => {
       <ProcessSteps onScheduleConsultation={handleScheduleConsultation} />
       <PromoOffer onScheduleConsultation={handleScheduleConsultation} />
       <Testimonials />
-      <BlogTeaser />
+      <Gallery />
       <FinalCTA onScheduleConsultation={handleScheduleConsultation} />
       <Footer />
 

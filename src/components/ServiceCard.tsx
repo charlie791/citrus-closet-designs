@@ -3,33 +3,28 @@ import { Link } from "react-router-dom";
 
 interface ServiceCardProps {
   title: string;
-  image: string;
+  icon: string;
   href: string;
 }
 
-const ServiceCard = ({ title, image, href }: ServiceCardProps) => {
+const ServiceCard = ({ title, icon, href }: ServiceCardProps) => {
   return (
     <Link 
       to={href}
-      className="block group relative bg-gradient-to-b from-white/40 to-white/20 rounded-lg overflow-hidden border border-white/40 backdrop-blur-sm transition-all duration-300 
-        shadow-[0_2px_8px_-1px_rgba(255,255,255,0.1),0_0_4px_-1px_rgba(255,255,255,0.1)] 
-        hover:shadow-[0_4px_12px_-2px_rgba(255,255,255,0.15),0_0_8px_-1px_rgba(255,255,255,0.2)]
-        hover:bg-white/30 hover:-translate-y-0.5"
+      className="block group relative p-6 bg-white/20 rounded-lg overflow-hidden border border-white/40 backdrop-blur-sm transition-all duration-300 
+        hover:shadow-lg hover:bg-white/30 hover:-translate-y-0.5"
     >
-      <div className="aspect-square overflow-hidden">
-        <div className="relative w-full h-full">
+      <div className="flex flex-col items-center justify-center gap-3">
+        <div className="w-16 h-16 transition-colors duration-300 text-citrus-charcoal group-hover:text-citrus-orange">
           <img
-            src={image}
+            src={icon}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-white/30 to-white/20" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h3 className="text-lg font-semibold text-citrus-charcoal text-center px-3 drop-shadow-sm">
-              {title}
-            </h3>
-          </div>
         </div>
+        <h3 className="text-sm font-medium text-citrus-charcoal text-center">
+          {title}
+        </h3>
       </div>
     </Link>
   );

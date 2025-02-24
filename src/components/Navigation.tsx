@@ -26,7 +26,7 @@ const Navigation = () => {
             : "bg-transparent"
         )}
       >
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="max-w-[1400px] mx-auto px-6">
           <div className="h-24 flex items-center justify-between relative">
             {/* Mobile Logo (Left) */}
             <Link 
@@ -41,7 +41,7 @@ const Navigation = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex flex-1 items-center justify-between max-w-6xl">
+            <div className="hidden lg:flex w-full items-center justify-between">
               {/* Left Navigation Links */}
               <div className="flex items-center space-x-8">
                 <Link 
@@ -98,7 +98,7 @@ const Navigation = () => {
           {/* Mobile Menu */}
           {isMobileMenuOpen && (
             <div className="lg:hidden absolute top-24 left-0 w-full bg-white/95 backdrop-blur-md shadow-xl animate-fade-in border-t border-white/20">
-              <div className="container mx-auto px-6 py-6 space-y-4">
+              <div className="px-6 py-6 space-y-4">
                 <Link 
                   to="/services/custom-closets"
                   className="block p-4 text-center font-medium hover:bg-white/80 rounded-lg transition-colors duration-200"

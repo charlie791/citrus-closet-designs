@@ -34,7 +34,7 @@ const services = [
 
 const ServicesCarousel = () => {
   return (
-    <div className="relative z-20 -mt-32 px-4">
+    <div className="relative z-20 -mt-24 px-4">
       <div className="max-w-[1400px] mx-auto">
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-6 animate-fade-in [animation-delay:1.1s] opacity-0">
           <Carousel

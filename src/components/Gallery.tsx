@@ -1,6 +1,6 @@
-
 import { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const galleryImages = [
   {
@@ -43,19 +43,23 @@ const galleryImages = [
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
   const galleryRef = useRef<HTMLDivElement>(null);
 
   const getRandomRotation = (index: number) => {
-    // Use index to ensure consistent rotation
     return (((index * 137.5) % 11) - 5);
   };
 
   const getRandomOffset = (index: number) => {
-    // Use index to ensure consistent positioning
     return {
       x: ((index * 137.5) % 40) - 20,
       y: ((index * 137.5) % 30) - 15
     };
+  };
+
+  const handleImageClick = (index: number) => {
+    setSelectedImage(index);
+    setModalOpen(true);
   };
 
   return (
@@ -115,11 +119,8 @@ const Gallery = () => {
                       zIndex: 20,
                       transition: { duration: 0.3 }
                     }}
-                    onClick={() => setSelectedImage(selectedImage === index ? null : index)}
-                    className={`
-                      relative cursor-pointer
-                      ${selectedImage !== null && selectedImage !== index ? 'opacity-40' : ''}
-                    `}
+                    onClick={() => handleImageClick(index)}
+                    className="relative cursor-pointer"
                     style={{
                       transformOrigin: "center",
                       transform: `rotate(${rotation}deg) translate(${offset.x}px, ${offset.y}px)`,
@@ -127,7 +128,7 @@ const Gallery = () => {
                     }}
                   >
                     <div className="
-                      bg-white p-3 pb-16 rounded shadow-lg
+                      bg-white p-3 pb-24 rounded shadow-lg
                       transform transition-all duration-300
                       hover:shadow-xl
                     ">
@@ -135,17 +136,14 @@ const Gallery = () => {
                         src={image.src}
                         alt={image.alt}
                         className="w-full aspect-[4/3] object-cover rounded"
-                        style={{
-                          filter: selectedImage === index ? "brightness(1.1)" : "brightness(1)",
-                        }}
                       />
                       <motion.div
-                        className="absolute bottom-4 left-4 right-4"
+                        className="absolute bottom-6 left-4 right-4"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
                       >
-                        <p className="font-['Caveat'] text-2xl text-gray-800 -rotate-2 mb-1">
+                        <p className="font-['Caveat'] text-2xl text-gray-800 -rotate-2 mb-2">
                           {image.title}
                         </p>
                         <p className="font-['Caveat'] text-lg text-gray-600 rotate-1">
@@ -160,6 +158,34 @@ const Gallery = () => {
           </div>
         </div>
       </div>
+
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+        <DialogContent className="max-w-5xl bg-white p-0 border-none">
+          {selectedImage !== null && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="relative overflow-hidden rounded-lg"
+            >
+              <img
+                src={galleryImages[selectedImage].src}
+                alt={galleryImages[selectedImage].alt}
+                className="w-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-8">
+                <h3 className="font-['Caveat'] text-3xl text-white mb-2">
+                  {galleryImages[selectedImage].title}
+                </h3>
+                <p className="font-['Caveat'] text-2xl text-white/90">
+                  {galleryImages[selectedImage].note}
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

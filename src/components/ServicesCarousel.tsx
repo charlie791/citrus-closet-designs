@@ -53,30 +53,30 @@ const ServicesCarousel = () => {
             }}
             className="w-full"
           >
-            <CarouselContent className="-ml-4">
+            <CarouselContent className="-ml-3">
               {services.map((service, index) => (
-                <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                  <div className="group relative bg-white/5 rounded-xl overflow-hidden border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                    <div className="aspect-[16/9] overflow-hidden">
+                <CarouselItem key={index} className="pl-3 basis-full sm:basis-1/2 lg:basis-1/4">
+                  <div className="group relative bg-white/10 rounded-lg overflow-hidden border border-white/20 backdrop-blur-sm hover:bg-white/15 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                    <div className="aspect-video overflow-hidden">
                       <img
                         src={service.image}
                         alt={service.title}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
-                    <div className="p-4">
-                      <h3 className="text-lg font-semibold text-white mb-1">
+                    <div className="p-3">
+                      <h3 className="text-base font-semibold text-white">
                         {service.title}
                       </h3>
-                      <p className="text-sm text-white/70 mb-2">
+                      <p className="text-xs text-white/70 line-clamp-2 mt-0.5 mb-2">
                         {service.description}
                       </p>
                       <a
                         href="#"
-                        className="inline-flex items-center text-sm text-citrus-orange hover:text-citrus-coral transition-colors"
+                        className="inline-flex items-center text-xs font-medium text-citrus-orange hover:text-citrus-coral transition-colors"
                       >
                         Learn More
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                        <ArrowRight className="ml-1 h-3 w-3" />
                       </a>
                     </div>
                   </div>

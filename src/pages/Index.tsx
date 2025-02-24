@@ -26,8 +26,8 @@ const Index = () => {
       <ServicesGrid />
       <OneOnOneCollaboration onScheduleConsultation={handleScheduleConsultation} />
       <ProcessSteps onScheduleConsultation={handleScheduleConsultation} />
-      <Testimonials />
       <PromoOffer onScheduleConsultation={handleScheduleConsultation} />
+      <Testimonials />
       <BlogTeaser />
       <FinalCTA onScheduleConsultation={handleScheduleConsultation} />
       <Footer />

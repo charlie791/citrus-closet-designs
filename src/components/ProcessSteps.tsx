@@ -25,7 +25,7 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
     <section id="process" className="py-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-[1400px] mx-auto">
-          <div className="grid lg:grid-cols-[400px,1fr] gap-12">
+          <div className="grid lg:grid-cols-2 gap-12">
             {/* Left Column - Fixed Content */}
             <div className="space-y-6">
               <span className="text-sm font-medium tracking-wider text-citrus-charcoal/70">
@@ -52,17 +52,17 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
             </div>
 
             {/* Right Column - Timeline */}
-            <div className="relative">
+            <div className="relative pl-8">
               <div className="absolute left-0 top-0 bottom-0 w-px bg-citrus-orange/10" />
               
               <div className="space-y-16">
                 {steps.map((step, index) => (
                   <div 
                     key={step.title}
-                    className="relative pl-8"
+                    className="relative"
                   >
                     {/* Timeline Dot */}
-                    <div className="absolute left-[-5px] top-[14px] w-[10px] h-[10px] rounded-full bg-citrus-orange" />
+                    <div className="absolute left-[-13px] top-[14px] w-[10px] h-[10px] rounded-full bg-citrus-orange" />
                     
                     <div className="space-y-3">
                       <h3 className="text-2xl font-bold text-[#647585]">

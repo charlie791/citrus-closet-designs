@@ -28,59 +28,40 @@ const Navigation = () => {
       >
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="h-24 flex items-center justify-between relative">
-            {/* Mobile Logo (Left) */}
+            {/* Logo (Left) */}
             <Link 
               to="/" 
-              className="lg:hidden"
+              className="relative group transition-transform duration-200 hover:scale-105"
             >
               <img 
                 src="/citrus-closets.svg" 
                 alt="Citrus Closets" 
-                className="h-10" 
+                className="h-12 relative z-10" 
               />
+              <div className="absolute inset-0 bg-citrus-peach/20 filter blur-xl rounded-full scale-75 group-hover:scale-100 transition-transform duration-300" />
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex w-full items-center justify-between">
-              {/* Left Navigation Links */}
-              <div className="flex items-center space-x-8">
-                <Link 
-                  to="/services/custom-closets" 
-                  className="text-sm font-medium tracking-wide hover:text-citrus-orange transition-colors duration-200"
-                >
-                  CLOSETS
-                </Link>
-                <Link 
-                  to="/services" 
-                  className="text-sm font-medium tracking-wide hover:text-citrus-orange transition-colors duration-200"
-                >
-                  CUSTOM SPACES
-                </Link>
-              </div>
-
-              {/* Center Logo */}
+            <div className="hidden lg:flex items-center space-x-8">
               <Link 
-                to="/" 
-                className="relative group transition-transform duration-200 hover:scale-105"
+                to="/services/custom-closets" 
+                className="text-sm font-medium tracking-wide hover:text-citrus-orange transition-colors duration-200"
               >
-                <img 
-                  src="/citrus-closets.svg" 
-                  alt="Citrus Closets" 
-                  className="h-12 relative z-10" 
-                />
-                <div className="absolute inset-0 bg-citrus-peach/20 filter blur-xl rounded-full scale-75 group-hover:scale-100 transition-transform duration-300" />
+                CLOSETS
               </Link>
-
-              {/* Right Contact Information */}
-              <div className="flex items-center space-x-2">
-                <a 
-                  href="tel:8445673477" 
-                  className="flex items-center space-x-2 text-sm font-medium tracking-wide hover:text-citrus-orange transition-colors duration-200"
-                >
-                  <Phone className="h-4 w-4" />
-                  <span>CALL NOW (844) 567-3477</span>
-                </a>
-              </div>
+              <Link 
+                to="/services" 
+                className="text-sm font-medium tracking-wide hover:text-citrus-orange transition-colors duration-200"
+              >
+                CUSTOM SPACES
+              </Link>
+              <a 
+                href="tel:8445673477" 
+                className="flex items-center space-x-2 text-sm font-medium tracking-wide hover:text-citrus-orange transition-colors duration-200"
+              >
+                <Phone className="h-4 w-4" />
+                <span>CALL NOW (844) 567-3477</span>
+              </a>
             </div>
 
             {/* Mobile Menu Button */}

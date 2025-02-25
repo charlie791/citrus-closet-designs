@@ -1,65 +1,65 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 const steps = [
   {
     title: "Discovery",
     description: "Work with a designer, virtually or in-home, who will uncover your likes and needs. Based on the measurements of your space and inventory you wish to store in it, we create a design that fits you perfectly.",
-    image: "closet-images/Classic walk-in closet with a chair_1920x1072.webp"
+    time: 4.19,
   },
   {
     title: "Design",
     description: "With our 3D design software, Idea Books, and samples on hand, we craft plans that detail the organizational structure and flow of the space. Together we explore our vast selection of materials and finishes, and choose enhancements, accessories, and specialty items to create a closet that is truly unique.",
-    image: "closet-images/Black colored custom closet_1920x1072.webp"
+    time: 9.08,
   },
   {
     title: "Build",
     description: "Once you have approved your design, our craftsmen go to work. We fabricate each component based on the precise specifications of your designs because \"custom\" means individual, cut-to-order construction.",
-    image: "closet-images/Gray colored cabinet custom closet_1920x1072.webp"
+    time: 14.10,
   },
   {
     title: "Install",
     description: "Your dream closet will become a reality. On installation day, you can expect friendly, contact-free, quick and expert work, meticulous attention to detail, and thorough cleanup of the space. Installers come equipped with masks, gloves, and disinfecting wipes.",
-    image: "closet-images/All white closet colorful clothes tall mirror great picture_1920x1072.webp"
+    time: 19.10,
   }
 ];
 
 const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () => void }) => {
   const [activeStep, setActiveStep] = useState(0);
+  const [showOverlay, setShowOverlay] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(containerRef, { margin: "-40% 0px -40% 0px" });
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"]
-  });
 
-  // Create separate refs for each step
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
-
+  // Handle video time updates
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = stepRefs.current.findIndex(ref => ref === entry.target);
-            if (index !== -1) {
-              setActiveStep(index);
-            }
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
+    const video = videoRef.current;
+    if (!video) return;
 
-    stepRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
+    const handleTimeUpdate = () => {
+      const currentTime = video.currentTime;
+      
+      // Find the appropriate step based on current time
+      const currentStepIndex = steps.findIndex((step, index) => {
+        const nextStepTime = steps[index + 1]?.time ?? Infinity;
+        return currentTime >= step.time && currentTime < nextStepTime;
+      });
 
-    return () => observer.disconnect();
+      // Hide overlay after the last step
+      if (currentTime >= steps[steps.length - 1].time) {
+        setShowOverlay(false);
+      } else {
+        setShowOverlay(true);
+        if (currentStepIndex !== -1) {
+          setActiveStep(currentStepIndex);
+        }
+      }
+    };
+
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    return () => video.removeEventListener('timeupdate', handleTimeUpdate);
   }, []);
 
   // Handle video playback based on visibility
@@ -75,7 +75,20 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
     }
   }, [isInView]);
 
-  const progress = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  // Calculate video progress
+  const getProgress = () => {
+    if (!videoRef.current) return 0;
+    const currentStep = steps[activeStep];
+    const nextStep = steps[activeStep + 1];
+    
+    if (!nextStep) return 100;
+    
+    const currentTime = videoRef.current.currentTime;
+    const stepDuration = nextStep.time - currentStep.time;
+    const stepProgress = (currentTime - currentStep.time) / stepDuration;
+    
+    return Math.min(((activeStep + stepProgress) / steps.length) * 100, 100);
+  };
 
   return (
     <section id="process" className="py-24 bg-white relative overflow-hidden">
@@ -133,7 +146,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                   muted
                   loop
                   preload="auto"
-                  poster={steps[activeStep].image}
                 >
                   <source src="https://igscountertops.b-cdn.net/Citrus%20Closets/Process.mp4" type="video/mp4" />
                 </video>
@@ -142,23 +154,30 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 
                 {/* Step Information Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <motion.h3 
-                    key={steps[activeStep].title}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="text-2xl font-semibold mb-2"
+                {showOverlay && (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute bottom-0 left-0 right-0 p-6 text-white"
                   >
-                    {steps[activeStep].title}
-                  </motion.h3>
-                  <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                    <motion.div
-                      className="h-full bg-citrus-orange"
-                      style={{ width: `${(activeStep + 1) * 25}%` }}
-                    />
-                  </div>
-                </div>
+                    <motion.h3 
+                      key={steps[activeStep].title}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="text-2xl font-semibold mb-2"
+                    >
+                      {steps[activeStep].title}
+                    </motion.h3>
+                    <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-citrus-orange"
+                        style={{ width: `${getProgress()}%` }}
+                      />
+                    </div>
+                  </motion.div>
+                )}
               </motion.div>
             </div>
 
@@ -170,7 +189,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                 {steps.map((step, index) => (
                   <motion.div 
                     key={step.title}
-                    ref={el => stepRefs.current[index] = el}
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}

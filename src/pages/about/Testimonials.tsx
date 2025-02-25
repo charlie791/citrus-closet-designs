@@ -1,7 +1,6 @@
-
 import PageLayout from "@/components/PageLayout";
 import { Star, MapPin } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
 import {
   Carousel,
   CarouselContent,
@@ -9,6 +8,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useState, useRef } from "react";
 
 // Define the testimonial type
 type Testimonial = {
@@ -93,7 +99,94 @@ const generateTestimonials = (): Testimonial[] => {
 
 const testimonials = generateTestimonials();
 
+const TestimonialCard = ({ testimonial, index, setSelected }: { 
+  testimonial: Testimonial; 
+  index: number;
+  setSelected: (t: Testimonial | null) => void;
+}) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const rotateX = useTransform(y, [-100, 100], [30, -30]);
+  const rotateY = useTransform(x, [-100, 100], [-30, 30]);
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+
+    const rect = cardRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    x.set(event.clientX - centerX);
+    y.set(event.clientY - centerY);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      className="absolute bg-white p-4 rounded-lg shadow-lg cursor-pointer"
+      style={{
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        zIndex: Math.floor(Math.random() * 10),
+        maxWidth: "300px",
+        transformStyle: "preserve-3d",
+        perspective: 1000,
+        rotateX,
+        rotateY,
+      }}
+      initial={{
+        opacity: 0,
+        scale: 0.5,
+        x: Math.random() * 100 - 50,
+        y: Math.random() * 100 - 50
+      }}
+      animate={{
+        opacity: [0.7, 1, 0.7],
+        scale: [1, 1.05, 1],
+        x: Math.random() * 50 - 25,
+        y: Math.random() * 50 - 25
+      }}
+      transition={{
+        duration: 10 + Math.random() * 5,
+        repeat: Infinity,
+        repeatType: "reverse"
+      }}
+      whileHover={{
+        scale: 1.1,
+        zIndex: 50,
+        transition: { duration: 0.2 }
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={() => setSelected(testimonial)}
+    >
+      <div className="flex items-center gap-2 mb-2">
+        <div className="flex gap-1">
+          {Array(5).fill(null).map((_, i) => (
+            <Star key={i} className="w-3 h-3 fill-citrus-orange text-citrus-orange" />
+          ))}
+        </div>
+        <span className="text-xs text-citrus-charcoal/60">{testimonial.date}</span>
+      </div>
+      <p className="text-sm text-citrus-charcoal/80 line-clamp-2">{testimonial.quote}</p>
+      <div className="mt-2 flex items-center justify-between text-xs text-citrus-charcoal/60">
+        <span>{testimonial.location}</span>
+        <span>{testimonial.project}</span>
+      </div>
+    </motion.div>
+  );
+};
+
 const Testimonials = () => {
+  const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);
+
   return (
     <PageLayout
       title="Client Testimonials"
@@ -191,49 +284,56 @@ const Testimonials = () => {
       <div className="relative h-[800px] mb-24 overflow-hidden bg-gradient-to-b from-citrus-peach/5 to-white">
         <div className="absolute inset-0">
           {testimonials.slice(0, 50).map((testimonial, index) => (
-            <motion.div
-              key={testimonial.id}
-              className="absolute bg-white p-4 rounded-lg shadow-sm"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                zIndex: Math.floor(Math.random() * 10),
-                maxWidth: "300px"
-              }}
-              initial={{
-                opacity: 0,
-                scale: 0.5,
-                x: Math.random() * 100 - 50,
-                y: Math.random() * 100 - 50
-              }}
-              animate={{
-                opacity: [0.7, 1, 0.7],
-                scale: [1, 1.05, 1],
-                x: Math.random() * 50 - 25,
-                y: Math.random() * 50 - 25
-              }}
-              transition={{
-                duration: 10 + Math.random() * 5,
-                repeat: Infinity,
-                repeatType: "reverse"
-              }}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <div className="flex gap-1">
-                  {Array(5).fill(null).map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-citrus-orange text-citrus-orange" />
-                  ))}
-                </div>
-                <span className="text-xs text-citrus-charcoal/60">{testimonial.date}</span>
-              </div>
-              <p className="text-sm text-citrus-charcoal/80 line-clamp-2">{testimonial.quote}</p>
-              <div className="mt-2 flex items-center justify-between text-xs text-citrus-charcoal/60">
-                <span>{testimonial.location}</span>
-                <span>{testimonial.project}</span>
-              </div>
-            </motion.div>
+            <TestimonialCard 
+              key={testimonial.id} 
+              testimonial={testimonial} 
+              index={index}
+              setSelected={setSelectedTestimonial}
+            />
           ))}
         </div>
+
+        <Dialog open={!!selectedTestimonial} onOpenChange={() => setSelectedTestimonial(null)}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold">Client Testimonial</DialogTitle>
+            </DialogHeader>
+            {selectedTestimonial && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-6"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <img
+                    src={selectedTestimonial.image}
+                    alt={selectedTestimonial.name}
+                    className="w-20 h-20 rounded-full object-cover"
+                  />
+                  <div>
+                    <h3 className="text-xl font-semibold">{selectedTestimonial.name}</h3>
+                    <div className="flex items-center text-sm text-citrus-charcoal/70">
+                      <MapPin className="w-4 h-4 mr-1" />
+                      {selectedTestimonial.location}
+                    </div>
+                    <div className="flex gap-1 mt-2">
+                      {Array(5).fill(null).map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-citrus-orange text-citrus-orange" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-lg text-citrus-charcoal/80 italic mb-4">
+                  "{selectedTestimonial.quote}"
+                </p>
+                <div className="flex items-center justify-between text-sm text-citrus-charcoal/60">
+                  <span>{selectedTestimonial.project}</span>
+                  <span>{selectedTestimonial.date}</span>
+                </div>
+              </motion.div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Location-based Grid */}

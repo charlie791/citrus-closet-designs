@@ -1,12 +1,12 @@
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
-import { useState } from "react";
-import { ConsultationDialog } from "./consultation/ConsultationDialog";
 
-const Hero = () => {
-  const [showConsultation, setShowConsultation] = useState(false);
+interface HeroProps {
+  onScheduleConsultation: () => void;
+}
 
+const Hero = ({ onScheduleConsultation }: HeroProps) => {
   return (
     <div className="relative h-[100vh] flex items-center justify-center overflow-hidden">
       {/* Video Background with Overlay */}
@@ -47,18 +47,13 @@ const Hero = () => {
           <Button 
             size="lg" 
             className="bg-citrus-orange hover:bg-citrus-coral transition-colors text-lg px-8 py-6 rounded-full"
-            onClick={() => setShowConsultation(true)}
+            onClick={onScheduleConsultation}
           >
             <Calendar className="mr-2 h-6 w-6" />
             Schedule Free Consultation
           </Button>
         </div>
       </div>
-
-      <ConsultationDialog 
-        open={showConsultation} 
-        onOpenChange={setShowConsultation}
-      />
     </div>
   );
 };

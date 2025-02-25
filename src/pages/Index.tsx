@@ -24,7 +24,7 @@ const Index = () => {
     <TooltipProvider>
       <main>
         <Navigation />
-        <Hero />
+        <Hero onScheduleConsultation={handleScheduleConsultation} />
         <ServicesGrid />
         <OneOnOneCollaboration onScheduleConsultation={handleScheduleConsultation} />
         <ProcessSteps onScheduleConsultation={handleScheduleConsultation} />

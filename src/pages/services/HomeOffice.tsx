@@ -1,7 +1,7 @@
 
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
-import { Calendar, Computer, Desk, Lamp, Grid3X3, WandSparkles } from "lucide-react";
+import { Calendar, Computer, LampDesk, Grid3X3, WandSparkles } from "lucide-react";
 import Gallery from "@/components/Gallery";
 import OneOnOneCollaboration from "@/components/OneOnOneCollaboration";
 import FinalCTA from "@/components/FinalCTA";
@@ -57,7 +57,7 @@ const HomeOffice = () => {
         <div className="grid md:grid-cols-3 gap-8">
           <div className="bg-white p-8 rounded-lg shadow-sm text-center">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-citrus-orange/10 text-citrus-orange mb-6">
-              <Desk className="w-8 h-8" />
+              <LampDesk className="w-8 h-8" />
             </div>
             <h3 className="text-xl font-semibold mb-4">Ergonomic Design</h3>
             <p className="text-citrus-charcoal/70">

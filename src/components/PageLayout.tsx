@@ -58,7 +58,7 @@ const PageLayout = ({
 
       <Navigation />
       
-      <main className="flex-grow">
+      <main className="flex-grow pt-24">
         <div className="container mx-auto px-4 py-8">
           {breadcrumbs && (
             <>

@@ -1,5 +1,6 @@
 
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -30,21 +31,22 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><a href="#services" className="text-white/70 hover:text-white transition-colors">Services</a></li>
-              <li><a href="#gallery" className="text-white/70 hover:text-white transition-colors">Gallery</a></li>
-              <li><a href="#process" className="text-white/70 hover:text-white transition-colors">Process</a></li>
-              <li><a href="#about" className="text-white/70 hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#blog" className="text-white/70 hover:text-white transition-colors">Blog</a></li>
+              <li><Link to="/services" className="text-white/70 hover:text-white transition-colors">Services</Link></li>
+              <li><Link to="/gallery" className="text-white/70 hover:text-white transition-colors">Gallery</Link></li>
+              <li><Link to="/process" className="text-white/70 hover:text-white transition-colors">Process</Link></li>
+              <li><Link to="/about" className="text-white/70 hover:text-white transition-colors">About Us</Link></li>
+              <li><Link to="/about/testimonials" className="text-white/70 hover:text-white transition-colors">Testimonials</Link></li>
+              <li><Link to="/blog" className="text-white/70 hover:text-white transition-colors">Blog</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-semibold mb-4">Services</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-white/70 hover:text-white transition-colors">Custom Closets</a></li>
-              <li><a href="#" className="text-white/70 hover:text-white transition-colors">Walk-in Closets</a></li>
-              <li><a href="#" className="text-white/70 hover:text-white transition-colors">Pantry Storage</a></li>
-              <li><a href="#" className="text-white/70 hover:text-white transition-colors">Garage Systems</a></li>
+              <li><Link to="/services/custom-closets" className="text-white/70 hover:text-white transition-colors">Custom Closets</Link></li>
+              <li><Link to="/services/garage-storage" className="text-white/70 hover:text-white transition-colors">Garage Systems</Link></li>
+              <li><Link to="/services/pantry-and-laundry" className="text-white/70 hover:text-white transition-colors">Pantry Storage</Link></li>
+              <li><Link to="/services/home-office" className="text-white/70 hover:text-white transition-colors">Home Office</Link></li>
             </ul>
           </div>
 
@@ -68,3 +70,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

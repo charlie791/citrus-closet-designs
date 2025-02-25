@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,6 +6,9 @@
     <title>Custom Closets & Storage Solutions in Orlando | Citrus Closets</title>
     <meta name="description" content="Transform your space with custom closets, garage storage, and organization solutions in Orlando. Professional design and installation by Citrus Closets. Free consultation!" />
     <meta name="keywords" content="custom closets orlando, closet organization, storage solutions, garage storage, pantry organization, walk-in closets" />
+    
+    <!-- Base URL for client-side routing -->
+    <base href="/" />
     
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💎</text></svg>" />
@@ -105,6 +107,16 @@
 
   <body>
     <div id="root"></div>
+    <script>
+      // Fallback for environments that don't support URL rewriting
+      (function() {
+        const path = window.location.pathname;
+        if (path !== '/' && !path.includes('.')) {
+          sessionStorage.setItem('redirectPath', path);
+          window.location.href = '/';
+        }
+      })();
+    </script>
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>

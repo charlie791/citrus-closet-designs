@@ -1,5 +1,6 @@
 
 import { Star } from "lucide-react";
+import { motion } from "framer-motion";
 
 const testimonials = [
   {
@@ -30,24 +31,87 @@ const Testimonials = () => {
     <section className="py-24 bg-gradient-to-b from-white to-citrus-peach/10">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Left Column - Content */}
-          <div className="space-y-6">
-            <span className="inline-block bg-citrus-orange/10 text-citrus-orange px-4 py-1.5 rounded-full text-sm font-medium">
-              Testimonials
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-citrus-charcoal">
-              What Our Clients Say
-            </h2>
-            <p className="text-citrus-charcoal/70 max-w-xl">
-              Read about experiences from our satisfied customers who have transformed their spaces with our custom storage solutions.
-            </p>
+          {/* Left Column - Content & Featured Testimonial */}
+          <div className="space-y-12">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-6"
+            >
+              <span className="inline-block bg-citrus-orange/10 text-citrus-orange px-4 py-1.5 rounded-full text-sm font-medium">
+                Testimonials
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-citrus-charcoal">
+                What Our Clients Say
+              </h2>
+              <p className="text-citrus-charcoal/70 max-w-xl">
+                Read about experiences from our satisfied customers who have transformed their spaces with our custom storage solutions.
+              </p>
+            </motion.div>
+
+            {/* Featured Testimonial */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="relative bg-white rounded-2xl p-8 md:p-10 shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              {/* Decorative Elements */}
+              <div className="absolute -top-4 -left-4 w-24 h-24 bg-citrus-orange/5 rounded-full -z-10" />
+              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-citrus-peach/10 rounded-full -z-10" />
+              
+              {/* Quote Mark */}
+              <div className="absolute top-6 right-8 text-8xl font-serif text-citrus-orange/10 select-none">
+                "
+              </div>
+
+              <div className="flex items-center gap-6 mb-8">
+                <motion.img
+                  initial={{ scale: 0.9 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                  src={testimonials[0].image}
+                  alt={testimonials[0].name}
+                  className="w-20 h-20 rounded-full object-cover ring-4 ring-citrus-orange/10"
+                />
+                <div>
+                  <h3 className="text-xl font-semibold text-citrus-charcoal">
+                    {testimonials[0].name}
+                  </h3>
+                  <p className="text-citrus-charcoal/70">
+                    {testimonials[0].role}
+                  </p>
+                  <div className="flex gap-1 mt-2">
+                    {[...Array(testimonials[0].rating)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3, delay: i * 0.1 }}
+                      >
+                        <Star className="w-5 h-5 fill-citrus-orange text-citrus-orange" />
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-citrus-charcoal/80 text-xl md:text-2xl font-light italic leading-relaxed">
+                "{testimonials[0].quote}"
+              </p>
+            </motion.div>
           </div>
 
           {/* Right Column - Stacked Testimonials */}
           <div className="space-y-6 max-h-[600px] overflow-y-auto pr-4 custom-scrollbar">
-            {testimonials.map((testimonial) => (
-              <div 
+            {testimonials.slice(1).map((testimonial, index) => (
+              <motion.div 
                 key={testimonial.name}
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
                 className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <div className="flex items-center gap-4 mb-6">
@@ -76,7 +140,7 @@ const Testimonials = () => {
                 <p className="text-citrus-charcoal/80 text-lg italic leading-relaxed">
                   "{testimonial.quote}"
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

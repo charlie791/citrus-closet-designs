@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
@@ -114,7 +115,7 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                   We create a storage solution that creates harmony in your home based on your needs, aesthetic and budget.
                 </p>
 
-                <div className="pt-4">
+                <div className="pt-4 hidden lg:block">
                   <Button
                     onClick={onScheduleConsultation}
                     size="lg"
@@ -175,40 +176,58 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
             </div>
 
             {/* Right Column - Timeline */}
-            <div ref={containerRef} className="relative pl-8">
-              <div className="absolute left-0 top-0 bottom-0 w-px bg-citrus-orange/10" />
-              
-              <div className="space-y-16">
-                {steps.map((step, index) => (
-                  <motion.div 
-                    key={step.title}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="relative"
-                  >
-                    {/* Timeline Dot */}
+            <div className="relative">
+              <div ref={containerRef} className="relative pl-8">
+                <div className="absolute left-0 top-0 bottom-0 w-px bg-citrus-orange/10" />
+                
+                <div className="space-y-16">
+                  {steps.map((step, index) => (
                     <motion.div 
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      transition={{ duration: 0.4, delay: 0.2 }}
-                      className={`absolute left-[-13px] top-[14px] w-[10px] h-[10px] rounded-full ${
-                        activeStep >= index ? 'bg-citrus-orange' : 'bg-citrus-orange/30'
-                      }`} 
-                    />
-                    
-                    <div className="space-y-3">
-                      <h3 className="text-2xl font-bold text-[#647585]">
-                        {step.title}
-                      </h3>
-                      <p className="text-citrus-charcoal/70 leading-relaxed">
-                        {step.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
+                      key={step.title}
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="relative"
+                    >
+                      {/* Timeline Dot */}
+                      <motion.div 
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        transition={{ duration: 0.4, delay: 0.2 }}
+                        className={`absolute left-[-13px] top-[14px] w-[10px] h-[10px] rounded-full ${
+                          activeStep >= index ? 'bg-citrus-orange' : 'bg-citrus-orange/30'
+                        }`} 
+                      />
+                      
+                      <div className="space-y-3">
+                        <h3 className="text-2xl font-bold text-[#647585]">
+                          {step.title}
+                        </h3>
+                        <p className="text-citrus-charcoal/70 leading-relaxed">
+                          {step.description}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
+              
+              {/* Mobile Get Started Button */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mt-16 pl-8 lg:hidden"
+              >
+                <Button
+                  onClick={onScheduleConsultation}
+                  size="lg"
+                  className="font-semibold w-full sm:w-auto"
+                >
+                  Get Started
+                </Button>
+              </motion.div>
             </div>
           </div>
         </div>

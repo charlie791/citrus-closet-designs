@@ -1,0 +1,101 @@
+
+import PageLayout from "@/components/PageLayout";
+import { Button } from "@/components/ui/button";
+import { Calendar, Tv, Grid3X3, WandSparkles } from "lucide-react";
+import Gallery from "@/components/Gallery";
+import OneOnOneCollaboration from "@/components/OneOnOneCollaboration";
+import FinalCTA from "@/components/FinalCTA";
+
+const Entertainment = () => {
+  const handleScheduleConsultation = () => {
+    console.log("Schedule consultation clicked");
+  };
+
+  return (
+    <PageLayout
+      title="Entertainment Centers"
+      breadcrumbs={[
+        { label: "Services", href: "/services" },
+        { label: "Entertainment", href: "/services/entertainment" }
+      ]}
+    >
+      {/* Hero Section */}
+      <div className="relative h-[60vh] flex items-center justify-center mb-16 overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40 z-10" />
+          <img 
+            src="/closet-images/Black colored custom closet_1920x1072.webp"
+            alt="Custom entertainment center"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="relative z-20 container mx-auto px-4 text-center text-white">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            Custom Entertainment
+            <br />
+            <span className="text-citrus-orange">
+              Centers
+            </span>
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+            Transform your living space with custom entertainment centers
+          </p>
+          <Button 
+            size="lg" 
+            onClick={handleScheduleConsultation}
+            className="bg-citrus-orange hover:bg-citrus-coral"
+          >
+            <Calendar className="mr-2 h-5 w-5" />
+            Schedule Free Consultation
+          </Button>
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <div className="container mx-auto px-4 mb-24">
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-white p-8 rounded-lg shadow-sm text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-citrus-orange/10 text-citrus-orange mb-6">
+              <Tv className="w-8 h-8" />
+            </div>
+            <h3 className="text-xl font-semibold mb-4">Entertainment Space</h3>
+            <p className="text-citrus-charcoal/70">
+              Custom designed entertainment centers that perfectly fit your space and style.
+            </p>
+          </div>
+          
+          <div className="bg-white p-8 rounded-lg shadow-sm text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-citrus-orange/10 text-citrus-orange mb-6">
+              <Grid3X3 className="w-8 h-8" />
+            </div>
+            <h3 className="text-xl font-semibold mb-4">Media Storage</h3>
+            <p className="text-citrus-charcoal/70">
+              Smart storage solutions for all your media and entertainment equipment.
+            </p>
+          </div>
+          
+          <div className="bg-white p-8 rounded-lg shadow-sm text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-citrus-orange/10 text-citrus-orange mb-6">
+              <WandSparkles className="w-8 h-8" />
+            </div>
+            <h3 className="text-xl font-semibold mb-4">Custom Features</h3>
+            <p className="text-citrus-charcoal/70">
+              Built-in features designed around your specific entertainment needs.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Gallery Section */}
+      <Gallery />
+
+      {/* Consultation Section */}
+      <OneOnOneCollaboration onScheduleConsultation={handleScheduleConsultation} />
+
+      {/* Final CTA */}
+      <FinalCTA onScheduleConsultation={handleScheduleConsultation} />
+    </PageLayout>
+  );
+};
+
+export default Entertainment;

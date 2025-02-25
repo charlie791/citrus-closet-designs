@@ -33,22 +33,22 @@ const services = [
   {
     title: "Craft Rooms",
     Icon: CraftRoomIcon,
-    href: "/services/other-solutions"
+    href: "/services/craft-rooms"
   },
   {
     title: "Entertainment",
     Icon: EntertainmentIcon,
-    href: "/services/other-solutions"
+    href: "/services/entertainment"
   },
   {
     title: "Wall Units",
     Icon: WallUnitIcon,
-    href: "/services/other-solutions"
+    href: "/services/wall-units"
   },
   {
     title: "Wine Pantry",
     Icon: WinePantryIcon,
-    href: "/services/pantry-and-laundry"
+    href: "/services/wine-pantry"
   }
 ];
 

@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,7 +12,10 @@ import CustomClosets from "./pages/services/CustomClosets";
 import GarageStorage from "./pages/services/GarageStorage";
 import HomeOffice from "./pages/services/HomeOffice";
 import PantryLaundry from "./pages/services/PantryLaundry";
-import OtherSolutions from "./pages/services/OtherSolutions";
+import CraftRooms from "./pages/services/CraftRooms";
+import Entertainment from "./pages/services/Entertainment";
+import WallUnits from "./pages/services/WallUnits";
+import WinePantry from "./pages/services/WinePantry";
 
 // Main Section Routes
 import Process from "./pages/process";
@@ -53,7 +55,10 @@ const App = () => (
           <Route path="/services/garage-storage" element={<GarageStorage />} />
           <Route path="/services/home-office" element={<HomeOffice />} />
           <Route path="/services/pantry-and-laundry" element={<PantryLaundry />} />
-          <Route path="/services/other-solutions" element={<OtherSolutions />} />
+          <Route path="/services/craft-rooms" element={<CraftRooms />} />
+          <Route path="/services/entertainment" element={<Entertainment />} />
+          <Route path="/services/wall-units" element={<WallUnits />} />
+          <Route path="/services/wine-pantry" element={<WinePantry />} />
           
           {/* Main Section Routes */}
           <Route path="/process" element={<Process />} />

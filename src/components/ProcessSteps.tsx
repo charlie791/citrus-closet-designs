@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
@@ -7,22 +6,22 @@ const steps = [
   {
     title: "Discovery",
     description: "Work with a designer, virtually or in-home, who will uncover your likes and needs. Based on the measurements of your space and inventory you wish to store in it, we create a design that fits you perfectly.",
-    time: 4.19,
+    time: 0,
   },
   {
     title: "Design",
     description: "With our 3D design software, Idea Books, and samples on hand, we craft plans that detail the organizational structure and flow of the space. Together we explore our vast selection of materials and finishes, and choose enhancements, accessories, and specialty items to create a closet that is truly unique.",
-    time: 9.08,
+    time: 4.19,
   },
   {
     title: "Build",
     description: "Once you have approved your design, our craftsmen go to work. We fabricate each component based on the precise specifications of your designs because \"custom\" means individual, cut-to-order construction.",
-    time: 14.10,
+    time: 9.08,
   },
   {
     title: "Install",
     description: "Your dream closet will become a reality. On installation day, you can expect friendly, contact-free, quick and expert work, meticulous attention to detail, and thorough cleanup of the space. Installers come equipped with masks, gloves, and disinfecting wipes.",
-    time: 19.10,
+    time: 14.10,
   }
 ];
 
@@ -41,20 +40,22 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
     const handleTimeUpdate = () => {
       const currentTime = video.currentTime;
       
+      // Hide overlay at end time
+      if (currentTime >= 19.10) {
+        setShowOverlay(false);
+        return;
+      }
+
+      setShowOverlay(true);
+      
       // Find the appropriate step based on current time
       const currentStepIndex = steps.findIndex((step, index) => {
-        const nextStepTime = steps[index + 1]?.time ?? Infinity;
+        const nextStepTime = steps[index + 1]?.time ?? 19.10;
         return currentTime >= step.time && currentTime < nextStepTime;
       });
 
-      // Hide overlay after the last step
-      if (currentTime >= steps[steps.length - 1].time) {
-        setShowOverlay(false);
-      } else {
-        setShowOverlay(true);
-        if (currentStepIndex !== -1) {
-          setActiveStep(currentStepIndex);
-        }
+      if (currentStepIndex !== -1) {
+        setActiveStep(currentStepIndex);
       }
     };
 
@@ -78,16 +79,8 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
   // Calculate video progress
   const getProgress = () => {
     if (!videoRef.current) return 0;
-    const currentStep = steps[activeStep];
-    const nextStep = steps[activeStep + 1];
-    
-    if (!nextStep) return 100;
-    
     const currentTime = videoRef.current.currentTime;
-    const stepDuration = nextStep.time - currentStep.time;
-    const stepProgress = (currentTime - currentStep.time) / stepDuration;
-    
-    return Math.min(((activeStep + stepProgress) / steps.length) * 100, 100);
+    return Math.min((currentTime / 19.10) * 100, 100);
   };
 
   return (

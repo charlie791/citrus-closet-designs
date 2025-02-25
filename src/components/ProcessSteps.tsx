@@ -1,7 +1,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 
 const steps = [
   {
@@ -29,6 +29,9 @@ const steps = [
 const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () => void }) => {
   const [activeStep, setActiveStep] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const isInView = useInView(containerRef, { margin: "-40% 0px -40% 0px" });
+  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"]
@@ -58,6 +61,19 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
 
     return () => observer.disconnect();
   }, []);
+
+  // Handle video playback based on visibility
+  useEffect(() => {
+    if (videoRef.current) {
+      if (isInView) {
+        videoRef.current.play().catch(error => {
+          console.log("Video autoplay failed:", error);
+        });
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  }, [isInView]);
 
   const progress = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
@@ -103,27 +119,39 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                 </div>
               </motion.div>
 
-              {/* Current Step Image */}
+              {/* Video Section with Step Overlays */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="relative mt-8 rounded-2xl overflow-hidden shadow-2xl aspect-[16/10] bg-gray-100"
+                className="relative mt-8 rounded-2xl overflow-hidden shadow-2xl aspect-video bg-gray-100"
               >
-                <motion.img
-                  key={activeStep}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                  src={steps[activeStep].image}
-                  alt={steps[activeStep].title}
+                <video
+                  ref={videoRef}
                   className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                  playsInline
+                  muted
+                  loop
+                  preload="auto"
+                  poster={steps[activeStep].image}
+                >
+                  <source src="https://igscountertops.b-cdn.net/Citrus%20Closets/Process.mp4" type="video/mp4" />
+                </video>
+                
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                
+                {/* Step Information Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-semibold mb-2">
+                  <motion.h3 
+                    key={steps[activeStep].title}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-2xl font-semibold mb-2"
+                  >
                     {steps[activeStep].title}
-                  </h3>
+                  </motion.h3>
                   <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
                     <motion.div
                       className="h-full bg-citrus-orange"

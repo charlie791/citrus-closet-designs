@@ -10,36 +10,54 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
+// Define the testimonial type
+type Testimonial = {
+  id: number;
+  name: string;
+  location: string;
+  image: string;
+  quote: string;
+  rating: number;
+  project: string;
+  date: string;
+};
+
 // Sample testimonial data (we'll generate more programmatically)
-const baseTestimonials = [
+const baseTestimonials: Testimonial[] = [
   {
+    id: 1,
     name: "Sarah Johnson",
     location: "Winter Park, Orlando",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop",
     quote: "The transformation of my master closet exceeded all expectations. The team was professional and the result is stunning!",
     rating: 5,
     project: "Custom Closet",
+    date: new Date().toLocaleDateString(),
   },
   {
+    id: 2,
     name: "Michael Chen",
     location: "Davis Islands, Tampa",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
     quote: "Outstanding quality and attention to detail. The 3D design process made it easy to visualize the end result.",
     rating: 5,
     project: "Garage Storage",
+    date: new Date().toLocaleDateString(),
   },
   {
+    id: 3,
     name: "Emily Roberts",
     location: "Lake Mary, Orlando",
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop",
     quote: "As a homeowner in Lake Mary, I couldn't be happier with my new pantry system. It's literally changed how we organize!",
     rating: 5,
     project: "Pantry Solution",
+    date: new Date().toLocaleDateString(),
   }
 ];
 
 // Generate 500+ testimonials by combining elements
-const generateTestimonials = () => {
+const generateTestimonials = (): Testimonial[] => {
   const locations = [
     "Winter Park, Orlando", "Downtown Orlando", "Lake Nona", "Windermere",
     "South Tampa", "Davis Islands", "Hyde Park", "Westchase", "Lake Mary",
@@ -60,7 +78,7 @@ const generateTestimonials = () => {
   ];
 
   const expandedTestimonials = Array.from({ length: 500 }, (_, index) => ({
-    id: index + 1,
+    id: index + 4, // Start after the base testimonials
     name: `Happy Client ${index + 1}`,
     location: locations[Math.floor(Math.random() * locations.length)],
     image: `https://images.unsplash.com/photo-${1500000000000 + index}?q=80&w=200&auto=format&fit=crop`,

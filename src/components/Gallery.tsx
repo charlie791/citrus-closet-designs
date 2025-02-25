@@ -134,7 +134,7 @@ const Gallery = () => {
                       hover:shadow-xl
                     ">
                       <motion.img
-                        src={`/${image.src}`}
+                        src={image.src}
                         alt={image.alt}
                         className="w-full aspect-[4/3] object-cover rounded"
                       />
@@ -171,7 +171,7 @@ const Gallery = () => {
               className="relative overflow-hidden rounded-lg"
             >
               <img
-                src={`/${galleryImages[selectedImage].src}`}
+                src={galleryImages[selectedImage].src}
                 alt={galleryImages[selectedImage].alt}
                 className="w-full object-cover"
               />

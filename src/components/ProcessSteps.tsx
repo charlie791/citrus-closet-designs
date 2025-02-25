@@ -114,16 +114,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                 <p className="text-citrus-charcoal/70">
                   We create a storage solution that creates harmony in your home based on your needs, aesthetic and budget.
                 </p>
-
-                <div className="pt-4 hidden lg:block">
-                  <Button
-                    onClick={onScheduleConsultation}
-                    size="lg"
-                    className="font-semibold"
-                  >
-                    Get Started
-                  </Button>
-                </div>
               </motion.div>
 
               {/* Video Section with Step Overlays */}
@@ -173,6 +163,17 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                   </motion.div>
                 )}
               </motion.div>
+
+              {/* Desktop Get Started Button */}
+              <div className="hidden lg:block">
+                <Button
+                  onClick={onScheduleConsultation}
+                  size="lg"
+                  className="font-semibold w-full"
+                >
+                  Get Started
+                </Button>
+              </div>
             </div>
 
             {/* Right Column - Timeline */}

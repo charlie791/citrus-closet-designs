@@ -1,7 +1,6 @@
-
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
-import { Calendar, WashingMachine, Box, Grid3X3, WandSparkles, Basket } from "lucide-react";
+import { Calendar, WashingMachine, Box, Grid3X3, WandSparkles } from "lucide-react";
 import Gallery from "@/components/Gallery";
 import OneOnOneCollaboration from "@/components/OneOnOneCollaboration";
 import FinalCTA from "@/components/FinalCTA";
@@ -145,4 +144,3 @@ const PantryLaundry = () => {
 };
 
 export default PantryLaundry;
-

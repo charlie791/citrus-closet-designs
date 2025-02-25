@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
@@ -26,14 +25,17 @@ const steps = [
   }
 ];
 
-const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () => void }) => {
+interface ProcessStepsProps {
+  onScheduleConsultation: () => void;
+}
+
+const ProcessSteps = ({ onScheduleConsultation }: ProcessStepsProps) => {
   const [activeStep, setActiveStep] = useState(0);
   const [showOverlay, setShowOverlay] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(containerRef, { margin: "-40% 0px -40% 0px" });
 
-  // Handle video time updates
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -41,7 +43,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
     const handleTimeUpdate = () => {
       const currentTime = video.currentTime;
       
-      // Hide overlay at end time
       if (currentTime >= 19.10) {
         setShowOverlay(false);
         return;
@@ -49,7 +50,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
 
       setShowOverlay(true);
       
-      // Find the appropriate step based on current time
       const currentStepIndex = steps.findIndex((step, index) => {
         const nextStepTime = steps[index + 1]?.time ?? 19.10;
         return currentTime >= step.time && currentTime < nextStepTime;
@@ -64,7 +64,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
     return () => video.removeEventListener('timeupdate', handleTimeUpdate);
   }, []);
 
-  // Handle video playback based on visibility
   useEffect(() => {
     if (videoRef.current) {
       if (isInView) {
@@ -77,7 +76,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
     }
   }, [isInView]);
 
-  // Calculate video progress
   const getProgress = () => {
     if (!videoRef.current) return 0;
     const currentTime = videoRef.current.currentTime;
@@ -86,7 +84,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
 
   return (
     <section id="process" className="py-24 bg-white relative overflow-hidden">
-      {/* Background Pattern */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute right-0 top-0 w-1/3 h-1/3 bg-citrus-orange/5 rounded-bl-[100px] transform rotate-12" />
         <div className="absolute left-0 bottom-0 w-1/4 h-1/4 bg-citrus-peach/20 rounded-tr-[80px] transform -rotate-12" />
@@ -95,7 +92,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
       <div className="container mx-auto px-4">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 relative">
-            {/* Left Column - Fixed Content */}
             <div className="lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] space-y-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -116,7 +112,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                 </p>
               </motion.div>
 
-              {/* Video Section with Step Overlays */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -134,10 +129,8 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                   <source src="https://igscountertops.b-cdn.net/Citrus%20Closets/Process.mp4" type="video/mp4" />
                 </video>
                 
-                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 
-                {/* Step Information Overlay */}
                 {showOverlay && (
                   <motion.div 
                     initial={{ opacity: 0 }}
@@ -164,7 +157,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                 )}
               </motion.div>
 
-              {/* Desktop Get Started Button */}
               <div className="hidden lg:block">
                 <Button
                   onClick={onScheduleConsultation}
@@ -176,7 +168,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
               </div>
             </div>
 
-            {/* Right Column - Timeline */}
             <div className="relative">
               <div ref={containerRef} className="relative pl-8">
                 <div className="absolute left-0 top-0 bottom-0 w-px bg-citrus-orange/10" />
@@ -191,7 +182,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                       viewport={{ once: true }}
                       className="relative"
                     >
-                      {/* Timeline Dot */}
                       <motion.div 
                         initial={{ scale: 0 }}
                         whileInView={{ scale: 1 }}
@@ -214,7 +204,6 @@ const ProcessSteps = ({ onScheduleConsultation }: { onScheduleConsultation: () =
                 </div>
               </div>
               
-              {/* Mobile Get Started Button */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

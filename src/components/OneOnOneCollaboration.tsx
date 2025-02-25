@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -19,7 +18,11 @@ const CLOSET_IMAGES = [
   "closet-images/Mocha brown slab front very realistic closet_1920x1072.webp"
 ];
 
-const OneOnOneCollaboration = ({ onScheduleConsultation }: { onScheduleConsultation: () => void }) => {
+interface OneOnOneCollaborationProps {
+  onScheduleConsultation: () => void;
+}
+
+const OneOnOneCollaboration = ({ onScheduleConsultation }: OneOnOneCollaborationProps) => {
   const [api, setApi] = useState<any>(null);
   const [current, setCurrent] = useState(0);
 
@@ -36,7 +39,6 @@ const OneOnOneCollaboration = ({ onScheduleConsultation }: { onScheduleConsultat
       <div className="container mx-auto px-4">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Image Column */}
             <div className="relative rounded-2xl overflow-hidden animate-fade-in [animation-delay:0.3s] opacity-0">
               <Carousel
                 setApi={setApi}
@@ -79,7 +81,6 @@ const OneOnOneCollaboration = ({ onScheduleConsultation }: { onScheduleConsultat
               </Carousel>
             </div>
 
-            {/* Content Column */}
             <div className="space-y-6 animate-fade-in [animation-delay:0.6s] opacity-0">
               <span className="inline-block bg-citrus-orange/10 text-citrus-orange px-4 py-1.5 rounded-full text-sm font-medium">
                 Design Consultation

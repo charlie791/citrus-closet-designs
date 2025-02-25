@@ -4,6 +4,7 @@ import PageLayout from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { TestimonialCard } from "@/components/testimonials/TestimonialCard";
 import { TestimonialDialog } from "@/components/testimonials/TestimonialDialog";
+import { TestimonialForm } from "@/components/testimonials/TestimonialForm";
 import { generateTestimonials } from "@/utils/testimonialData";
 import { Testimonial } from "@/types/testimonial";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ const testimonials = generateTestimonials();
 
 const Testimonials = () => {
   const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);
+  const [showForm, setShowForm] = useState(false);
 
   return (
     <PageLayout
@@ -77,6 +79,7 @@ const Testimonials = () => {
               <Button 
                 size="lg"
                 className="bg-citrus-orange hover:bg-citrus-orange/90 text-white px-8 py-6 text-xl rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                onClick={() => setShowForm(true)}
               >
                 Add Your Review to the Cloud! ⭐
               </Button>
@@ -122,6 +125,11 @@ const Testimonials = () => {
       <TestimonialDialog 
         testimonial={selectedTestimonial} 
         onClose={() => setSelectedTestimonial(null)} 
+      />
+
+      <TestimonialForm 
+        open={showForm}
+        onClose={() => setShowForm(false)}
       />
     </PageLayout>
   );

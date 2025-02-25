@@ -24,6 +24,42 @@ export type Database = {
         }
         Relationships: []
       }
+      testimonials: {
+        Row: {
+          created_at: string | null
+          customer_name: string
+          id: string
+          image_url: string | null
+          location: string
+          project_type: string
+          rating: number
+          review_text: string
+          status: Database["public"]["Enums"]["testimonial_status"] | null
+        }
+        Insert: {
+          created_at?: string | null
+          customer_name: string
+          id?: string
+          image_url?: string | null
+          location: string
+          project_type: string
+          rating: number
+          review_text: string
+          status?: Database["public"]["Enums"]["testimonial_status"] | null
+        }
+        Update: {
+          created_at?: string | null
+          customer_name?: string
+          id?: string
+          image_url?: string | null
+          location?: string
+          project_type?: string
+          rating?: number
+          review_text?: string
+          status?: Database["public"]["Enums"]["testimonial_status"] | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -32,7 +68,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      testimonial_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never

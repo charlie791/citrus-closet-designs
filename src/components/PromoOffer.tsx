@@ -20,14 +20,16 @@ const PromoOffer = ({ onScheduleConsultation }: PromoOfferProps) => {
           <p className="text-citrus-charcoal/70 max-w-2xl mx-auto mb-8">
             Book your free consultation by the end of the month and receive 20% off your custom closet project. Plus, enjoy special financing options!
           </p>
-          <Button 
-            size="lg" 
-            className="bg-citrus-orange hover:bg-citrus-coral"
-            onClick={onScheduleConsultation}
-          >
-            <Calendar className="mr-2 h-5 w-5" />
-            Schedule Your Free Consultation
-          </Button>
+          <div className="flex justify-center">
+            <Button 
+              size="lg" 
+              className="bg-citrus-orange hover:bg-citrus-coral w-full sm:w-auto"
+              onClick={onScheduleConsultation}
+            >
+              <Calendar className="mr-2 h-5 w-5" />
+              Schedule Your Free Consultation
+            </Button>
+          </div>
         </div>
       </div>
     </section>

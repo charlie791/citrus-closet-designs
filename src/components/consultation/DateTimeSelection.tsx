@@ -1,19 +1,31 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sun, Sunset } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format, addDays, isSameDay } from "date-fns";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-const generateTimeSlots = () => [
-  { start: "9:00 AM", end: "10:00 AM" },
-  { start: "10:00 AM", end: "11:00 AM" },
-  { start: "11:00 AM", end: "12:00 PM" },
-  { start: "12:00 PM", end: "1:00 PM" },
-  { start: "1:00 PM", end: "2:00 PM" },
-  { start: "2:00 PM", end: "3:00 PM" },
-  { start: "3:00 PM", end: "4:00 PM" },
-  { start: "4:00 PM", end: "5:00 PM" }
+interface TimeSlot {
+  start: string;
+  display: string;
+  period: "morning" | "afternoon";
+}
+
+const generateTimeSlots = (): TimeSlot[] => [
+  { start: "9:00 AM", display: "9:00 AM", period: "morning" },
+  { start: "10:00 AM", display: "10:00 AM", period: "morning" },
+  { start: "11:00 AM", display: "11:00 AM", period: "morning" },
+  { start: "12:00 PM", display: "12:00 PM", period: "afternoon" },
+  { start: "1:00 PM", display: "1:00 PM", period: "afternoon" },
+  { start: "2:00 PM", display: "2:00 PM", period: "afternoon" },
+  { start: "3:00 PM", display: "3:00 PM", period: "afternoon" },
+  { start: "4:00 PM", display: "4:00 PM", period: "afternoon" }
 ];
 
 const generateAvailableDates = (startDate: Date, count: number) => {
@@ -46,6 +58,8 @@ export function DateTimeSelection({
   onNext
 }: DateTimeSelectionProps) {
   const [startIndex, setStartIndex] = React.useState(0);
+  const [activePeriod, setActivePeriod] = React.useState<"morning" | "afternoon">("morning");
+  
   const today = new Date();
   const availableDates = React.useMemo(
     () => generateAvailableDates(today, 14),
@@ -68,6 +82,8 @@ export function DateTimeSelection({
       setStartIndex(prev => Math.min(availableDates.length - (window.innerWidth < 768 ? 3 : 5), prev + 1));
     }
   };
+
+  const filteredTimeSlots = timeSlots.filter(slot => slot.period === activePeriod);
 
   return (
     <div className="w-full">
@@ -130,24 +146,53 @@ export function DateTimeSelection({
         </div>
       </div>
 
-      <div className="mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {timeSlots.map((slot) => (
+      {selectedDate && (
+        <div className="mb-6 space-y-4">
+          <div className="grid grid-cols-2 gap-2 p-1 bg-white/5 rounded-lg">
             <button
-              key={slot.start}
-              onClick={() => onTimeSelect(slot.start)}
+              onClick={() => setActivePeriod("morning")}
               className={cn(
-                "p-3 rounded-lg border text-center transition-all text-sm touch-manipulation active:scale-[0.99]",
-                selectedTime === slot.start
-                  ? "border-citrus-orange bg-white/5 text-white"
-                  : "border-white/5 hover:border-white/10 bg-white/5 text-white/90"
+                "flex items-center justify-center gap-2 py-2 px-3 rounded-md transition-all",
+                activePeriod === "morning"
+                  ? "bg-white/10 text-white"
+                  : "text-white/70 hover:text-white hover:bg-white/5"
               )}
             >
-              {slot.start} - {slot.end}
+              <Sun className="w-4 h-4" />
+              <span className="text-sm font-medium">Morning</span>
             </button>
-          ))}
+            <button
+              onClick={() => setActivePeriod("afternoon")}
+              className={cn(
+                "flex items-center justify-center gap-2 py-2 px-3 rounded-md transition-all",
+                activePeriod === "afternoon"
+                  ? "bg-white/10 text-white"
+                  : "text-white/70 hover:text-white hover:bg-white/5"
+              )}
+            >
+              <Sunset className="w-4 h-4" />
+              <span className="text-sm font-medium">Afternoon</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {filteredTimeSlots.map((slot) => (
+              <button
+                key={slot.start}
+                onClick={() => onTimeSelect(slot.start)}
+                className={cn(
+                  "p-3 rounded-lg border text-center transition-all text-sm touch-manipulation active:scale-[0.99]",
+                  selectedTime === slot.start
+                    ? "border-citrus-orange bg-white/5 text-white"
+                    : "border-white/5 hover:border-white/10 bg-white/5 text-white/90"
+                )}
+              >
+                {slot.display}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="flex flex-col md:flex-row gap-2 md:gap-3">
         <Button

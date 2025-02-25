@@ -1,6 +1,6 @@
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { Step } from "./types";
 
@@ -23,6 +23,8 @@ const ProcessVideo = ({
   const [hasError, setHasError] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { margin: "-40% 0px -40% 0px" });
 
   useEffect(() => {
     const video = videoRef.current;
@@ -77,6 +79,21 @@ const ProcessVideo = ({
     };
   }, [setActiveStep, setShowOverlay, steps]);
 
+  // New useEffect for handling autoplay based on intersection
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isInView) {
+      video.play().catch(error => {
+        console.log("Video autoplay failed:", error);
+        setIsPlaying(false);
+      });
+    } else {
+      video.pause();
+    }
+  }, [isInView]);
+
   const handleVideoClick = () => {
     if (!videoRef.current) return;
 
@@ -97,6 +114,7 @@ const ProcessVideo = ({
 
   return (
     <motion.div
+      ref={containerRef}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
@@ -166,3 +184,4 @@ const ProcessVideo = ({
 };
 
 export default ProcessVideo;
+

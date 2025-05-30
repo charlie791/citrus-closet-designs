@@ -19,7 +19,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./nextjs_src_final/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

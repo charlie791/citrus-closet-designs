@@ -1,5 +1,8 @@
-
+"use client";
 import { ArrowRight } from "lucide-react";
+// Assuming these will be Next.js Links if they navigate internally
+// For now, keeping as 'a' tags if they are external or placeholders
+// import Link from "next/link";
 
 const services = [
   {
@@ -61,7 +64,7 @@ const Services = () => {
                   {service.description}
                 </p>
                 <a
-                  href="#"
+                  href="#" // Placeholder link, update if internal
                   className="inline-flex items-center text-citrus-orange hover:text-citrus-coral transition-colors"
                 >
                   Learn More

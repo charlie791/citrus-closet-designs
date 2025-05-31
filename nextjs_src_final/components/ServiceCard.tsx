@@ -1,5 +1,5 @@
-
-import { Link } from "react-router-dom";
+"use client";
+import Link from "next/link"; // Changed from react-router-dom
 
 interface ServiceCardProps {
   title: string;
@@ -10,7 +10,7 @@ interface ServiceCardProps {
 const ServiceCard = ({ title, Icon, href }: ServiceCardProps) => {
   return (
     <Link
-      to={href}
+      href={href} // Changed to href for Next.js Link
       className="block group relative p-6 bg-white/20 rounded-lg overflow-hidden border border-white/40 backdrop-blur-sm transition-all duration-300
         hover:shadow-lg hover:bg-white/30 hover:-translate-y-0.5"
     >

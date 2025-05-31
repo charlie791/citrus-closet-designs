@@ -1,4 +1,4 @@
-
+"use client";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -171,16 +171,16 @@ const Gallery = () => {
               className="relative overflow-hidden rounded-lg"
             >
               <img
-                src={galleryImages[selectedImage].src}
-                alt={galleryImages[selectedImage].alt}
+                src={galleryImages[selectedImage!].src}
+                alt={galleryImages[selectedImage!].alt}
                 className="w-full object-cover"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-8">
                 <h3 className="font-['Caveat'] text-3xl text-white mb-2">
-                  {galleryImages[selectedImage].title}
+                  {galleryImages[selectedImage!].title}
                 </h3>
                 <p className="font-['Caveat'] text-2xl text-white/90">
-                  {galleryImages[selectedImage].note}
+                  {galleryImages[selectedImage!].note}
                 </p>
               </div>
             </motion.div>

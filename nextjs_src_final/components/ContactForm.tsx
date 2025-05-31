@@ -1,8 +1,8 @@
-
+"use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import GooglePlacesAutocomplete from "@/components/common/GooglePlacesAutocomplete";
+// import GooglePlacesAutocomplete from "@/components/common/GooglePlacesAutocomplete"; // Commented out
 import { toast } from "sonner";
 import { Mail } from "lucide-react";
 
@@ -21,7 +21,7 @@ const ContactForm = () => {
     email: "",
     address: "",
   });
-  const [selectedAddress, setSelectedAddress] = useState<AddressComponents | null>(null);
+  const [selectedAddress, setSelectedAddress] = useState<AddressComponents | null>(null); // This might become unused if GooglePlacesAutocomplete is fully removed
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,58 +47,55 @@ const ContactForm = () => {
     }));
   };
 
-  const handleAddressSelected = (address: AddressComponents) => {
-    setSelectedAddress(address);
-    const formattedAddress = `${address.street}${address.unit ? ` ${address.unit}` : ''}, ${address.city}, ${address.state} ${address.zipCode}`;
-    setFormData((prev) => ({
-      ...prev,
-      address: formattedAddress,
-    }));
-  };
+  // This function would be used by GooglePlacesAutocomplete
+  // const handleAddressSelected = (address: AddressComponents) => {
+  //   setSelectedAddress(address);
+  //   const formattedAddress = `${address.street}${address.unit ? ` ${address.unit}` : ''}, ${address.city}, ${address.state} ${address.zipCode}`;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     address: formattedAddress,
+  //   }));
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Basic validation
     if (!formData.fullName.trim()) {
       toast.error("Please enter your name");
       setIsSubmitting(false);
       return;
     }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       toast.error("Please enter a valid email address");
       setIsSubmitting(false);
       return;
     }
-
     const phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
     if (!phoneRegex.test(formData.phone)) {
       toast.error("Please enter a valid phone number");
       setIsSubmitting(false);
       return;
     }
-
-    if (!selectedAddress) {
-      toast.error("Please select a valid address from the dropdown");
+    // Since GooglePlacesAutocomplete is removed, selectedAddress might not be set.
+    // Adjust validation or how address is handled. For now, just check formData.address.
+    if (!formData.address.trim()) {
+      toast.error("Please enter your address");
       setIsSubmitting(false);
       return;
     }
 
-    // Here you would typically send the form data to your backend
-    console.log("Form submitted:", { ...formData, fullAddress: selectedAddress });
+    console.log("Form submitted:", { ...formData }); // selectedAddress removed for now
     toast.success("Thank you for contacting us! We'll get back to you soon.");
 
-    // Reset form
     setFormData({
       fullName: "",
       phone: "",
       email: "",
       address: "",
     });
-    setSelectedAddress(null);
+    // setSelectedAddress(null); // Not strictly needed if GooglePlacesAutocomplete is removed
     setIsSubmitting(false);
   };
 
@@ -112,7 +109,6 @@ const ContactForm = () => {
           <p className="text-citrus-charcoal/70 mb-8">
             Have questions about our services? Fill out the form below and we'll get back to you as soon as possible.
           </p>
-
           <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg shadow-sm border">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -128,7 +124,6 @@ const ContactForm = () => {
                   placeholder="John Doe"
                 />
               </div>
-
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-citrus-charcoal mb-2">
                   Phone Number
@@ -143,7 +138,6 @@ const ContactForm = () => {
                   maxLength={14}
                 />
               </div>
-
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-citrus-charcoal mb-2">
                   Email Address
@@ -158,19 +152,25 @@ const ContactForm = () => {
                   placeholder="john@example.com"
                 />
               </div>
-
               <div>
                 <label htmlFor="address" className="block text-sm font-medium text-citrus-charcoal mb-2">
                   Street Address
                 </label>
-                <GooglePlacesAutocomplete
+                {/* <GooglePlacesAutocomplete
                   onPlaceSelected={handleAddressSelected}
                   defaultValue={formData.address}
                   className="w-full"
+                /> */}
+                <Input
+                  id="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange} // Use standard input change
+                  className="w-full"
+                  placeholder="Enter address manually"
                 />
               </div>
             </div>
-
             <Button
               type="submit"
               className="w-full bg-citrus-orange hover:bg-citrus-coral"
@@ -185,5 +185,4 @@ const ContactForm = () => {
     </section>
   );
 };
-
 export default ContactForm;

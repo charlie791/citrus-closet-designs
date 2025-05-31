@@ -1,8 +1,8 @@
-
+"use client";
 import { useState, useEffect } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import Link from "next/link"; // Changed from react-router-dom
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -30,7 +30,7 @@ const Navigation = () => {
           <div className="h-24 flex items-center justify-between relative">
             {/* Logo (Left) */}
             <Link
-              to="/"
+              href="/"
               className="relative group transition-transform duration-200 hover:scale-105"
             >
               <img
@@ -69,14 +69,14 @@ const Navigation = () => {
             <div className="lg:hidden absolute top-24 left-0 w-full bg-white/95 backdrop-blur-md shadow-xl animate-fade-in border-t border-white/20">
               <div className="px-6 py-6 space-y-4">
                 <Link
-                  to="/services/custom-closets"
+                  href="/services/custom-closets"
                   className="block p-4 text-center font-medium hover:bg-white/80 rounded-lg transition-colors duration-200"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   CLOSETS
                 </Link>
                 <Link
-                  to="/services"
+                  href="/services"
                   className="block p-4 text-center font-medium hover:bg-white/80 rounded-lg transition-colors duration-200"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >

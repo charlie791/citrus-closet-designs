@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -23,7 +24,7 @@ interface OneOnOneCollaborationProps {
 }
 
 const OneOnOneCollaboration = ({ onScheduleConsultation }: OneOnOneCollaborationProps) => {
-  const [api, setApi] = useState<any>(null);
+  const [api, setApi] = useState<any>(null); // Type for api can be EmblaCarouselType if available
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -58,7 +59,7 @@ const OneOnOneCollaboration = ({ onScheduleConsultation }: OneOnOneCollaboration
                     <CarouselItem key={index}>
                       <div className="relative w-full">
                         <img
-                          src={`/${src}`}
+                          src={`/${src}`} // Assuming images are in public directory
                           alt={`Designer consultation ${index + 1}`}
                           className="w-full h-[500px] object-cover"
                         />

@@ -1,4 +1,4 @@
-"use client";
+
 import { ComponentType } from "react";
 import { ServiceIcon } from "./ServiceIcon";
 

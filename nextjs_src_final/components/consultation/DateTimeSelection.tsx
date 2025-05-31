@@ -1,4 +1,4 @@
-"use client";
+
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Sun, Sunset } from "lucide-react";
@@ -59,28 +59,17 @@ export function DateTimeSelection({
 }: DateTimeSelectionProps) {
   const [startIndex, setStartIndex] = React.useState(0);
   const [activePeriod, setActivePeriod] = React.useState<"morning" | "afternoon">("morning");
-  const [numVisibleDates, setNumVisibleDates] = React.useState(5);
-
-  React.useEffect(() => {
-    const updateVisibleDates = () => {
-      setNumVisibleDates(window.innerWidth < 768 ? 3 : 5);
-    };
-    updateVisibleDates(); // Initial check
-    window.addEventListener('resize', updateVisibleDates);
-    return () => window.removeEventListener('resize', updateVisibleDates);
-  }, []);
 
   const today = new Date();
   const availableDates = React.useMemo(
     () => generateAvailableDates(today, 14),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [] // today is not stable, so we only generate once
+    [today]
   );
   const timeSlots = React.useMemo(() => generateTimeSlots(), []);
-  const visibleDates = availableDates.slice(startIndex, startIndex + numVisibleDates);
+  const visibleDates = availableDates.slice(startIndex, startIndex + (window.innerWidth < 768 ? 3 : 5));
 
   const canScrollLeft = startIndex > 0;
-  const canScrollRight = startIndex + numVisibleDates < availableDates.length;
+  const canScrollRight = startIndex + (window.innerWidth < 768 ? 3 : 5) < availableDates.length;
 
   const handlePrevious = () => {
     if (canScrollLeft) {
@@ -90,7 +79,7 @@ export function DateTimeSelection({
 
   const handleNext = () => {
     if (canScrollRight) {
-      setStartIndex(prev => Math.min(availableDates.length - numVisibleDates, prev + 1));
+      setStartIndex(prev => Math.min(availableDates.length - (window.innerWidth < 768 ? 3 : 5), prev + 1));
     }
   };
 

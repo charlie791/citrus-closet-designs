@@ -1,4 +1,4 @@
-"use client";
+
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
@@ -33,7 +33,7 @@ const ProcessSteps = ({ onScheduleConsultation }: ProcessStepsProps) => {
   const [activeStep, setActiveStep] = useState(0);
   const [showOverlay, setShowOverlay] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
-  // const isInView = useInView(containerRef, { margin: "-40% 0px -40% 0px" }); // isInView from ProcessVideo now
+  const isInView = useInView(containerRef, { margin: "-40% 0px -40% 0px" });
 
   return (
     <section id="process" className="py-24 bg-white relative overflow-hidden">
@@ -85,7 +85,7 @@ const ProcessSteps = ({ onScheduleConsultation }: ProcessStepsProps) => {
             </div>
 
             <div className="relative">
-              <div ref={containerRef} className="relative pl-8"> {/* containerRef for isInView on timeline if needed */}
+              <div ref={containerRef} className="relative pl-8">
                 <div className="absolute left-0 top-0 bottom-0 w-px bg-citrus-orange/10" />
                 <ProcessStepsTimeline steps={steps} activeStep={activeStep} />
               </div>

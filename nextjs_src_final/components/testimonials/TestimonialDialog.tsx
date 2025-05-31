@@ -1,4 +1,4 @@
-"use client";
+
 import { Testimonial } from "@/types/testimonial";
 import { motion } from "framer-motion";
 import { Star, MapPin } from "lucide-react";

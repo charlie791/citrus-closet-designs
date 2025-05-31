@@ -1,4 +1,4 @@
-
+"use client";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+// import { supabase } from "@/integrations/supabase/client"; // Commenting out Supabase
 
 interface TestimonialFormProps {
   open: boolean;
@@ -40,43 +40,44 @@ export const TestimonialForm = ({ open, onClose }: TestimonialFormProps) => {
     setLoading(true);
 
     try {
-      let imageUrl = null;
+      // let imageUrl = null;
 
-      // Upload image if one was selected
-      if (formData.image) {
-        const fileExt = formData.image.name.split('.').pop();
-        const fileName = `${crypto.randomUUID()}.${fileExt}`;
+      // // Upload image if one was selected
+      // if (formData.image) {
+      //   const fileExt = formData.image.name.split('.').pop();
+      //   const fileName = `${crypto.randomUUID()}.${fileExt}`;
 
-        const { error: uploadError, data } = await supabase.storage
-          .from('testimonial-images')
-          .upload(fileName, formData.image);
+      //   const { error: uploadError, data } = await supabase.storage
+      //     .from('testimonial-images')
+      //     .upload(fileName, formData.image);
 
-        if (uploadError) throw uploadError;
+      //   if (uploadError) throw uploadError;
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('testimonial-images')
-          .getPublicUrl(fileName);
+      //   const { data: { publicUrl } } = supabase.storage
+      //     .from('testimonial-images')
+      //     .getPublicUrl(fileName);
 
-        imageUrl = publicUrl;
-      }
+      //   imageUrl = publicUrl;
+      // }
 
-      // Submit testimonial
-      const { error } = await supabase
-        .from('testimonials')
-        .insert({
-          customer_name: formData.customerName,
-          location: formData.location,
-          project_type: formData.projectType,
-          rating,
-          review_text: formData.reviewText,
-          image_url: imageUrl,
-        });
+      // // Submit testimonial
+      // const { error } = await supabase
+      //   .from('testimonials')
+      //   .insert({
+      //     customer_name: formData.customerName,
+      //     location: formData.location,
+      //     project_type: formData.projectType,
+      //     rating,
+      //     review_text: formData.reviewText,
+      //     image_url: imageUrl,
+      //   });
 
-      if (error) throw error;
+      // if (error) throw error;
 
+      console.log("Testimonial form submitted (Supabase integration is commented out):", { ...formData, rating });
       toast({
         title: "Thank you for your review!",
-        description: "Your testimonial has been submitted and is pending approval.",
+        description: "Your testimonial has been submitted (locally, pending full integration).",
       });
 
       onClose();

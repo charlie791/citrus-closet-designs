@@ -1,4 +1,4 @@
-
+"use client";
 import ServiceCard from "./ServiceCard";
 import CustomClosetIcon from "./icons/CustomClosetIcon";
 import GarageStorageIcon from "./icons/GarageStorageIcon";

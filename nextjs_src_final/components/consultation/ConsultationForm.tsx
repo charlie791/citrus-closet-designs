@@ -1,4 +1,4 @@
-
+"use client";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,10 +9,11 @@ interface ConsultationFormProps {
     fullName: string;
     phone: string;
     email: string;
-    address: string;
+    address: string; // This is the contact address, might be different from service address
   };
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPhoneChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // onAddressSelected: (address: any) => void; // Assuming this might be needed if GooglePlacesAutocomplete is re-added
   onBack: () => void;
   onSubmit: () => void;
 }
@@ -21,6 +22,7 @@ export function ConsultationForm({
   formData,
   onInputChange,
   onPhoneChange,
+  // onAddressSelected, // Assuming this might be needed
   onBack,
   onSubmit
 }: ConsultationFormProps) {
@@ -72,6 +74,21 @@ export function ConsultationForm({
             autoComplete="email"
           />
         </div>
+        {/*
+        // Address field for contact info - assuming manual input for now
+        // Re-add GooglePlacesAutocomplete here if needed for contact address specifically
+        <div>
+          <Input
+            id="contactAddress"
+            name="address" // Ensure this matches formData field
+            value={formData.address}
+            onChange={onInputChange}
+            className="consultation-input w-full h-12 md:h-14 text-sm md:text-base"
+            placeholder="Your Address (Optional)"
+            autoComplete="street-address"
+          />
+        </div>
+        */}
       </div>
 
       <div className="mt-6 md:mt-8 flex flex-col md:flex-row gap-2 md:gap-3">

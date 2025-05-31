@@ -1,4 +1,4 @@
-
+"use client";
 import { Award, Gem, PiggyBank, Shield } from "lucide-react";
 
 const features = [

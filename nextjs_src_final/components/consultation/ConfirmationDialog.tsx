@@ -1,4 +1,4 @@
-
+"use client";
 import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -67,7 +67,7 @@ export function ConfirmationDialog({
           <div>
             <h3 className="text-xs md:text-sm font-medium text-white/50 mb-1">Selected Services</h3>
             <p className="text-sm md:text-base text-white">
-              {selectedServices.map(id => serviceNames[id]).join(", ")}
+              {selectedServices.map(id => serviceNames[id] || id).join(", ")}
             </p>
           </div>
 

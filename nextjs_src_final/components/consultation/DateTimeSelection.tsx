@@ -1,4 +1,4 @@
-
+"use client";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Sun, Sunset } from "lucide-react";

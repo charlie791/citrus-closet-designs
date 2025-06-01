@@ -1,4 +1,4 @@
-
+"use client";
 import { X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ServiceList } from "./ServiceList";
